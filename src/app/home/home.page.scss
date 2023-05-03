@@ -1,27 +1,72 @@
-#container {
+
+
+#logo{
+  height: 75px;
+}
+
+#mapContent { 
+  // height: 180px; 
+  display: block;
+}
+
+#btnMap{
+  margin: 20px;
+}
+
+
+#titreAcc{
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  margin: 10px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+#listeEnt{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow: scroll;
+  height: 100%;
+  margin-top: 30px;
+  width: 95%;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
+#listeEnt a {
   text-decoration: none;
+  color: black;
+  // width: 30%;
+  margin: 15px;
+}
+
+.carte{
+  height: 35%;
+  width: 25%;    
+  overflow: scroll;
+
+}
+
+.imgCard{
+  height: 50%;
+  display: block;
+  margin: auto;
+}
+
+
+.titleCard{
+font-size: 1.1em;
+font-weight: bold;
+text-align: center;
+}
+
+.subtCard {
+ text-align: center;
+ margin-top: 10px;
+}
+
+#footer, a {
+   display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  color: white;
+  font-size: 0.9em;
+  margin: 5px;
 }

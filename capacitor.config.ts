@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'colentre.aroundMe.app',
   appName: 'Around-me',
   webDir: 'www',
   bundledWebRuntime: false
