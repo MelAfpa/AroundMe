@@ -5,7 +5,6 @@ import { Map, tileLayer, marker, icon } from 'leaflet';
 import * as L from 'leaflet';
 // import { antPath } from 'leaflet-ant-path';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -67,15 +66,9 @@ L.marker([46.887619,  9.657000], {icon: redIcon}).addTo(map).bindPopup('Alpes').
 
 
 
-  constructor(private nativeGeocoder: NativeGeocoder, 
-    // private http: HttpClient
-    ) {
+  constructor(private nativeGeocoder: NativeGeocoder) {
  
-  //   this.readAPI('localhost/home')
-  //   .subscribe((data) => {
-  //   console.log(data);
-  // });
-    
+
     this.locate();}
 
   
@@ -114,19 +107,9 @@ try{
 
 }
 
-// results:any;
-// lat:any;
-// keys:string[]=[];
-// adresse:any;
-// addressApiUrl:any;
-// userData = {
-//   adresse: '',
-//   postalCode: ''
-// }
 
-// readAPI(URL: string) {
-//   return this.http.get(URL);
-// }
+adresse:any;
+ville:string;
 
 address() {
   let options: NativeGeocoderOptions = {
@@ -135,25 +118,23 @@ address() {
 };
 
 this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
-  .then((result: NativeGeocoderResult[]) => console.log(JSON.stringify(result[0])))
-  .catch((error: any) => console.log(error));
+  .then((results: NativeGeocoderResult[]) =>{
+    let result;
+    if(Array.isArray(results)){
+      if(results.length>0){
+        result = results[0];
+      }} 
+    else {
+      result = results;   
+    }
+    console.log(result.addressLines);
+    console.log(result.locality);
+
+    this.adresse = result.addressLines;
+    this.ville = result.locality;
+  });
 
 
-this.nativeGeocoder.forwardGeocode('Berlin', options)
-  .then((result: NativeGeocoderResult[]) => console.log('The coordinates are latitude=' + result[0].latitude + ' and longitude=' + result[0].longitude))
-  .catch((error: any) => console.log(error));
-
-
-// this.addressApiUrl = 'localhost/home';
-// this.readAPI(this.addressApiUrl)
-// .subscribe((data) => {
-//   console.groupCollapsed(data);
-//   this.userData.adresse = data['addressLines'];
-//   this.userData.postalCode = data['postalCode']; 
-// });
-
-//   this.lat = this.latitude;
-  // console.log("latitude : "+this.lat);
 
 
 }

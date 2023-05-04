@@ -6,22 +6,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" id="mapContent">
-  <ion-button id="btnMap" (click)="click()" expand="full">
-    Masquer la carte</ion-button
-  >
-  <ion-button id="location" (click)="locate();latLng()"
+  <ion-button id="location" (click)="locate();latLng();address()"
     >Localise moi</ion-button
   >
-  <ion-button (click)="address()">Get Location</ion-button>
-  <div>
-    <!-- <p>{{userData.postalCode}}</p> -->
-  </div>
+  <!-- <ion-button (click)="address()">Get Location</ion-button> -->
+
   <div id="latlng">
     <p id="lat">Latitude : {{latitude}}</p>
     <p id="lng">Longitude : {{longitude}}</p>
+    <p>Adresse : {{this.adresse}}</p>
+    <p>Ville : {{this.ville}}</p>
   </div>
 
-  <ion-button href="/location">Location page</ion-button>
+  <!-- <ion-button href="/location">Location page</ion-button> -->
+  <ion-button id="btnMap" (click)="click()" expand="full">
+    Masquer la carte</ion-button
+  >
 
   <div id="map" style="height: 500px"></div>
 
