@@ -16,17 +16,30 @@ import { Geolocation } from '@capacitor/geolocation';
 })
 export class HomePage {
 
+  constructor(private nativeGeocoder: NativeGeocoder) {
+    this.locate();}
+
+
+map:Map;
+coords: any;
+latitude: number;
+longitude: number;
+adresse:any;
+ville:string;
+
+// ----------------------------------------- MAP -----------------------------------------
+
   // Création de la map
   ionViewDidEnter() {
-    const map = L.map('map').setView([47.383333, 0.683333], 8);
+     this.map = L.map('map').setView([47.383333, 0.683333], 8);
     // Ajout des mentions OpenStreetMap, obligatoire
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 5,
+      maxZoom: 18,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
+  }).addTo(this.map);}
 
 // ----------------------------------------- MARKERS -----------------------------------------
-
+showMarker(){
 var greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -57,65 +70,45 @@ var redIcon = new L.Icon({
 
 
 
-L.marker([48.390394,  -4.486076], {icon: greenIcon}).addTo(map);
-L.marker([47.26667, -0.08333], {icon: purpleIcon}).addTo(map).bindPopup('Saumur');
-L.marker([46.887619,  9.657000], {icon: redIcon}).addTo(map).bindPopup('Alpes').openPopup;
+// L.marker([48.390394,  -4.486076], {icon: greenIcon}).addTo(this.map);
+// L.marker([47.478419, -0.563166], {icon: redIcon}).addTo(this.map).bindPopup('Angers');
+// L.marker([46.887619,  9.657000], {icon: redIcon}).addTo(this.map).bindPopup('Alpes').openPopup;
+L.marker([this.latitude, this.longitude], {icon: purpleIcon}).addTo(this.map).bindPopup("There you are !!");
+L.circle([this.latitude, this.longitude], 1000, {
+  color: 'red',
+  opacity: 0.5
+}).addTo(this.map).bindPopup("1 km around you").openPopup;
+
 
   }
-
-
-
-
-  constructor(private nativeGeocoder: NativeGeocoder) {
- 
-
-    this.locate();}
-
   
-    
+  // onLocationFound(e) {
+  //   var radius = e.accuracy / 2;
+  //   L.marker(e.latlng).addTo(map)
+  //     .bindPopup("You are within " + radius + " meters from this point").openPopup();
+  //   L.circle(e.latlng, radius).addTo(map);
+  // }
+  
+
 
   
   // ----------------------------------------- GEOCODING -----------------------------------------
-  coords: any;
-  latitude: number;
-  longitude: number;
-
+ 
   async locate() {
-try{
     const coordinates = await Geolocation.getCurrentPosition();
     this.latitude = coordinates.coords.latitude;
     this.longitude = coordinates.coords.longitude;
     this.coords = coordinates.coords;
-    console.log('position : ', this.coords);}
-    catch(e){
-      console.log(e);    
-    }
-  }
-
-  latLng(){
-    const btnCoord = document.getElementById("location") as HTMLHeadingElement;
-
-  const latlng = document.getElementById("latlng") as HTMLHeadingElement;
-
-  if(latlng.style.display === "block"){
-    latlng.style.display = "none";
-  } else {
-    latlng.style.display = "block";
-
+    this.map.setView([this.latitude, this.longitude], 12);
 
   }
 
-}
-
-
-adresse:any;
-ville:string;
-
-address() {
+getAddress() {
   let options: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 1
 };
+
 
 this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   .then((results: NativeGeocoderResult[]) =>{
@@ -133,13 +126,7 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     this.adresse = result.addressLines;
     this.ville = result.locality;
   });
-
-
-
-
 }
-
-
 
   // ----------------------------------------- FONCTIONS -----------------------------------------
 click(){
@@ -152,12 +139,17 @@ click(){
   } else {
     affMap.style.display = "block";
     btnMap.innerHTML = "Masquer la carte";
-
-
   }
-
 }
 
+latLng(){
+  const latlng = document.getElementById("latlng") as HTMLHeadingElement;
 
+  if(latlng.style.display === "block"){
+    latlng.style.display = "none";
+  } else {
+    latlng.style.display = "block";
+  }
+}
 
 }

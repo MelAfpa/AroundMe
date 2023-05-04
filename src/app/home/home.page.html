@@ -6,10 +6,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" id="mapContent">
-  <ion-button id="location" (click)="locate();latLng();address()"
+  <ion-button
+    id="location"
+    (click)="locate();latLng();getAddress();showMarker()"
     >Localise moi</ion-button
   >
-  <!-- <ion-button (click)="address()">Get Location</ion-button> -->
 
   <div id="latlng">
     <p id="lat">Latitude : {{latitude}}</p>
