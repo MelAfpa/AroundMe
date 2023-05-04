@@ -9,16 +9,19 @@
   <ion-button id="btnMap" (click)="click()" expand="full">
     Masquer la carte</ion-button
   >
+  <ion-button id="location" (click)="locate();latLng()"
+    >Localise moi</ion-button
+  >
+  <ion-button (click)="address()">Get Location</ion-button>
   <div>
-    <ion-button (click)="locate()">Localise moi</ion-button>
+    <!-- <p>{{userData.postalCode}}</p> -->
+  </div>
+  <div id="latlng">
+    <p id="lat">Latitude : {{latitude}}</p>
+    <p id="lng">Longitude : {{longitude}}</p>
   </div>
 
-  <!-- <ion-grid>
-    <ion-row *ngFor="let key of keys">
-      <ion-col>{{key}}</ion-col>
-      <ion-col>{{results[key]}}</ion-col>
-    </ion-row>
-  </ion-grid> -->
+  <ion-button href="/location">Location page</ion-button>
 
   <div id="map" style="height: 500px"></div>
 
