@@ -1,0 +1,26 @@
+Insert into 'departement'(id_departement, numero_departement,	nom_departement, slug_departement)
+(176, 49, "Maine-et-Loire", "maine-et-loire"),	
+(177,	29,	"Finistère",	"finistere"),
+(178,	35,	"Îlle-et-Vilaine",	"ille-et-vilaine"),
+(179,	56,	"Morbihan",	"morbihan"),
+(180,	18,	"Cher",	"cher"),
+(181,	25,	"Doubs",	"doubs"),
+(182,	44,	"Loire-Atlantique",	"loire-atlantique"),
+(183,	22,	"Côtes-d'Armor",	"cote-darmor"),
+(184,	75,	"Paris",	"paris"),
+(185,	92,	"Hauts-de-Seine",	"hauts-de-seine"),
+(186,	94,	"Val-de-Marne",	"val-de-marne"),
+(187,	95,	"Val-d'Oise",	"val-doise"),
+(188,	89,	"Yonne",	"yonne"),
+(189,	69,	"Rhône",	"rhone"),
+(190,	66,	"Pyrénées-Orientales",	"pyrenees-orientales"),
+(191,	46,	"Lot",	"lot"),
+(192,	37,	"Indre-et-Loire",	"indre-et-loire"),
+(193,	85,	"Vendée",	"vendee"),
+(204,	93,	"Seine-Saint-Denis",	"seine-saint-denis"),
+(207,	27,	"Eure-en-Normandie",	"eure-en-normadie"),
+(208,	73,	"Savoie",	"savoie"),
+(209,	77,	"Seine-et-Marne",	"seine-et-marne"),
+(210,	72,	"Sarthe",	"sarthe");
+
+

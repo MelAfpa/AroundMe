@@ -19,7 +19,7 @@ export class HomePage {
   constructor(private nativeGeocoder: NativeGeocoder) {
     this.locate();}
 
-
+// ----------------------------------------------------------- DECLARATION DE VARIABLES -----------------------------------------------------------
 map:Map;
 coords: any;
 latitude: number;
@@ -27,20 +27,7 @@ longitude: number;
 adresse:any;
 ville:string;
 
-// ----------------------------------------- MAP -----------------------------------------
-
-  // Création de la map
-  ionViewDidEnter() {
-     this.map = L.map('map').setView([47.383333, 0.683333], 8);
-    // Ajout des mentions OpenStreetMap, obligatoire
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(this.map);}
-
-// ----------------------------------------- MARKERS -----------------------------------------
-showMarker(){
-var greenIcon = new L.Icon({
+ greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -49,7 +36,7 @@ var greenIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-var purpleIcon = new L.Icon({
+ purpleIcon = new L.Icon({
   iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-violet.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -58,7 +45,7 @@ var purpleIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-var redIcon = new L.Icon({
+ redIcon = new L.Icon({
   iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -67,32 +54,57 @@ var redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+ orIcon = new L.Icon({
+  iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
+// ----------------------------------------------------------- FUNCTIONS -----------------------------------------------------------
+// Map
+ionViewDidEnter() {
+  this.map = L.map('map').setView([47.383333, 0.683333], 8);
+  // Ajout des mentions OpenStreetMap, obligatoire
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(this.map);
+  L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(this.map);
+}
 
+showMarker(){
 
-// L.marker([48.390394,  -4.486076], {icon: greenIcon}).addTo(this.map);
-// L.marker([47.478419, -0.563166], {icon: redIcon}).addTo(this.map).bindPopup('Angers');
-// L.marker([46.887619,  9.657000], {icon: redIcon}).addTo(this.map).bindPopup('Alpes').openPopup;
-L.marker([this.latitude, this.longitude], {icon: purpleIcon}).addTo(this.map).bindPopup("There you are !!");
-L.circle([this.latitude, this.longitude], 1000, {
+    // Position utilisateur 
+L.marker([this.latitude, this.longitude], {icon: this.purpleIcon}).addTo(this.map).bindPopup("There you are !!");
+L.circle([this.latitude, this.longitude], 30000, {
   color: 'red',
   opacity: 0.5
-}).addTo(this.map).bindPopup("1 km around you").openPopup;
+}).addTo(this.map).bindPopup("30 km around you").openPopup;
+
+
+    // Position entreprises -------------------------------------------------
+        // Producteurs/Fabricants or
+L.marker([ 48.818077,  2.205862], {icon: this.orIcon}).addTo(this.map).bindPopup("HOLONAGE");
+
+    // Commerçants/restaurants violet
+    // Services à la personne vert
+    // Services aux entreprises rouge
+
+// nom_ent, adresse_ent, logo, bouton pour le site
+
+L.marker([47.19315298236589,-0.27533303027755096], {icon:this.redIcon}).addTo(this.map).bindPopup("TERRE DE PIXELS");
 
 
   }
   
-  // onLocationFound(e) {
-  //   var radius = e.accuracy / 2;
-  //   L.marker(e.latlng).addTo(map)
-  //     .bindPopup("You are within " + radius + " meters from this point").openPopup();
-  //   L.circle(e.latlng, radius).addTo(map);
-  // }
-  
 
-
-  
-  // ----------------------------------------- GEOCODING -----------------------------------------
+// Geocoding
  
   async locate() {
     const coordinates = await Geolocation.getCurrentPosition();
@@ -128,7 +140,7 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
-  // ----------------------------------------- FONCTIONS -----------------------------------------
+// Affichage
 click(){
   const affMap = document.getElementById("map") as HTMLHeadingElement;
   const btnMap = document.getElementById("btnMap") as HTMLHeadingElement;
@@ -152,4 +164,15 @@ latLng(){
   }
 }
 
+/*Fonctions :
+- création markers selon coordonnées
+- création cartes affichage au clic du marker
+*/
+
+createCard(){
+  let carte = document.createElement('div');
+  carte.setAttribute('id', "carte");
+  carte.innerHTML = "Salut";
+  carte.textContent = "Bonjour";
+}
 }
