@@ -5,7 +5,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" id="mapContent">
+<ion-content [fullscreen]="true" id="mapContent" (load)="locate();showMarker()">
   <ion-button
     id="location"
     (click)="locate();latLng();getAddress();showMarker()"

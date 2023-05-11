@@ -68,14 +68,26 @@ ville:string;
 ionViewDidEnter() {
   this.map = L.map('map').setView([47.383333, 0.683333], 8);
   // Ajout des mentions OpenStreetMap, obligatoire
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(this.map);
-  L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-    maxZoom: 20,
-    subdomains:['mt0','mt1','mt2','mt3']
+    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(this.map);
+
+
+var sat = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+  maxZoom: 20,
+  subdomains:['mt0','mt1','mt2','mt3']
+});
+
+
+
+var baseMaps = {
+  'Open Street Map': osm,
+  'Satellite': sat
+}
+
+L.control.layers(baseMaps).addTo(this.map);
+
 }
 
 showMarker(){

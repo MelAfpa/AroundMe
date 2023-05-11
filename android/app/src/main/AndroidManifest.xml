@@ -37,6 +37,11 @@
         </provider>
     </application>
 
+        <!-- <application
+      android:allowBackup="false"
+      android:fullBackupContent="false"
+      android:dataExtractionRules="@xml/data_extraction_rules"></application> -->
+
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
