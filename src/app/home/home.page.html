@@ -1,28 +1,33 @@
 <ion-header [translucent]="true">
+  <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/jeep-sqlite@latest/dist/jeep-sqlite/jeep-sqlite.esm.js"
+  ></script>
+  <script src="node_modules/jeep-sqlite/dist/jeep-sqlite.esm.js"></script>
+
   <ion-toolbar color="primary" id="headAcc">
     <ion-img src="assets/uploads/logo_mini2.png" id="logo"></ion-img>
     <ion-title id="titreAcc"> Autour de moi </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" id="mapContent" (load)="locate();showMarker()">
-  <ion-button
-    id="location"
-    (click)="locate();latLng();getAddress();showMarker()"
+<ion-content [fullscreen]="true" id="mapContent">
+  <ion-button id="location" (click)="locate()" expand="full"
     >Localise moi</ion-button
   >
+  <ion-button (click)="showMarker()">Autour de moi</ion-button>
 
-  <div id="latlng">
+  <!-- <div id="latlng">
     <p id="lat">Latitude : {{latitude}}</p>
     <p id="lng">Longitude : {{longitude}}</p>
     <p>Adresse : {{this.adresse}}</p>
     <p>Ville : {{this.ville}}</p>
-  </div>
+  </div> -->
 
   <!-- <ion-button href="/location">Location page</ion-button> -->
-  <ion-button id="btnMap" (click)="click()" expand="full">
+  <!-- <ion-button id="btnMap" (click)="click();" expand="full">
     Masquer la carte</ion-button
-  >
+  > -->
 
   <div id="map" style="height: 500px"></div>
 
@@ -59,12 +64,12 @@
       </a>
     </ion-card>
   </div>
-</ion-content>
 
-<ion-footer id="footer">
-  <ion-toolbar color="primary">
-    <a href="#">Accueil</a>
-    <a href="#">Politique de confidentialité</a>
-    <a href="#">Mentions légales</a>
-  </ion-toolbar>
-</ion-footer>
+  <ion-footer id="footer">
+    <ion-toolbar color="primary">
+      <a href="#">Accueil</a>
+      <a href="#">Politique de confidentialité</a>
+      <a href="#">Mentions légales</a>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
