@@ -16,7 +16,9 @@ const DB_NAME_KEY = 'db_name';
   providedIn: 'root'
 })
 
-export class DbService {
+
+export class SqlitePage  {
+
   dbReady = new BehaviorSubject(false); // Empêcher les requêtes tant que la BDD n'est pas prête
   dbName = 'database.json';
 
@@ -64,11 +66,12 @@ export class DbService {
   // Sync your data on every app start and update the device DB
   private downloadDatabase(update = false) {
 
-    this.http.get('assets/joinDatabase.json').subscribe(async (jsonExport: JsonSQLite) => {
+    this.http.get('assets/db.sqlite').subscribe(async (jsonExport: JsonSQLite) => {
 console.log("après dl");
 
       const jsonstring = JSON.stringify(jsonExport);
       const isValid = await CapacitorSQLite.isJsonValid({ jsonstring });
+console.log(jsonstring);
 
       if (isValid.result) {
         this.dbName = jsonExport.database;
@@ -94,45 +97,5 @@ console.log("notValid");
 
     });
   }
-
-  // Liste des entreprises
-  ngetBuisinessList() {
-    return this.dbReady.pipe(
-      switchMap(isReady => {
-        if (!isReady) {
-          return of({ values: [] });
-        } else {
-          const statement = 'SELECT * FROM entreprise;';
-          return from(CapacitorSQLite.query({ statement, values: [] }));
-        }
-      })
-    )
-  }
-  
-  // Entreprise par son identifiant
-  async getBuisinessById(id) {
-    const statement = `SELECT * FROM entreprise LEFT JOIN vendors ON vendors.id=entreprise.vendorid WHERE entreprise.id=${id} ;`;
-    return (await CapacitorSQLite.query({ statement, values: [] })).values[0];
-  }
-  
-  // Exporter la BDD
-  getDatabaseExport(mode) {
-    return CapacitorSQLite.exportToJson({ jsonexportmode: mode });
-  }
-  
-  // addDummyBuisiness(name) {
-  //   const randomValue = Math.floor(Math.random() * 100) + 1;
-  //   const randomVendor = Math.floor(Math.random() * 3) + 1
-  //   const statement = `INSERT INTO entreprise (id_entreprise, nom_entreprise, telephone_entreprise, 
-  //     adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise,
-  //     reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-  //     longitude_entreprise, vendorid) VALUES ('${name}','EUR', ${randomValue}, ${randomVendor});`;
-  //   return CapacitorSQLite.execute({ statements: statement });
-  // }
-  
-  // deleteBuisiness(BuisinessId) {
-  //   const statement = `DELETE FROM entreprise WHERE id = ${BuisinessId};`;
-  //   return CapacitorSQLite.execute({ statements: statement });
-  // }
 
 }

@@ -1,12 +1,32 @@
 
 
 #logo{
-  height: 75px;
+  height: 65px;
+  float: left;
+  margin: 10px;
+}
+
+#map{
+height: 100%;
+margin-top: 10px;
 }
 
 #mapContent { 
   // height: 180px; 
   display: block;
+}
+
+
+
+#menuContent{
+  text-align: center;
+  border: 2px whitesmoke solid;
+    border-radius: 10px;
+
+}
+
+#menuButton{
+  height: 80%;
 }
 
 #btnMap{
@@ -73,34 +93,4 @@ text-align: center;
   color: white;
   font-size: 0.9em;
   margin: 5px;
-}
-
- .leaflet-popup{
-  width: 300px;
-  background-color: #004569;
-}
-
- .leaflet-popup .leaflet-popup-content-wrapper .leaflet-popup-content{
-  height: 150px;
-  width: 100%;
-  background-color: antiquewhite;
-}
-
- .leaflet-popup .leaflet-popup-content-wrapper .leaflet-popup-content  p, h3, button{
-  float: right;
-  width: 70%;
-}
-
- .leaflet-popup .leaflet-popup-content-wrapper .leaflet-popup-content img{
-  float: left;
-  width: 30%;
-}
-
- .leaflet-popup .leaflet-popup-content-wrapper .leaflet-popup-content h3{
-  font-weight: bold;
-  color: #004569;
-}
-
- .leaflet-popup .leaflet-popup-content-wrapper .leaflet-popup-content p{
-  color: #004569;
 }

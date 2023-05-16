@@ -1,75 +1,30 @@
-<ion-header [translucent]="true">
-  <script
-    type="module"
-    src="https://cdn.jsdelivr.net/npm/jeep-sqlite@latest/dist/jeep-sqlite/jeep-sqlite.esm.js"
-  ></script>
-  <script src="node_modules/jeep-sqlite/dist/jeep-sqlite.esm.js"></script>
-
-  <ion-toolbar color="primary" id="headAcc">
-    <ion-img src="assets/uploads/logo_mini2.png" id="logo"></ion-img>
-    <ion-title id="titreAcc"> Autour de moi </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" id="mapContent">
-  <ion-button id="location" (click)="locate()" expand="full"
-    >Localise moi</ion-button
-  >
-  <ion-button (click)="showMarker()">Autour de moi</ion-button>
-
-  <!-- <div id="latlng">
-    <p id="lat">Latitude : {{latitude}}</p>
-    <p id="lng">Longitude : {{longitude}}</p>
-    <p>Adresse : {{this.adresse}}</p>
-    <p>Ville : {{this.ville}}</p>
-  </div> -->
-
-  <!-- <ion-button href="/location">Location page</ion-button> -->
-  <!-- <ion-button id="btnMap" (click)="click();" expand="full">
-    Masquer la carte</ion-button
-  > -->
-
-  <div id="map" style="height: 500px"></div>
-
-  <div id="listeEnt">
-    <ion-card class="carte">
-      <img
-        alt="Silhouette of mountains"
-        src="https://autourdemoi.colentre.com/wp-content/uploads/ADE_2-bis.png"
-        class="imgCard"
-      />
-      <a href="https://autourdemoi.colentre.com/entreprises_locales/holonage/#">
-        <ion-card-header class="headCard">
-          <ion-card-title class="titleCard">Holonage</ion-card-title>
-          <ion-card-subtitle class="subtCard"
-            >Huiles végétales ...</ion-card-subtitle
-          >
-        </ion-card-header>
-      </a>
-    </ion-card>
-
-    <ion-card class="carte">
-      <img
-        alt="Silhouette of mountains"
-        src="https://autourdemoi.colentre.com/wp-content/uploads/G_Toucan.png"
-        class="imgCard"
-      />
-      <a href="https://autourdemoi.colentre.com/entreprises_locales/guayapi/#">
-        <ion-card-header class="headCard">
-          <ion-card-title class="titleCard">Guayapi</ion-card-title>
-          <ion-card-subtitle class="subtCard"
-            >Compléments alimentaires ...</ion-card-subtitle
-          >
-        </ion-card-header>
-      </a>
-    </ion-card>
-  </div>
-
-  <ion-footer id="footer">
-    <ion-toolbar color="primary">
-      <a href="#">Accueil</a>
-      <a href="#">Politique de confidentialité</a>
-      <a href="#">Mentions légales</a>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary" id="headAcc">
+      <ion-img src="assets/uploads/Logo.png" id="logo"></ion-img>
+      <ion-button slot="end">
+        <ion-menu-button menu="main-menu"></ion-menu-button>
+      </ion-button>
     </ion-toolbar>
-  </ion-footer>
-</ion-content>
+  </ion-header>
+
+  <ion-content [fullscreen]="true" id="mapContent">
+    <div id="map">
+      <ion-fab
+        slot="fixed"
+        vertical="center"
+        horizontal="top"
+        id="keepPosition"
+        (click)="locate()"
+      >
+        <ion-fab-button>
+          <ion-icon name="navigate-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+
+    <ion-footer id="footer">
+      <ion-toolbar color="primary"> </ion-toolbar>
+    </ion-footer>
+  </ion-content>
+</div>

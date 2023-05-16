@@ -47,10 +47,11 @@ ville:string;
 
  userPosition = L.icon({
   iconUrl: 'assets/uploads/userMarker.png',
-
-  iconSize:     [30, 41], // size of the icon
-  iconAnchor:   [12, 41], // point of the icon which will correspond to marker's location
-  popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
  greenIcon = new L.Icon({
@@ -91,38 +92,10 @@ ville:string;
 
 // ----------------------------------------------------------- FUNCTIONS -----------------------------------------------------------
 
-ionViewWillEnter() {
-
-  this.http.get('assets/database.json').subscribe((data) => {
-
-for(let i=0; i<data['entreprise'].length;i++){
-  var lat = data['entreprise'][i]['latitude_entreprise'];
-  var long = data['entreprise'][i]['longitude_entreprise'];
-  var img = "assets/uploads/logos/"+[i]+".png";
-
-// A FAIRE : image blanche si pas de logo
-
-// console.log('test de i : ',i);
-
-  var popup = L.popup()
-    .setContent("<img src='"+img+"' alt='logo "+data['entreprise'][i]['nom_entreprise']
-    +"'/> <h2>"+data['entreprise'][i]['nom_entreprise'] +"</h2><p>"+data['entreprise'][i]['adresse_entreprise']
-    +"</p><a href='"+data['entreprise'][i]['site_internet_entreprise']+"'>Site internet</a>");
-  
-
-  L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-
-}
-  });
-
-  this.locate();
-
-}
-
 
 // Map
 ionViewDidEnter() {
-  this.map = L.map('map').setView([47.383333, 0.683333], 8);
+  this.map = L.map('map').setView([47.383333, 0.683333], 10);
   var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -139,54 +112,76 @@ var baseMaps = {
 }
 
 L.control.layers(baseMaps).addTo(this.map);
-this.map.on('load', function(){
-  console.log("map loaded");
-
-})
+this.locate();
 
 }
 
-showMarker(){
+
+ionViewWillEnter() {
+
+  this.http.get('assets/joinDatabase.json').subscribe((data) => {
+    for(let i=0; i<data['entreprise'].length;i++){
+      
+      var nom = data['entreprise'][i].nom_entreprise;
+      var adresse = data['entreprise'][i].adresse_entreprise;
+      var site = data['entreprise'][i].site_internet_entreprise;
+      var lat = data['entreprise'][i].latitude_entreprise;
+      var long = data['entreprise'][i].longitude_entreprise;
+      var secteur = data['entreprise'][i].code_type_activite;
+      var img = "assets/uploads/logos/"+[i]+".png";
+
+console.log(data);
+  console.log([i]);    
+  console.log(nom);
+// TODO : image blanche si pas de logo
 
 
+      var popup = L.popup()
+        .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+adresse
+        +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+        
+        if(secteur === '1'){ 
+          L.marker([ lat, long], {icon: this.greenIcon}).bindPopup(popup).addTo(this.map);
+        } else if(secteur === '2') {
+          L.marker([ lat, long], {icon: this.redIcon}).bindPopup(popup).addTo(this.map);
+        } else if(secteur === '3'){ 
+        L.marker([ lat, long], {icon: this.purpleIcon}).bindPopup(popup).addTo(this.map);
+        } else {
+          L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+        }
 
 
+    }
+  });
 
 
-    // Position entreprises -------------------------------------------------
-        // Producteurs/Fabricants or
-
-    // Commerçants/restaurants violet
-    // Services à la personne vert
-    // Services aux entreprises rouge
-
-// nom_ent, adresse_ent, logo, bouton pour le site
-
-
-
-  }
+}
+  
 
 // Geocoding
+
  
-  async locate() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    this.latitude = coordinates.coords.latitude;
-    this.longitude = coordinates.coords.longitude;
-    this.coords = coordinates.coords;
-        // Position utilisateur 
-    L.marker([this.latitude, this.longitude], {icon: this.userPosition}).addTo(this.map).on('click', function(e){
-      this.map.setView([this.latitude, this.longitude], 13);
-    });
+async locate() {
+  const coordinates = await Geolocation.getCurrentPosition();
+  this.latitude = coordinates.coords.latitude;
+  this.longitude = coordinates.coords.longitude;
+  this.coords = coordinates.coords;
+      
+  // Position utilisateur 
 
-    L.circle([this.latitude, this.longitude], 30000, {
-      fill:false,
-      color: "black",
-    }).addTo(this.map).bindPopup("30 km around you").openPopup;
+  L.marker([this.latitude, this.longitude], {icon: this.userPosition}).bindPopup("Vous êtes ici").addTo(this.map);
 
-    this.map.setView([this.latitude, this.longitude], 9);
+  L.circle([this.latitude, this.longitude], 30000, {
+    fill:false,
+    color: "#004569",
+  }).addTo(this.map).bindPopup("30 km around you").openPopup;
 
-  }
+  this.map.setView([this.latitude, this.longitude], 9);
 
+}
+
+  
 getAddress() {
   let options: NativeGeocoderOptions = {
     useLocale: true,
@@ -204,42 +199,15 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     else {
       result = results;   
     }
-    console.log(result.addressLines);
-    console.log(result.locality);
+    // console.log(result.addressLines);
+    // console.log(result.locality);
 
-    this.adresse = result.addressLines;
-    this.ville = result.locality;
   });
 }
 
-Affichage
-click(){
-  const affMap = document.getElementById("map") as HTMLHeadingElement;
-  const btnMap = document.getElementById("btnMap") as HTMLHeadingElement;
 
-  if(affMap.style.display === "block"){
-    affMap.style.display = "none";
-    btnMap.innerHTML = "Afficher la carte";
-  } else {
-    affMap.style.display = "block";
-    btnMap.innerHTML = "Masquer la carte";
-  }
-}
 
-latLng(){
-  const latlng = document.getElementById("latlng") as HTMLHeadingElement;
 
-  if(latlng.style.display === "block"){
-    latlng.style.display = "none";
-  } else {
-    latlng.style.display = "block";
-  }
-}
-
-/*Fonctions :
-- création markers selon coordonnées
-- création cartes affichage au clic du marker
-*/
 
 
 
