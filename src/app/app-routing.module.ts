@@ -11,15 +11,7 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'location',
-    loadChildren: () => import('./location/location.module').then( m => m.LocationPageModule)
-  },
 
-  {
-    path: 'entreprises/:id',
-    loadChildren: () => import('./entreprises/entreprises.module').then( m => m.EntreprisesPageModule)
-  },
 
 ];
 

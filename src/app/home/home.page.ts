@@ -44,6 +44,7 @@ latitude: number;
 longitude: number;
 adresse:any;
 ville:string;
+searchTerm:string;
 
  userPosition = L.icon({
   iconUrl: 'assets/uploads/userMarker.png',
@@ -119,43 +120,44 @@ this.locate();
 
 ionViewWillEnter() {
 
-  this.http.get('assets/joinDatabase.json').subscribe((data) => {
+  this.http.get('assets/dbJoin.json').subscribe((data) => {
     for(let i=0; i<data['entreprise'].length;i++){
       
       var nom = data['entreprise'][i].nom_entreprise;
       var adresse = data['entreprise'][i].adresse_entreprise;
+      var infos = data['entreprise'][i].infos_entreprise;
       var site = data['entreprise'][i].site_internet_entreprise;
       var lat = data['entreprise'][i].latitude_entreprise;
       var long = data['entreprise'][i].longitude_entreprise;
       var secteur = data['entreprise'][i].code_type_activite;
       var img = "assets/uploads/logos/"+[i]+".png";
 
-console.log(data);
-  console.log([i]);    
-  console.log(nom);
+
 // TODO : image blanche si pas de logo
 
 
       var popup = L.popup()
         .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+adresse
+        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
         +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-        
-        if(secteur === '1'){ 
-          L.marker([ lat, long], {icon: this.greenIcon}).bindPopup(popup).addTo(this.map);
-        } else if(secteur === '2') {
-          L.marker([ lat, long], {icon: this.redIcon}).bindPopup(popup).addTo(this.map);
-        } else if(secteur === '3'){ 
-        L.marker([ lat, long], {icon: this.purpleIcon}).bindPopup(popup).addTo(this.map);
-        } else {
-          L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-        }
+        //           const sitePopup = document.getElementById('sitePopup');
 
+        // if(site === null){
+        //   sitePopup.style.display = 'none';
 
+        // }
+        // if(secteur === '1'){ 
+        //   L.marker([ lat, long], {icon: this.greenIcon}).bindPopup(popup).addTo(this.map);
+        // } else if(secteur === '2') {
+        //   L.marker([ lat, long], {icon: this.redIcon}).bindPopup(popup).addTo(this.map);
+        // } else if(secteur === '3'){ 
+        // L.marker([ lat, long], {icon: this.purpleIcon}).bindPopup(popup).addTo(this.map);
+        // } else {
+        //   L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+        // }
+        L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
     }
   });
-
-
 }
   
 
@@ -175,10 +177,10 @@ async locate() {
   L.circle([this.latitude, this.longitude], 30000, {
     fill:false,
     color: "#004569",
+    weight:1
   }).addTo(this.map).bindPopup("30 km around you").openPopup;
 
   this.map.setView([this.latitude, this.longitude], 9);
-
 }
 
   
@@ -199,14 +201,38 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     else {
       result = results;   
     }
-    // console.log(result.addressLines);
-    // console.log(result.locality);
-
   });
 }
 
+// resSearch:string;
+// searchEntreprise(mot:string){
+//   this.resSearch = mot;
+//   this.http.get('assets/dbJoin.json').subscribe((dataSearch) => {
+//     const entreprise = dataSearch['entreprise'];
+//   var arr = Object.keys(entreprise).map(function (key) { return [Number(key), entreprise[key]];});
+//   console.log(typeof arr);
+//   console.log(arr);
+//     for(let i=0; i<arr.length;i++){
+//       if(arr[i].indexOf(mot)){
+//         let nom = arr[i]['nom_entreprise'];
+//         console.log(nom);
+//       } else if (arr[i].includes(mot)){
+        
+//         console.log("include");
+//       } else {
+//                  console.log("Fuck you");
+
+//       }
 
 
+//     }
+ 
+
+//   })
+
+// console.log(mot);
+
+// }
 
 
 

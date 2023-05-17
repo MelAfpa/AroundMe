@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import '@capacitor-community/sqlite';
 import { Capacitor } from '@capacitor/core';
-import { JsonSQLite, CapacitorSQLite} from '@capacitor-community/sqlite';
+import { JsonSQLite, CapacitorSQLite, SQLiteDBConnection} from '@capacitor-community/sqlite';
 import { switchMap } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -50,12 +50,10 @@ export class DbService {
 
     if (!dbSetupDone.value) {
       this.downloadDatabase();
-      console.log("!dbSetupDone");
     } else {
       this.dbName = (await Storage.get({ key: DB_NAME_KEY })).value;
       await CapacitorSQLite.open({ database: this.dbName });
       this.dbReady.next(true);
-      console.log("else dbSetup");
 
     }
   }
@@ -64,7 +62,7 @@ export class DbService {
   // Sync your data on every app start and update the device DB
   private downloadDatabase(update = false) {
 
-    this.http.get('assets/joinDatabase.json').subscribe(async (jsonExport: JsonSQLite) => {
+    this.http.get('assets/dbJoin.json').subscribe(async (jsonExport: JsonSQLite) => {
 console.log("après dl");
 
       const jsonstring = JSON.stringify(jsonExport);
@@ -89,11 +87,14 @@ console.log("else update");
 
         }
         this.dbReady.next(true);
+        console.log("dbnext");
+
       }
 console.log("notValid");
 
     });
   }
+
 
   // Liste des entreprises
   ngetBuisinessList() {

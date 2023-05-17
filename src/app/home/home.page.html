@@ -22,7 +22,19 @@
         </ion-fab-button>
       </ion-fab>
     </div>
-
+    <!-- <div>
+      <ion-searchbar
+        #mot
+        id="search"
+        show-clear-button="always"
+        placeholder="Recherche par mots clés, noms, villes ..."
+        (keyup.enter)="searchEntreprise(mot.value)"
+        color="primary"
+        [(ngModel)]="searchTerm"
+        animated
+      ></ion-searchbar>
+      <p>{{this.resSearch}}</p>
+    </div> -->
     <ion-footer id="footer">
       <ion-toolbar color="primary"> </ion-toolbar>
     </ion-footer>

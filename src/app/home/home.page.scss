@@ -7,90 +7,21 @@
 }
 
 #map{
-height: 100%;
+height: 90%;
 margin-top: 10px;
 }
 
-#mapContent { 
-  // height: 180px; 
-  display: block;
-}
 
 
 
-#menuContent{
-  text-align: center;
-  border: 2px whitesmoke solid;
-    border-radius: 10px;
-
-}
-
-#menuButton{
-  height: 80%;
-}
-
-#btnMap{
-  margin: 20px;
-}
-
-#latlng{
-  display: none;
-}
 
 
-#titreAcc{
-  text-align: center;
-  margin: 10px;
-}
-
-#listeEnt{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  overflow: scroll;
-  height: 100%;
-  margin-top: 30px;
-  width: 95%;
-}
-
-#listeEnt a {
-  text-decoration: none;
-  color: black;
-  // width: 30%;
-  margin: 15px;
-}
-
-.carte{
-  height: 35%;
-  width: 25%;    
-  overflow: scroll;
-
-}
-
-.imgCard{
-  height: 50%;
-  display: block;
-  margin: auto;
-}
-
-
-.titleCard{
-font-size: 1.1em;
-font-weight: bold;
-text-align: center;
-}
-
-.subtCard {
- text-align: center;
- margin-top: 10px;
-}
-
-#footer, a {
-   display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  text-decoration: none;
-  color: white;
-  font-size: 0.9em;
-  margin: 5px;
-}
+// #footer, a {
+//    display: flex;
+//   justify-content: center;
+//   flex-wrap: nowrap;
+//   text-decoration: none;
+//   color: white;
+//   font-size: 0.9em;
+//   margin: 5px;
+// }
