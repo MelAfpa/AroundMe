@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>entreprise</ion-title>
+  </ion-toolbar>
+  <ion-buttons slot="end">
+    <ion-button (click)="delete()">
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-header>
+
+<ion-content padding>
+  <ion-segment [(ngModel)]="selectedView">
+    <ion-segment-button value="ent">
+      <ion-label>entreprise</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="products">
+      <ion-label>Products</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="selectedView">
+    <div *ngSwitchCase="'ent'">
+      <ion-item>
+        <ion-label position="stacked">Nom de l'entreprise</ion-label>
+        <ion-input
+          [(ngModel)]="entreprise.nom_entreprise"
+          placeholder="nom entreprise"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Adresse de l'entreprise</ion-label>
+        <ion-input [(ngModel)]="entreprise.adresse_entreprise"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Informations</ion-label>
+        <ion-input [(ngModel)]="entreprise.infos_entreprise"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="addEntreprise()"
+        >Add entreprise Info</ion-button
+      >
+
+      <ion-list>
+        <ion-item
+          button
+          *ngFor="let ent of entreprise "
+          [routerLink]="['/', 'developers', entreprise.id_entreprise]"
+        >
+          <ion-label>
+            <h2>{{ ent.nom_entreprise }}</h2>
+            <p>{{ ent.adresse_entreprise }}</p>
+            <p>{{ ent.infos_entreprise }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <!-- 
+      <div *ngIf="entreprise">
+        <ion-item>
+          <ion-label position="stacked">What's your name?</ion-label>
+          <ion-input
+            [(ngModel)]="entreprise.name_ent"
+            placeholder="entreprise Name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">What are your id?</ion-label>
+          <ion-input
+            [(ngModel)]="entreprise.id_entreprise"
+            placeholder="Special id"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Your telephone_entreprise</ion-label>
+          <ion-input
+            [(ngModel)]="entreprise.telephone_entreprise"
+            placeholder="024100220"
+          ></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="updateEntreprise()"
+          >Update entreprise Info</ion-button
+        >
+      </div> -->
+
+      <div *ngSwitchCase="'products'"></div>
+    </div>
+  </div>
+</ion-content>

@@ -1,42 +1,58 @@
 import { Component, OnInit, ViewChild,  } from '@angular/core';
-import { IonModal } from '@ionic/angular';
 import { Map, tileLayer, marker, icon } from 'leaflet';
 import * as L from 'leaflet';
-// import { antPath } from 'leaflet-ant-path';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { HttpClient } from '@angular/common/http';
 
 import { Geolocation } from '@capacitor/geolocation';
-import { DbService } from '../services/db.service';
+import { DbService, Ent } from '../services/db.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  
+  entrep: Ent[] = [];
+  entreprise:any = [];
+  ent: any;
+
+  ngOnInit() {
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.db.getEnt().subscribe(ent => {
+          this.entreprise = ent;
+          console.log('nbOnInit', rdy);
+          console.log('nbOnInit', ent);
+        })
+      }
+      // this.entreprise=this.db.getEnt();
+
+
+    });
+
+    this.db.getEnt().subscribe(ent => {
+      this.ent = ent.values;
+
+      console.log(this.entreprise);
+      console.log(ent.values);
+
+    })
+
+  }
 
   constructor(
     private nativeGeocoder: NativeGeocoder,
-    private dbService: DbService,
+    private db: DbService,
     private http: HttpClient) {
+    
+      console.log('HomePage constructor');
   }
 
-  // entreprise = [];
-  // export = null;
 
-  // loadBuisiness() {
-  //   this.dbService.ngetBuisinessList().subscribe(res => {
-  //     this.entreprise = res.values;
-  //   });
-  // }
-
-  // Mode is either "partial" or "full"
-  // async createExport(partial) {
-  //   const dataExport = await this.dbService.getDatabaseExport(partial);
-  //   this.export = dataExport.export;
-  // }
-
+  selectedView = 'ent';
 // ----------------------------------------------------------- DECLARATION DE VARIABLES -----------------------------------------------------------
 map:Map;
 coords: any;
@@ -55,32 +71,16 @@ searchTerm:string;
   shadowSize: [41, 41]
 });
 
- greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+searchMarker = L.icon({
+  iconUrl: 'assets/uploads/searchMarker.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
+  iconSize: [25, 39],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
 
- purpleIcon = new L.Icon({
-  iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-violet.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
 
- redIcon = new L.Icon({
-  iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
 
  orIcon = new L.Icon({
   iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
@@ -119,51 +119,44 @@ this.locate();
 
 
 ionViewWillEnter() {
+  console.log('ionViewWillEnter');
 
-  this.http.get('assets/dbJoin.json').subscribe((data) => {
-    for(let i=0; i<data['entreprise'].length;i++){
+//   this.db.createMarker()
+//     .then(_ => {
+//       this.entreprise = {};
+//     });
+    
+// console.log(this.entreprise);
+// console.log(this.entreprise['nom_entreprise']);
+
+
+//     for(let i=0; i<this.entreprise.length;i++){
       
-      var nom = data['entreprise'][i].nom_entreprise;
-      var adresse = data['entreprise'][i].adresse_entreprise;
-      var infos = data['entreprise'][i].infos_entreprise;
-      var site = data['entreprise'][i].site_internet_entreprise;
-      var lat = data['entreprise'][i].latitude_entreprise;
-      var long = data['entreprise'][i].longitude_entreprise;
-      var secteur = data['entreprise'][i].code_type_activite;
-      var img = "assets/uploads/logos/"+[i]+".png";
+//       var nom = this.entreprise['nom_entreprise'];
+//       var infos = this.entreprise['infos_entreprise'];
+//       var site = this.entreprise['site_internet_entreprise'];
+//       var lat = this.entreprise['latitude_entreprise'];
+//       var long = this.entreprise['longitude_entreprise'];
+//       var img = "assets/uploads/logos/"+[i]+".png";
+
+// console.log(infos);
+// // TODO : image blanche si pas de logo
 
 
-// TODO : image blanche si pas de logo
-
-
-      var popup = L.popup()
-        .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-        +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-        //           const sitePopup = document.getElementById('sitePopup');
-
-        // if(site === null){
-        //   sitePopup.style.display = 'none';
-
-        // }
-        // if(secteur === '1'){ 
-        //   L.marker([ lat, long], {icon: this.greenIcon}).bindPopup(popup).addTo(this.map);
-        // } else if(secteur === '2') {
-        //   L.marker([ lat, long], {icon: this.redIcon}).bindPopup(popup).addTo(this.map);
-        // } else if(secteur === '3'){ 
-        // L.marker([ lat, long], {icon: this.purpleIcon}).bindPopup(popup).addTo(this.map);
-        // } else {
-        //   L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-        // }
-        L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-    }
-  });
+//       var popup = L.popup()
+//         .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+//         +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
+//         +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+        
+//         L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+//     }
+    
+  
 }
   
 
 // Geocoding
 
- 
 async locate() {
   const coordinates = await Geolocation.getCurrentPosition();
   this.latitude = coordinates.coords.latitude;
@@ -173,6 +166,8 @@ async locate() {
   // Position utilisateur 
 
   L.marker([this.latitude, this.longitude], {icon: this.userPosition}).bindPopup("Vous êtes ici").addTo(this.map);
+  L.marker([47.466671, -0.563166], {icon: this.searchMarker}).bindPopup("Vous êtes ici").addTo(this.map);
+
 
   L.circle([this.latitude, this.longitude], 30000, {
     fill:false,
@@ -204,35 +199,29 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
-// resSearch:string;
-// searchEntreprise(mot:string){
-//   this.resSearch = mot;
-//   this.http.get('assets/dbJoin.json').subscribe((dataSearch) => {
-//     const entreprise = dataSearch['entreprise'];
-//   var arr = Object.keys(entreprise).map(function (key) { return [Number(key), entreprise[key]];});
-//   console.log(typeof arr);
-//   console.log(arr);
-//     for(let i=0; i<arr.length;i++){
-//       if(arr[i].indexOf(mot)){
-//         let nom = arr[i]['nom_entreprise'];
-//         console.log(nom);
-//       } else if (arr[i].includes(mot)){
-        
-//         console.log("include");
-//       } else {
-//                  console.log("Fuck you");
+resSearch:string;
+searchEntreprise(mot:string){
 
-//       }
+  this.resSearch = mot;
 
+  this.http.get('assets/dbJoin.json').subscribe((dataSearch) => {
+    const entreprise = [dataSearch];
 
-//     }
- 
+    if(entreprise.indexOf(mot)){
+      console.log("ok");
+    } else {
+      console.log("NOK");
+    }
+   
+console.log(entreprise);
 
-//   })
+   
+    
+    
+  })
 
-// console.log(mot);
-
-// }
+console.log(mot);
+}
 
 
 

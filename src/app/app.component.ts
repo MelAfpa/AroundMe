@@ -15,18 +15,20 @@ export class AppComponent {
     private dbService: DbService,
     private loadingCtrl: LoadingController) 
     {
-      this.platform.ready().then(async () => {
-        const loading = await this.loadingCtrl.create();
-        // await loading.present();
-        this.dbService.init()});
+      // this.platform.ready().then(async () => {
+      //   const loading = await this.loadingCtrl.create();
+      //   // await loading.present();
+      //   this.dbService.init()});
     }
 
-    // async initializeApp() {
-    //   this.platform.ready().then(async () => {
-    //     const loading = await this.loadingCtrl.create();
-    //     // await loading.present();
-    //     this.dbService.init();
+//     async initializeApp() {
+//       this.platform.ready().then(async () => {
+//         const loading = await this.loadingCtrl.create();
+//         // await loading.present();
+//         this.dbService.init();
         
-    //   });
+//       });
     
+// }
+
 }

@@ -11,7 +11,23 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-
+  {
+    path: '',
+    redirectTo: 'home/:id',
+    pathMatch: 'full'
+  },
+  {
+    path: 'db-test',
+    loadChildren: () => import('./db-test/db-test.module').then( m => m.DbTestPageModule)
+  },
+  {
+    path: 'developers-page/:id',
+    loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
+  },
+  {
+    path: 'developers-page',
+    loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
+  },
 
 ];
 

@@ -1,0 +1,648 @@
+{
+    "database": "aroundme",
+    "version": 1,
+	"encrypted": false,
+	"mode": "full",
+    "tables": [
+        {
+            "name": "compter",
+            "schema": [
+                {"column": "id_secteur", "value": "INTEGER NOT NULL"},
+                {"column": "id_entreprise","value": "INTEGER NOT NULL"},
+				{
+				  "foreignkey": "id_secteur",
+				  "value": "REFERENCES secteurs(id_secteur)"
+				},
+				{
+				  "foreignkey": "id_entreprise",
+				  "value": "REFERENCES entreprise(id_entreprise)"
+				}
+            ],
+            "values": [
+                [
+                    115,
+                    5343
+                ],
+                [
+                    110,
+                    10863
+                ],
+                [
+                    109,
+                    11016
+                ],
+                [
+                    196,
+                    11017
+                ],
+                [
+                    110,
+                    11021
+                ],
+                [
+                    195,
+                    11022
+                ],
+                [
+                    119,
+                    11138
+                ],
+                [
+                    116,
+                    11172
+                ],
+                [
+                    203,
+                    11187
+                ],
+                [
+                    205,
+                    11187
+                ],
+                [
+                    115,
+                    11231
+                ],
+                [
+                    115,
+                    11234
+                ],
+                [
+                    115,
+                    11241
+                ],
+                [
+                    206,
+                    11241
+                ],
+                [
+                    199,
+                    11389
+                ],
+                [
+                    211,
+                    11411
+                ],
+                [
+                    206,
+                    11610
+                ],
+                [
+                    110,
+                    11624
+                ],
+                [
+                    119,
+                    11632
+                ],
+                [
+                    115,
+                    11649
+                ],
+                [
+                    109,
+                    11651
+                ],
+                [
+                    102,
+                    11673
+                ],
+                [
+                    201,
+                    11688
+                ],
+                [
+                    109,
+                    11710
+                ],
+                [
+                    211,
+                    11710
+                ],
+                [
+                    115,
+                    11750
+                ],
+                [
+                    206,
+                    11750
+                ],
+                [
+                    109,
+                    11758
+                ],
+                [
+                    102,
+                    11760
+                ],
+                [
+                    109,
+                    11777
+                ],
+                [
+                    81,
+                    11793
+                ],
+                [
+                    109,
+                    11793
+                ],
+                [
+                    213,
+                    11806
+                ],
+                [
+                    115,
+                    11810
+                ],
+                [
+                    115,
+                    11813
+                ],
+                [
+                    115,
+                    11835
+                ]
+            ]
+        },
+        {
+            "name": "entreprise",
+            "schema": [
+                {"column": "id_entreprise", "value": "INTEGER NOT NULL"},
+                {"column": "nom_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "telephone_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "adresse_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "infos_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "description_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "site_internet_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "reseaux_sociaux_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "monnaie_locale_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "livraison_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "latitude_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "longitude_entreprise","value": "INTEGER NOT NULL"},
+                {"column": "id_departement","value": "INTEGER NOT NULL"},
+				{
+				  "foreignkey": "id_departement",
+				  "value": "REFERENCES departement(id_departement)"
+				}
+            ],
+            "values": [
+                [
+                    5343,
+                    "Terre de Pixels", 
+                    "0241505916", 
+                    "6 Rue de l'Espoir, 49700 Doué-en-Anjou, France",
+                    "Agence de communicationrnrnlundi au vendredi",
+                    "Nous avons créé ce site bénévolement au service du développement de la création et l’achat local.nnJeune pousse d’Anjou semée en 2011, Terre de Pixels est une agence de communication plurimedia (web et papier) qui fait fleurir votre communication.",
+                    "https:\/\/terredepixels.fr",
+                    "https:\/\/www.facebook.com\/terredepixels\/,https:\/\/www.instagram.com\/terredepixels\/",
+                    1,
+                    0,
+                    47.193153,
+                    -0.275333,
+                    176
+                    
+                ],
+                [
+                    10863,
+                    "LogoSapience",
+                    "0241368141",
+                    "3 Rue Pierre et Marie Curie,49298 Saint-Léger-de-Linière, France",
+                    "Logiciels informatiques",
+                    "Créé en 1995 à Angers, LogoSapience est un bureau d’études spécialisé dans les logiciels.rnrnDepuis 27 ans LogoSapience propose des prestations d’accompagnement pour permettre aux entreprises d’atteindre leurs objectifs en terme de stratégie numérique. Les solutions logicielles de LogoSapience sont installées dans plus de 3000 établissements en France et à l’étranger. ",
+                    "https:\/\/www.logosapience.fr\/",
+                    "https:\/\/www.linkedin.com\/company\/3533117",
+                    0,
+                    0,
+                    47.46351,
+                    -0.664117,
+                    176
+                ],
+                [
+                    11016,
+                    "Lanvolduphenix",
+                    "0607966304",
+                    "64 Rue Eugénie Grandet,37700 Saint-Pierre-des-Corp, France",
+                    "Naturopathie",
+                    "Soin par machines fréquentielles :rnTimeWaver & Spooky, Écoute du corps et soin manuel, Conseil en alimentation hygiénique",
+                    "https:\/\/www.facebook.com\/anneeschenbrennerlanvolduphenix\/, https:\/\/www.instagram.com\/lanvolduphenix\/",
+                    0,
+                    0,
+                    47.39773,
+                    0.755751,
+                    192
+
+                ],
+                [
+                    11017,
+                    "GTRANDYS",
+                    "0298412366",
+                    "20 Rue de l'Eau Blanche,29019 Brest, France",
+                    "Transport routier de marchandises",
+                    "Transport routier de marchandise sur la Bretagne, les Pays de la Loire et la région parisienne. ",
+                    0,
+                    0,
+                    48.414292,
+                    -4.460714,
+                    177
+
+                ],
+                [
+                    11021,
+                    "ITANOVA EasyProf",
+                    "0631628950",
+                    "10 Rue de Laborde, Paris, France",
+                    "Fabricant de logiciels pour la création de cours e-learning",
+                    "ITANOVA conçoit et développe des logiciels permettant de créer des cours e-learning en toute simplicité et avec une grande efficacité pédagogique.rnrnSon logiciel EasyProf se dirige aux entreprises avec des besoins de formation de leur personnel, et au secteur éducatif, au niveau local, national et international.",
+                    "https:\/\/easyprof.com\/en\/",
+                    0,
+                    1,
+                    48.875827,
+                    2.321642,
+                    184
+                ],
+                [
+                    11022,
+                    "AUDIT CONSEIL ASSISTANCE ( ACA )",
+                    "0241097732",
+                    "22 Rue de Belgique, Montreuil-Juigné, France",
+                    "Assurances et gestion des risques",
+                    "Audit de contrats assurances,ncourtier en assurances ",
+                    "https:\/\/aca-pl.com\/",
+                    0,
+                    0,
+                    47.528329,
+                    -0.599373,
+                    176
+                ],
+                [
+                    11138,
+                    "SCI DEAUMAT",
+                    "0682562481",
+                    "3 Rue Pierre et Marie Curie, Saint-Léger-de-Linière, France",
+                    "Location de bureaux",
+                    "Bureaux avec parking privé et climatisation, rnsurfaces disponibles de 13 m² a 73 m².rnPossibilité de domiciliation",
+                    0,
+                    0,
+                    47.46351,
+                    -0.664116,
+                    176
+                ],
+                [
+                    11172,
+                    "Crêperie Les blés d’or",
+                    "0981799804",
+                    "78 Avenue Albert de Mun, Saint-Nazaire, France",
+                    "Crêperie",
+                    "Toutes nos galettes sont élaborées à partir d’une farine BIO, de blé Français, les garnitures sont cuisinées par le chef à partir de produits frais du marché. Nous sollicitons le plus possible, des fournisseurs locaux, pour nos préparations, pommes de Donges, les légumes de La Turballe, le Cidre de Plessée, les moules de Penestin… Venez déguster les spécialités régionales, la l’angouille, le curé Nantais, et notre spécialité le KIG HA FARZ, le premier vendredi et samedi du mois. Un pot au feu Breton cuisiné avec soin par notre chef Thierry.rnMagit mat ho korf, hoc’h ene a chomo pelloc’h e-barzh.”rn“Nourris bien ton corps, ton âme y restera plus longtemps.” (proverbe Breton) ",
+                    0,
+                    0,
+                    47.27895,
+                    -2.213679,
+                    182
+                ],
+                [
+                    11187,
+                    "Asp événements",
+                    "0612668174",
+                    "49170 Saint-Martin-du-Fouilloux, France",
+                    "Sécurité des biens et des personnes ",
+                    "Asp événements vous accompagne lors de vos événements et sécurise vos biens et le public, gardiennage, sécurité incendie, conseilnn",
+                    "https:\/\/www.asp-evenements.fr\/",
+                    0,
+                    0,
+                    47.431388,
+                    -0.727806,
+                    176
+                ],
+                [
+                    11231,
+                    "Magraph",
+                    "0768596026",
+                    "11 Rue du Chemin de Fer,18370 Châteaumeillant, France",
+                    "Réalisation audiovisuelle",
+                    "Toujours en recherche de clarté pour transmettre un message je propose tout le panel d’outils techniques pour réaliser la vidéo nécessaire à votre communication.rnrnDe l’écriture du scénario jusqu’au générique je prends en main toutes les étapes de création et vous guide dans les choix les mieux adaptés pour atteindre votre objectif.",
+                    "https:\/\/www.magraphist.com\/",
+                    "https:\/\/www.facebook.com\/mag.magraph,https:\/\/www.linkedin.com\/company\/magraph\/,https:\/\/www.instagram.com\/magali_ledissez\/",
+                    1,
+                    0,
+                    46.561258,
+                    2.202832,
+                    180
+                ],
+                [
+                    11234,
+                    "NowProds",
+                    "0611727438",
+                    "27340 Criquebeuf-sur-Seine, France",
+                    "Production vidéo",
+                    "NowProds est un société de production vidéo qui accompagne ses clients dans leurs stratégies audiovisuelle, digital, commerciale, marketing, communications B2B et B2C, RH et formations.",
+                    "https:\/\/www.nowprods.fr\/",
+                    "https:\/\/www.linkedin.com\/in\/christophepetitprez\/",
+                    1,
+                    0,
+                    49.305294,
+                    1.096674,
+                    207
+                ],
+                [
+                    "PARIGRAFIC Imprimerie Éditions",
+                    "0672385624",
+                    "53 Rue des Vinaigriers, 75000 Paris, France",
+                    "Imprimerie tous travaux - Éditions livres",
+                    "Artisan imprimeur , pour des impressions traditionnelles  en Offset, Typo, Dorure, Gaufrage, Découpe. Des impressions modernes en  numériques de toutes les innovations récentes quadri, vernis sélectifs et 3D, pelliculage pour vos cartes, flyers, dépliants, plaquettes, brochures, affiches, étiquettes, signalétique, PLV et Roll Up. Mais aussi de l’édition d’ouvrage à compte d’auteur ainsi que tous nos conseils prodigués avec l’ attention d’un artisan à votre écoute.",
+                    0,
+                    0,
+                    48.873162,
+                    2.359896,
+                    184
+                    
+                ],
+                [
+                    11389,
+                    "Elodie PONT",
+                    "  06332568",
+                    "45 Mnt Saint-Clément, 73790 Tours-en-Savoie, France",
+                    "Immobilier vente conseil, design écologique du batiment",
+                    "Conseillère en immobilier sur le secteur d’Albertville, je vous accompagne dans tous vos projets !rnSpécialisation en cours en design écologique du bâtiment pour optimiser votre rénovation, rnTrouver de la résilience, réduire vos charges,rnAcquérir un habitat léger.",
+                    "https:\/\/www.facebook.com\/profile.php?id=100086618374464",
+                    0,
+                    0,
+                    45.655207,
+                    6.442577,
+                    208
+                ],
+                [
+                    11411,
+                    "EPITOME CONSEIL",
+                    "0607562999",
+                    "12 Pl. Danton, 95600 Eaubonne, France",
+                    "Conseil , Organisation\/Management\/Prévention\/QVTC\/Formation et coaching\/Qualiopi",
+                    "Cabinet créé il y a 15 pour améliorer l’efficacité opérationnelle et relationnelle dans les entreprises privées et publiques et les CSErnrnAméliorations des pratiques : Spécialisé sur les RPS et la mise en place de la QVTCrnrnIntervient dans toute la France et dans les DOM-TOM",
+                    "https:\/\/epitome-conseil.com\/",
+                    "https:\/\/https\/linkedin\/Evelyne%20Guffens",
+                    0,
+                    0,
+                    48.983932,
+                    2.274684,
+                    187
+
+                ],
+                [
+                    11610,
+                    "Lionel Brot",
+                    "0637437927",
+                    "112 Rue Rambuteau, 75001 Paris, France",
+                    "artisan électricien",
+                    "https:\/\/www.linkedin.com\/in\/brot-lionel-16780b1bb",
+                    "https:\/\/www.linkedin.com\/in\/brot-lionel-16780b1bb",
+                    1,
+                    0,
+                    48.862606,
+                    2.347688,
+                    184
+                ],
+                [
+                    11624,
+                    "Magileads",
+                    "0189322180",
+                    "40 Rue de Plaisance, 75014 Paris, France",
+                    "Solution de prospection commerciale",
+                    "Prospectez, fidélisez et transformez de nouveaux clients grâce à une stratégie digitale simple et globale.rnrnSolution de prospection automatisée qui inclut un onboarding personnalisé et un chef de projet dédié.",
+                    "https:\/\/www.magileads.eu\/",
+                    "https:\/\/fr.linkedin.com\/company\/magi-leads?original_referer=https%3A%2F%2Fautourdemoi.colentre.com%2F",
+                    0,
+                    0,
+                    48.833244,
+                    2.318578,
+                    184
+                ],
+                [
+                    11632,
+                    "BIMConseil",
+                    "0662707502",
+                    "28 Rue de Gramont, 75002 Paris, France",
+                    "Architecture - Formation modélisation 3D. Logiciels Revit AutoCAD Méthode B.I.M.",
+                    "rnArchitecte DPLG, spécialisé dans les nouvelles technologies appliquées à mon métier. Ex professeur d’Universités, 30 années consacrées à l’architecture et à la formation continue pour les architectes. Honoré par Autodesk avec le prix de l’excellence française 2021.",
+                    "https:\/\/bimconseil.com\/",
+                    "https:\/\/www.linkedin.com\/in\/terifeugeas\/",
+                    1,
+                    0,
+                    48.870969,
+                    2.337032,
+                    184
+                ],
+                [
+                    11649,
+                    "DJINN",
+                    "0620835815",
+                    "12 avenue Maurice Thorez, Groupe Abcare, 94200 Ivry-sur-Seine, France",
+                    "Coaching vocal, Chant",
+                    "Découvrir le potentiel de sa voix, développer sa créativité, favoriser la spontanéité.rnSe ressourcer en travaillant le souffle, la vibration, le son.rnMettre le corps en vibration pour une meilleure émission vocale.rnGagner en confort autant avec sa voix parlée que sa voix chantée.rnDévelopper son écoute.rnAffirmer sa singularité vocale pour soi ou au sein d’un groupe.",
+                    "https:\/\/valealpaga8.wixsite.com\/de-vive-voix---val-a",
+                    0,
+                    0,
+                    48.818744,
+                    2.373776,
+                    186
+                ],
+                [
+                    11651,
+                    "Flot vital IDC",
+                    "065988234",
+                    "1 Pl. des Roses, 94400 Vitry-sur-Seine, France",
+                    "Praticienne en irrigation du colon , hygiene preventive et bien être",
+                    "Infirmière de formation, j’ai effectué la formation en irrigation \/ Hydrothérapie du colon il y a quelques mois .rnrnC’est un soin d’hygiène préventive, consistant à faire passer de l’eau purifiée à différentes températures (entre 35 et 40 degrés) et différents débits ( toujours très doux, pas de karcher) dans le colon afin d’éliminer les toxines accumulées. A l’aide d’une machine j’effectue des “bains” du colons , accompagnés de massages de l’abdomen facilitant le passage de l’eau en stimulant le système parasympathique et aidant à l’évacuation en détendant les plexus de cette région . rnrnLa séance du 1h30 à 2h et l’iirigation en elle même 45 minutes.",
+                    1,
+                    0,
+                    48.801456,
+                    2.371244,
+                    186
+                ],
+                [
+                    11673,
+                    "PUMP’SKIN",
+                    "06250228",
+                    "32 Rue de Caumartin, 75009 Paris, France",
+                    "Vente de produits cosmétiques Bio à base de potimarron, soins certifieés Ecocert",
+                    "Le Dr. Eraud a créé et signé sa collection de cosmétiques authentiques, bienveillants, conscients des enjeux de l’environnement et 100% certifiés bio aux ingrédients garantis origine France.",
+                    "https:\/\/www.pumpskin.fr\/",
+                    "https:\/\/www.facebook.com\/PumpSkinDrERAUD, https:\/\/www.instagram.com\/pumpskin_skincare\/?igshid=YmMyMTA2M2Y%3D",
+                    0,
+                    1,
+                    48.872559,
+                    2.32833,
+                    184
+                ],
+                [
+                    11688,
+                    "Coifr bio végétal",
+                    "0148787856",
+                    "71 Rue Marguerite de Rochechouart, 75009 Paris, France",
+                    "Un salon de coiffure dédié aux couleurs végétales",
+                    "Coifr bio végétal est un petit salon de coiffure qui garde l’empreinte forte d’un salon traditionnel, excepté le fait qu’il se soit dégagé de la main mise exercé par des franchises ou fournisseurs chronophages .rnrnSon but ultime et j’en suis l’investigatrice est de rendre les cheveux beaux ,soyeux et plein de force en appliquant des produits végétaux et de bonnes qualité.",
+                    "https:\/\/coifr.typepad.fr\/",
+                    "https:\/\/www.facebook.com\/profile.php?id=100039815302627",
+                    1,
+                    0,
+                    48.881208,
+                    2.346383,
+                    184
+                ],
+                [
+                    11710,
+                    "Lucilecoach",
+                    "0663337571",
+                    "42 Rue Dulong, 75017 Paris, France",
+                    "coaching de vie, coaching développement personnel",
+                    "J’accompagne en période de transitionrnEclaircissement de situationrnConfiance en soirnProjet personnel rnProjet professionnel ",
+                    "https:\/\/lucilecoach.fr\/",
+                    "https:\/\/www.facebook.com\/lucile.poitoucoach, ,https:\/\/www.linkedin.com\/in\/lucile-poitou,rnhttps:\/\/www.instagram.com\/lucile_coach\/?igshid=ZDdkNTZiNTM%3D",
+                    0,
+                    0,
+                    48.884897,
+                    2.316745,
+                    184
+                ],
+                [
+                    11750,
+                    "Steph’Fabrik",
+                    null,
+                    "12 Rue des Rabières, 49140 Seiches-sur-le-Loir, France",
+                    "Créations d'objets, gravure personnalisée",
+                    "Créations d’objets personnalisés pour évènements, cadeaux et publicités.rnGravure pour objets public",
+                    "https:\/\/www.stephfabrik.fr\/",
+                    "https:\/\/www.facebook.com\/StephFabrik\/, https:\/\/www.instagram.com\/stephfabrik\/",
+                    0,
+                    1,
+                    47.577279,
+                    -0.357548,
+                    176
+                ],
+                [
+                    11758,
+                    "Marnie coach de vie en ligne",
+                    "0652439948",
+                    "15 Rue Moreau de Jonnes, 35000 Rennes, France",
+                    "Coach personnel",
+                    "rnUn coaching avec Marnie Duarte est une expérience de vie. Avec compassion, elle vous permet de prendre conscience de vos éventuels blocages et profiter pleinement de vos ressources et talents, pour oser vous lancer. Sa devise : « Il n’est jamais trop tard pour changer ! » ",
+                    "https:\/\/marnie.coach\/",
+                    null,
+                    1,
+                    0,
+                    48.108162,
+                    -1.654353,
+                    178
+                ],
+                [
+                    11760,
+                    "LABORATOIRE AIMEE",
+                    "0784084657",
+                    "883 Rte de Breuzy, 45700 Montcresson, France",
+                    "Aromaparfumerie",
+                    "Des parfums et des soins vibrants, plus naturels, plus bio, vegan et plus respectueux de la Terre et des Humains qui révèlent notre personnalité avec autant de plaisir et de tenue que les produits synthétiques.",
+                    "https:\/\/www.aimeedemars.com\/",
+                    "https:\/\/www.facebook.com\/aimeedemarsparfums\/?locale=fr_FR, https:\/\/www.instagram.com\/aimee_de_mars\/?hl=fr, ",
+                    0,
+                    1,
+                    47.91442,
+                    2.816141,
+                    211
+
+                ],
+                [
+                    11777,
+                    "déployer son ÊTRE",
+                    "0698138294",
+                    "1 Rue Pierre Demours, 75017 Paris, France",
+                    "Therapeute psychogénéalogie",
+                    "Je vous accompagne pour vous reconnecter à votre puissance intérieure, la laisser rayonner et déployer votre ÊTRE. Une source de joie infinie pour soi, les autres et le monde.rnrnLes outils proposés sont la psychogénéalogie, le ressenti corporel et la créativité. ",
+                    "https:\/\/www.deployersonetre.com\/",
+                    null,
+                    1,
+                    0,
+                    48.879759  ,
+                    2.291250,
+                    184
+                ],
+                [
+                    11793,
+                    "Guayapi",
+                    "0143465243",
+                    "55 Rue Traversière, 75012 Paris, France",
+                    "Vente de compléments alimentaires et de cosmétiques bio",
+                    " Guayapi a pour objectif de valoriser des plantes de cueillette sauvage d’Amazonie et du Sri Lanka qui respectent 3 critères fondamentaux : le biologique, le social (commerce équitable) et l’environnement (la biodiversité). Guayapi est un bâtisseur de filières nobles et éthiques de plantes issues de leurs Terres d’Origine. ",
+                    "https:\/\/www.facebook.com\/Guayapi, https:\/\/www.linkedin.com\/company\/guayapiparis, https:\/\/www.instagram.com\/guayapi\/, https:\/\/twitter.com\/Guayapi",
+                    1,
+                    1,
+                    48.848469,
+                    2.374086,
+                    184
+                ],
+                [
+                    11806,
+                    "HOLONAGE",
+                    "0666824490",
+                    "2 Rue de la Châtaigneraie, 92310 Sèvres, France",
+                    "Mélanges d'huiles végétales riches en oméga-3",
+                    "Nous avons conçu et faisons fabriquer en France 3 mélanges d’huiles bio, 1ère pression.",
+                    "https:\/\/www.holonage.com\/",
+                    "https:\/\/www.linkedin.com\/in\/marion-lelong-70843475\/",
+                    1,
+                    1,
+                    48.818101,
+                    2.206615,
+                    185
+                ],
+                [
+                    11810,
+                    "Design Ta Com",
+                    "0663026447",
+                    "27 Rue Louis Leroy, 49100 Angers, France",
+                    "Webmaster (création sites internet) & Graphiste",
+                    "Atelier digital sur Angers, je conçois des sites internet sur WordPress et des visuels de communication (logo, identité visuelle, carte de visite…)",
+                    "https:\/\/design-ta-com.fr\/",
+                    "https:\/\/www.facebook.com\/DesignTaCom, https:\/\/www.instagram.com\/design_ta_com\/,rnhttps:\/\/www.linkedin.com\/in\/alexandra-genest\/",
+                    1,
+                    0,
+                    47.47318,
+                    -0.534474,
+                    176
+
+                ],
+                [
+                    11813,
+                    "Les mots se réveillent",
+                    "0643699790",
+                    "354 Kerignan, 29380 Bannalec, France",
+                    "Formation humour positif pour les salariés",
+                    "Centre de formation agréé, nous proposons des formations pour les entreprises et leurs salariés, les travailleurs indépendants, les collectivités locales… basées sur l’optimisme et l’humour positif. rnrnLes objectifs sont de permettre aux participants de ces formations de travailler sur leurs stress, la cohésion d’équipe, la communication… ",
+                    "https:\/\/www.humour-au-travail.fr\/",
+                    "https:\/\/www.linkedin.com\/in\/christophe-tricart-501b7855\/",
+                    1,
+                    0,
+                    47.951529,
+                    -3.705877,
+                    177
+                ],
+                [
+                    11835,
+                    "LOIC PIERROIS PHOTOGRAPHIE",
+                    null,
+                    "7 Rue de Candé, 49370 Bécon-les-Granits, France",
+                    "Photographie",
+                    "Photographe spécialisée, dans la mise en scène et le portrait, je réalise vos images de la direction artistique à la réalisation de votre projet",
+                    "https:\/\/loicpierrois.fr\/",
+                    "https:\/\/www.facebook.com\/LoicPierroisphotographe, https:\/\/www.instagram.https:\/\/www.linkedin.com\/in\/loicpierroispro\/com\/loicpierrois.photographe\/,",
+                    1,
+                    0,
+                    47.503469,
+                    -0.80185,
+                    176
+                ]
+              
+            ]
+        }
+       
+    ]
+}

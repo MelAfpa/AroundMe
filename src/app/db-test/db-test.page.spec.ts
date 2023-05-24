@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SqlitePage } from './sqlite.page';
+import { DbTestPage } from './db-test.page';
 
-describe('SqlitePage', () => {
-  let component: SqlitePage;
-  let fixture: ComponentFixture<SqlitePage>;
+describe('DbTestPage', () => {
+  let component: DbTestPage;
+  let fixture: ComponentFixture<DbTestPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(SqlitePage);
+    fixture = TestBed.createComponent(DbTestPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
