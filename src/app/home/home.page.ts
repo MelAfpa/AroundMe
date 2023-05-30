@@ -8,51 +8,57 @@ import { Geolocation } from '@capacitor/geolocation';
 import { DbService, Ent } from '../services/db.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { WordpressService } from '../wordpress.service';
 
 @Component({
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage implements OnInit {
-  
-  entrep: Ent[] = [];
-  entreprise:any = [];
-  ent: any;
 
   ngOnInit() {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getEnt().subscribe(ent => {
           this.entreprise = ent;
-          console.log('nbOnInit', rdy);
-          console.log('nbOnInit', ent);
+
+          for(let i=0; i<ent.length; i++){
+              var nom = ent[i]['nom_entreprise'];
+              var infos = ent[i]['infos_entreprise'];
+              var site = ent[i]['site_internet_entreprise'];
+              var lat =  ent[i]['latitude_entreprise'];
+              var long =  ent[i]['longitude_entreprise'];
+              var img = "assets/uploads/logos/"+[i]+".png";
+
+              var popup = L.popup()
+                .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+                +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
+                +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+                        
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+          }
+          
         })
       }
-      // this.entreprise=this.db.getEnt();
-
-
     });
-
-    this.db.getEnt().subscribe(ent => {
-      this.ent = ent.values;
-
-      console.log(this.entreprise);
-      console.log(ent.values);
-
-    })
-
+    // this.route.data.subscribe(routeData => {
+    //   const data = routeData['data'];
+    //   this.entreprise = data.entreprise;
+    // })
   }
 
   constructor(
     private nativeGeocoder: NativeGeocoder,
     private db: DbService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private wordpressservice: WordpressService,
+    private router: Router,
+    private route: ActivatedRoute,) {
     
-      console.log('HomePage constructor');
+// console.log('HomePage constructor');
   }
 
-
-  selectedView = 'ent';
 // ----------------------------------------------------------- DECLARATION DE VARIABLES -----------------------------------------------------------
 map:Map;
 coords: any;
@@ -60,9 +66,60 @@ latitude: number;
 longitude: number;
 adresse:any;
 ville:string;
-searchTerm:string;
 
- userPosition = L.icon({
+entrep: Ent[] = [];
+entreprise:any = [];
+ent: any;
+selectedView = 'ent';
+
+filterTerm: string;
+
+// searchEnt(word:string){
+//   this.db.searchEnt(word).then(async(res) => {
+// console.log('in function');
+// console.log(word);
+
+//     this.db.getEnt().subscribe(ent => {
+//       this.entreprise = ent;
+//       console.log(ent);
+//   })
+// })
+// }
+
+search(){
+  let marker = null;
+  let lat = parseFloat(document.getElementById("lat").textContent);
+  let long =  parseFloat(document.getElementById("long").textContent);
+  let id = document.getElementById("id").textContent;
+  let nom = document.getElementById("nom").textContent;
+  let infos = document.getElementById("infos").textContent;
+  let site = document.getElementById("site").textContent;
+
+  // let img = document.getElementById("lat").textContent;
+
+  
+  var img = "assets/uploads/logos/recherche/"+id+".png";
+
+  var popup = L.popup()
+                .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+                +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
+                +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+                  
+  if(marker !== null){
+    console.log('if loop');
+    this.map.removeLayer(marker);
+  } 
+  
+  marker = L.marker([ lat, long], {icon: this.searchMarker}).bindPopup(popup).addTo(this.map);
+
+  
+
+
+
+  
+}
+
+userPosition = L.icon({
   iconUrl: 'assets/uploads/userMarker.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -80,9 +137,7 @@ searchMarker = L.icon({
   shadowSize: [41, 41]
 });
 
-
-
- orIcon = new L.Icon({
+orIcon = new L.Icon({
   iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -99,58 +154,26 @@ ionViewDidEnter() {
   this.map = L.map('map').setView([47.383333, 0.683333], 10);
   var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(this.map);
+      // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(this.map);
 
-var sat = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
-  maxZoom: 20,
-  subdomains:['mt0','mt1','mt2','mt3']
-});
+  var sat = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+  });
 
-var baseMaps = {
-  'Open Street Map': osm,
-  'Satellite': sat
-}
-
-L.control.layers(baseMaps).addTo(this.map);
-this.locate();
-
+  var baseMaps = {
+    'Open Street Map': osm,
+    'Satellite': sat
+  }
+  L.control.layers(baseMaps).addTo(this.map);
+  this.locate();
 }
 
 
 ionViewWillEnter() {
   console.log('ionViewWillEnter');
 
-//   this.db.createMarker()
-//     .then(_ => {
-//       this.entreprise = {};
-//     });
-    
-// console.log(this.entreprise);
-// console.log(this.entreprise['nom_entreprise']);
-
-
-//     for(let i=0; i<this.entreprise.length;i++){
-      
-//       var nom = this.entreprise['nom_entreprise'];
-//       var infos = this.entreprise['infos_entreprise'];
-//       var site = this.entreprise['site_internet_entreprise'];
-//       var lat = this.entreprise['latitude_entreprise'];
-//       var long = this.entreprise['longitude_entreprise'];
-//       var img = "assets/uploads/logos/"+[i]+".png";
-
-// console.log(infos);
-// // TODO : image blanche si pas de logo
-
-
-//       var popup = L.popup()
-//         .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-//         +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-//         +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-        
-//         L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-//     }
-    
   
 }
   
@@ -166,8 +189,6 @@ async locate() {
   // Position utilisateur 
 
   L.marker([this.latitude, this.longitude], {icon: this.userPosition}).bindPopup("Vous êtes ici").addTo(this.map);
-  L.marker([47.466671, -0.563166], {icon: this.searchMarker}).bindPopup("Vous êtes ici").addTo(this.map);
-
 
   L.circle([this.latitude, this.longitude], 30000, {
     fill:false,
@@ -199,28 +220,12 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
-resSearch:string;
-searchEntreprise(mot:string){
+searchEntreprise(){
 
-  this.resSearch = mot;
-
-  this.http.get('assets/dbJoin.json').subscribe((dataSearch) => {
-    const entreprise = [dataSearch];
-
-    if(entreprise.indexOf(mot)){
-      console.log("ok");
-    } else {
-      console.log("NOK");
-    }
-   
-console.log(entreprise);
-
-   
-    
-    
-  })
-
-console.log(mot);
+  let latSearch = document.getElementById("lat") as HTMLDataElement;
+console.log(latSearch);
+  let longSearch = document.getElementById("long") as any;
+console.log(longSearch);
 }
 
 

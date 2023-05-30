@@ -59,13 +59,13 @@ export interface Ent {
                   })
                   .then((db: SQLiteObject) => {
                       this.database = db;
-                      this.seedDatabase();
+                      this.createDatabase();
                   });
                 });
 
                 }
 
-  seedDatabase() {
+  createDatabase() {
     this.http.get('assets/dbV4.sql', { responseType: 'text'})
     .subscribe(sql => {
       this.sqlitePorter.importSqlToDb(this.database, sql)
@@ -75,7 +75,6 @@ export interface Ent {
         })
         .catch(e => console.error(e));
     });
-
   }
 
   loadEntreprise() {
@@ -104,17 +103,11 @@ export interface Ent {
           });
         }
       }
-      console.log('dbService',entreprise);
+console.log('dbService',entreprise);
       this.entreprise.next(entreprise);
     });
   }
 
-  addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) {
-    let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement];
-    return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
-      this.loadEntreprise();
-    });
-  }
 
   getEntreprise(id_entreprise): Promise<Ent> {
     return this.database.executeSql('SELECT * FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(data => {
@@ -139,12 +132,6 @@ export interface Ent {
 
   }
 
-  deleteEntreprise(id_entreprise) {
-    return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
-      this.loadEntreprise();
-    });
-  }
-
   getDatabaseState() {
     return this.dbReady.asObservable();
   }
@@ -153,18 +140,63 @@ export interface Ent {
     return this.entreprise.asObservable();
   }
 
-  updateEntreprise(ent: Ent) {
-    let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
-    return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, adresse_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, longitude_entreprise = ?, id_departement = ? WHERE id = ${ent.id_entreprise}`, data).then(data => {
-      this.loadEntreprise();
+  async searchEnt(word: string){
+console.log("searchEnt start");
+
+    return await this.database.executeSql("SELECT nom_entreprise from entreprise where nom_entreprise LIKE '%pixel%'").then(async data=> {
+      this.getEnt();
+      if(data.rows.length > 0){
+        console.log('if loop');
+        console.log(data.rows);
+        this.loadEntreprise();
+        return data.rows;
+      } else {
+        console.log("Aucun résultat");
+      }
+console.log("end db function");
+      
     })
   }
 
-  // searchEnt(word: string){
-  //   return this.database.executeSql('SELECT * from entreprise where nom_entreprise LIKE `%?%`', [word]).then(_=> {
-  //     this.loadEntreprise();
-  //   })
+
+  // addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
+//   site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
+//   longitude_entreprise, id_departement) {
+
+//     let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
+//   site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
+//   longitude_entreprise, id_departement];
+
+//   return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
+    
+//     alert('Entreprise ajoutée');
+//     this.loadEntreprise();
+//   });
+// }
+
+
+  // updateEntreprise(ent: Ent) {
+  //   let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
+  //   return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
+  //                                   adresse_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
+  //                                   reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
+  //                                   longitude_entreprise = ?, id_departement = ? WHERE id = ${ent.id_entreprise}`, data).then(data => {
+                                      
+  //                                     alert('Entreprise modifiée');
+  //                                     this.loadEntreprise();
+  //                                   })
   // }
+
+
+  // deleteEntreprise(id_entreprise) {
+  //   return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
+  //     alert('Entreprise supprimée');
+  //     this.loadEntreprise();
+  //   });
+  // }
+
+
+
 
   // createMarker(){
   //   return this.database.executeSql('SELECT nom_entreprise, infos_entreprise, site_internet_entreprise, latitude_entreprise, longitude_entreprise from entreprise').then(_ => {

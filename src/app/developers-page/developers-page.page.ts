@@ -39,30 +39,24 @@ export class DevelopersPagePage implements OnInit {
     
   }
 
-  addEntreprise() {
-    
-    this.db.addEntreprise(this.entreprise['id_entreprise'], this.entreprise['nom_entreprise'], this.entreprise['telephone_entreprise'], this.entreprise['adresse_entreprise'], this.entreprise['infos_entreprise'], this.entreprise['description_entreprise'], this.entreprise['site_internet_entreprise'], this.entreprise['reseaux_sociaux_entreprise'], this.entreprise['monnaie_locale_entreprise'], this.entreprise['livraison_entreprise'], this.entreprise['latitude_entreprise'], this.entreprise['longitude_entreprise'], this.entreprise['id_departement'])
-    .then(_ => {
-      this.entreprise = [];
-    });
-  }
 
-  delete() {
-    this.db.deleteEntreprise(this.entreprise.id_entreprise).then(() => {
-      this.router.navigateByUrl('/');
-    });
-  }
 
-  updateEntreprise() {
+  // delete() {
+  //   this.db.deleteEntreprise(this.entreprise.id_entreprise).then(() => {
+  //     this.router.navigateByUrl('/');
+  //   });
+  // }
 
-    this.db.updateEntreprise(this.entreprise).then(async (res) => {
-      let toast = await this.toast.create({
-        message: 'entreprise updated',
-        duration: 3000
-      });
-      toast.present();
-    });
-  }
+  // updateEntreprise() {
+
+  //   this.db.updateEntreprise(this.entreprise).then(async (res) => {
+  //     let toast = await this.toast.create({
+  //       message: 'entreprise updated',
+  //       duration: 3000
+  //     });
+  //     toast.present();
+  //   });
+  // }
 
 
 

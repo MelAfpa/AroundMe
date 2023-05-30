@@ -9,7 +9,6 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" id="mapContent">
-    <ion-button href="/developers-page">developer</ion-button>
     <div id="map">
       <ion-fab
         slot="fixed"
@@ -25,33 +24,31 @@
     </div>
     <div>
       <ion-searchbar
-        #mot
         id="search"
-        (keyup.enter)="searchEntreprise(mot.value)"
         show-clear-button="always"
         placeholder="Recherche par mots clés, noms, villes ..."
         color="primary"
-        [(ngModel)]="searchTerm"
+        [(ngModel)]="filterTerm"
         showCancelButton="focus"
         animated
+        (keyup.enter)="searchEnt(filterTerm)"
       ></ion-searchbar>
-      <p>{{this.resSearch}}</p>
-      <ion-list>
+      <ion-list id="list">
         <ion-item
           button
-          *ngFor="let ent of entreprise "
+          *ngFor="let ent of entreprise | filter:filterTerm "
           [routerLink]="['/', 'developers', entreprise.id_entreprise]"
         >
-          <ion-label>
-            <h2>{{ ent.nom_entreprise }}</h2>
-            <p>{{ ent.adresse_entreprise }}</p>
-            <p>{{ ent.infos_entreprise }}</p>
+          <ion-label id="searchResults">
+            <p id="id">{{ ent.id_entreprise }}</p>
+            <p id="nom">{{ ent.nom_entreprise }}</p>
+            <p id="infos">{{ ent.infos_entreprise }}</p>
+            <p id="site">{{ ent.site_internet_entreprise }}</p>
+            <p id="lat">{{ ent.latitude_entreprise }}</p>
+            <p id="long">{{ ent.longitude_entreprise }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
-    <ion-footer id="footer">
-      <ion-toolbar color="primary"> </ion-toolbar>
-    </ion-footer>
   </ion-content>
 </div>

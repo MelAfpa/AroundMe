@@ -3,9 +3,9 @@
     <ion-title>entreprise</ion-title>
   </ion-toolbar>
   <ion-buttons slot="end">
-    <ion-button (click)="delete()">
-      <ion-icon name="trash"></ion-icon>
-    </ion-button>
+    <!-- <ion-button (click)="delete()"> -->
+    <ion-icon name="trash"></ion-icon>
+    <!-- </ion-button> -->
   </ion-buttons>
 </ion-header>
 
@@ -29,16 +29,16 @@
         ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">Adresse de l'entreprise</ion-label>
-        <ion-input [(ngModel)]="entreprise.adresse_entreprise"></ion-input>
+        <ion-label position="stacked">id de l'entreprise</ion-label>
+        <ion-input [(ngModel)]="entreprise.id_entreprise"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">Informations</ion-label>
-        <ion-input [(ngModel)]="entreprise.infos_entreprise"></ion-input>
+        <ion-label position="stacked">tel</ion-label>
+        <ion-input [(ngModel)]="entreprise.telephone_entreprise"></ion-input>
       </ion-item>
-      <ion-button expand="block" (click)="addEntreprise()"
+      <!-- <ion-button expand="block" (click)="addEntreprise()"
         >Add entreprise Info</ion-button
-      >
+      > -->
 
       <ion-list>
         <ion-item
