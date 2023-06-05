@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WordpressService } from '../wordpress.service';
 
+import { FormControl } from '@angular/forms';
+
 @Component({
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
@@ -74,54 +76,22 @@ selectedView = 'ent';
 
 filterTerm: string;
 
-// searchEnt(word:string){
-//   this.db.searchEnt(word).then(async(res) => {
-// console.log('in function');
-// console.log(word);
 
-//     this.db.getEnt().subscribe(ent => {
-//       this.entreprise = ent;
-//       console.log(ent);
-//   })
-// })
-// }
+searchEnt(word:string){
+  this.db.searchEnt(word).then(async(res) => {
+console.log('in function');
+console.log(word);
 
-search(){
-  let marker = null;
-  let lat = parseFloat(document.getElementById("lat").textContent);
-  let long =  parseFloat(document.getElementById("long").textContent);
-  let id = document.getElementById("id").textContent;
-  let nom = document.getElementById("nom").textContent;
-  let infos = document.getElementById("infos").textContent;
-  let site = document.getElementById("site").textContent;
-
-  // let img = document.getElementById("lat").textContent;
-
-  
-  var img = "assets/uploads/logos/recherche/"+id+".png";
-
-  var popup = L.popup()
-                .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-                +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-                +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-                  
-  if(marker !== null){
-    console.log('if loop');
-    this.map.removeLayer(marker);
-  } 
-  
-  marker = L.marker([ lat, long], {icon: this.searchMarker}).bindPopup(popup).addTo(this.map);
-
-  
-
-
-
-  
+    this.db.getEnt().subscribe(data => {
+      this.entreprise = data;
+      console.log(data);
+  })
+})
 }
 
 userPosition = L.icon({
-  iconUrl: 'assets/uploads/userMarker.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl: 'assets/uploads/markers/userMarker.png',
+  shadowUrl: 'assets/uploads/markers/shadowMarker.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -129,8 +99,8 @@ userPosition = L.icon({
 });
 
 searchMarker = L.icon({
-  iconUrl: 'assets/uploads/searchMarker.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl: 'assets/uploads/markers/searchMarker.png',
+  shadowUrl: 'assets/uploads/markers/shadowMarker.png',
   iconSize: [25, 39],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -138,8 +108,8 @@ searchMarker = L.icon({
 });
 
 orIcon = new L.Icon({
-  iconUrl: '  https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl: '  assets/uploads/markers/orMarker.png',
+  shadowUrl: 'assets/uploads/markers/shadowMarker.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -150,6 +120,11 @@ orIcon = new L.Icon({
 
 
 // Map
+
+/**
+ * Crée et affiche la carte Leaflet 
+ * @returns {any}
+ */
 ionViewDidEnter() {
   this.map = L.map('map').setView([47.383333, 0.683333], 10);
   var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -180,6 +155,10 @@ ionViewWillEnter() {
 
 // Geocoding
 
+/**
+ * Localise l'utilisateur et crée un marker sur et autour sa position
+ * @returns {any}
+ */
 async locate() {
   const coordinates = await Geolocation.getCurrentPosition();
   this.latitude = coordinates.coords.latitude;
@@ -200,6 +179,10 @@ async locate() {
 }
 
   
+/**
+ * Transforme les coordonnées géographiques obtenus en adresse postale
+ * @returns {any}
+ */
 getAddress() {
   let options: NativeGeocoderOptions = {
     useLocale: true,
@@ -220,17 +203,40 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
-searchEntreprise(){
-
-  let latSearch = document.getElementById("lat") as HTMLDataElement;
-console.log(latSearch);
-  let longSearch = document.getElementById("long") as any;
-console.log(longSearch);
-}
-
-
-
-
-
 
 }
+
+
+// search(){
+//   let marker = null;
+//   let lat = parseFloat(document.getElementById("lat").textContent);
+//   let long =  parseFloat(document.getElementById("long").textContent);
+//   let id = document.getElementById("id").textContent;
+//   let nom = document.getElementById("nom").textContent;
+//   let infos = document.getElementById("infos").textContent;
+//   let site = document.getElementById("site").textContent;
+
+//   // let img = document.getElementById("lat").textContent;
+
+  
+//   var img = "assets/uploads/logos/recherche/"+id+".png";
+
+//   var popup = L.popup()
+//                 .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+//                 +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
+//                 +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+                  
+//   if(marker !== null){
+//     console.log('if loop');
+//     this.map.removeLayer(marker);
+//   } 
+  
+//   marker = L.marker([ lat, long], {icon: this.searchMarker}).bindPopup(popup).addTo(this.map);
+
+  
+
+
+
+  
+// }
+

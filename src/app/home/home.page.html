@@ -36,7 +36,7 @@
       <ion-list id="list">
         <ion-item
           button
-          *ngFor="let ent of entreprise | filter:filterTerm "
+          *ngFor="let ent of entreprise | filter:filterTerm"
           [routerLink]="['/', 'developers', entreprise.id_entreprise]"
         >
           <ion-label id="searchResults">

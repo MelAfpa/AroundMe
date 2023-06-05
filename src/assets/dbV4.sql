@@ -362,7 +362,7 @@ VALUES (
         'Coifr bio végétal',
         '0148787856',
         '71 Rue Marguerite de Rochechouart, 75009 Paris, France',
-        'Un salon de coiffure dédié aux couleurs végétales .Tous les produits utilisées au sein du salon sont',
+        'Un salon de coiffure dédié aux couleurs végétales ',
         'Coifr bio végétal est un petit salon de coiffure qui garde l’empreinte forte d’un salon traditionnel, excepté le fait qu’il se soit dégagé de la main mise exercé par des franchises ou fournisseurs chronophages . Son but ultime et j’en suis l’investigatrice est de rendre les cheveux beaux ,soyeux et plein de force en appliquant des produits végétaux et de bonnes qualité.',
         'https://coifr.typepad.fr/',
         'https://www.facebook.com/profile.php?id=100039815302627',

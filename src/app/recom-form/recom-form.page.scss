@@ -1,0 +1,66 @@
+// @import url("https://www.fontsquirrel.com/fonts/SF-Cartoonist-Hand");
+
+// @font-face {
+//     font-family: "SF";
+//     font-style: normal;
+//     font-weight: normal;
+//     src: url("assets/uploads/fonts/SF_Cartoonist_Hand.ttf");
+//   }
+#logo{
+    height: 65px;
+    float: left;
+    margin: 10px;
+}
+
+
+.p1, .p2{
+    text-align: center;
+    margin: 30px 10px 30px 10px;
+}
+.p1{
+font-weight: bold;
+font-size: 1.4em;
+// --ion-font-family: "SF";
+}
+
+.p2{
+    font-size: 1.2em;
+text-decoration: wavy;
+}
+
+.mailEnt, .idUtil, .listServ, .comEnt, .shareMail{
+    margin: 10px;
+    font-size: 1em;
+
+}
+
+.idUtil{
+    margin: 10px;
+}
+
+#idUtil, #mailEnt, .listServ, #comEnt, #shareMail{
+    margin: 10px;
+    border-radius: 10px;
+}
+
+#btnVal{
+    margin: 15px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+#radioChoice{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 30px 10px 20px 10px;
+}
+
+#mail{
+    margin: 10px;
+    text-align: justify;
+    font-size: 0.8em;
+}
+
+#shareMail{
+    display: none;
+}

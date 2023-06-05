@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'developers-page',
     loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
   },
+  {
+    path: 'recom-form',
+    loadChildren: () => import('./recom-form/recom-form.module').then( m => m.RecomFormPageModule)
+  },
 
 ];
 

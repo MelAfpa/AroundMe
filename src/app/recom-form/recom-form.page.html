@@ -1,0 +1,159 @@
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar color="primary" id="headAcc">
+      <ion-img src="assets/uploads/Logo.png" id="logo"></ion-img>
+      <ion-button slot="end">
+        <ion-menu-button menu="main-menu"></ion-menu-button>
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <p class="p1">
+      Envie de faire découvrir <i>Autour de moi</i> autour de vous ?
+    </p>
+    <p class="p2">
+      Il suffit de remplir le questionnaire ci-dessous pour partager toutes les
+      informations du projet :
+    </p>
+
+    <form
+      class="form-control"
+      [formGroup]="form"
+      id="formRecom"
+      (ngSubmit)="submitForm()"
+      novalidate
+    >
+      <ion-radio-group value="share" id="radioChoice">
+        <ion-radio
+          id="btnShare"
+          value="share"
+          aria-label="Dark"
+          (click)=" formType();"
+        />Inviter un entrepreneur
+        <ion-radio
+          id="btnInvite"
+          value="invite"
+          aria-label="Dark"
+          (click)=" formType();"
+        />Partager l'application
+      </ion-radio-group>
+
+      <ion-item id="shareMail" color="primary">
+        <ion-input
+          class="shareMail"
+          type="mail"
+          formControlName="shareMail"
+          placeholder="xxx@xxx.xx"
+          helperText="Enter a valid email"
+          labelPlacement="stacked"
+          label="* Son mail : "
+          fill="outline"
+          [clearInput]="true"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <div id="invite">
+        <ion-item id="mailEnt" color="primary">
+          <ion-input
+            class="mailEnt"
+            type="mail"
+            formControlName="mailEnt"
+            placeholder="xxx@xxx.xx"
+            helperText="Enter a valid email"
+            labelPlacement="stacked"
+            label="* Votre mail : "
+            fill="outline"
+            [clearInput]="true"
+            checked
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-item id="idUtil" color="primary">
+          <ion-input
+            class="idUtil"
+            type="text"
+            formControlName="idUtil"
+            placeholder="François Cadeau"
+            labelPlacement="stacked"
+            label="* Mon prénom : "
+            fill="outline"
+            [clearInput]="true"
+            required
+          ></ion-input>
+        </ion-item>
+
+        <ion-list>
+          <ion-item class="listServ" color="primary">
+            <ion-select
+              aria-label="service"
+              labelPlacement="stacked"
+              label="Service(s) proposé(s) :"
+              [multiple]="true"
+            >
+              <ion-select-option value="producteur">
+                Producteur/fabricant</ion-select-option
+              >
+
+              <ion-select-option value="commerçant">
+                Commerçant/restaurant</ion-select-option
+              >
+
+              <ion-select-option value="personne">
+                Service à la personne</ion-select-option
+              >
+
+              <ion-select-option value="entreprises">
+                Service aux entreprises</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <ion-item id="comEnt" color="primary">
+          <ion-textarea
+            class="comEnt"
+            formControleName="comEnt"
+            labelPlacement="stacked"
+            label="Commentaire :"
+            placeholder="Votre commentaire ..."
+            fill="outline"
+            maxlength="20"
+            [counter]="true"
+          >
+          </ion-textarea>
+        </ion-item>
+      </div>
+      <ion-button
+        id="btnVal"
+        type="submit"
+        color="primary"
+        expand="block"
+        (click)="submitForm()"
+        [disabled]="!form.valid"
+        >Valider</ion-button
+      >
+      <ion-alert
+        trigger="btnVal"
+        header="Formulaire envoyé avec succès"
+        subHeader="Merci !"
+        message="salut"
+        [buttons]="alertButtons"
+      ></ion-alert>
+    </form>
+    <div id="mail">
+      <p>Voici le mail que vous allez recevoir :</p>
+      <p>
+        <i>
+          PRENOM a découvert Autour de moi et souhaite à son tour le partager,
+          permettant à l'application de grandir et aux entrepreneurs de
+          s'épanouir. <br />
+          Ce message a été envoyé par le collectif Colentre. <br />
+          Aucun mail n'est enregistré en base de données.</i
+        >
+      </p>
+    </div>
+  </ion-content>
+</div>
