@@ -23,4 +23,6 @@ import { HomePageRoutingModule } from './home-routing.module';
   providers: [
   ]
 })
-export class HomePageModule {}
+export class HomePageModule {
+  
+}

@@ -8,7 +8,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { DbService, Ent } from '../services/db.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WordpressService } from '../wordpress.service';
+import { WordpressService } from '../services/wordpress.service';
 
 import { FormControl } from '@angular/forms';
 
@@ -44,10 +44,7 @@ export class HomePage implements OnInit {
         })
       }
     });
-    // this.route.data.subscribe(routeData => {
-    //   const data = routeData['data'];
-    //   this.entreprise = data.entreprise;
-    // })
+  
   }
 
   constructor(

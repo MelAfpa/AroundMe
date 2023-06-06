@@ -17,10 +17,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'db-test',
-    loadChildren: () => import('./db-test/db-test.module').then( m => m.DbTestPageModule)
-  },
-  {
     path: 'developers-page/:id',
     loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
   },
@@ -31,6 +27,10 @@ const routes: Routes = [
   {
     path: 'recom-form',
     loadChildren: () => import('./recom-form/recom-form.module').then( m => m.RecomFormPageModule)
+  },
+  {
+    path: 'posts',
+    loadChildren: () => import('./posts/posts.module').then( m => m.PostsPageModule)
   },
 
 ];

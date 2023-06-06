@@ -28,17 +28,17 @@ font-size: 1.4em;
 text-decoration: wavy;
 }
 
-.mailEnt, .idUtil, .listServ, .comEnt, .shareMail{
+.mailEntrep, .nomUtili, .listServ, .commentaire, .mailPartage{
     margin: 10px;
     font-size: 1em;
 
 }
 
-.idUtil{
+.nomUtili{
     margin: 10px;
 }
 
-#idUtil, #mailEnt, .listServ, #comEnt, #shareMail{
+#nomUtili, #mailEntrep, .listServ, #commentaire, #mailPartage{
     margin: 10px;
     border-radius: 10px;
 }
@@ -61,6 +61,16 @@ text-decoration: wavy;
     font-size: 0.8em;
 }
 
-#shareMail{
+#mailPartage{
     display: none;
+}
+
+.ng-valid.ng-dirty:not(form) {
+    border: solid 1px rgb(0, 153, 0);
+}
+
+.ng-invalid.ng-dirty:not(form), .ng-invalid:not(form).form-submitted {
+    border: solid 1px rgb(190, 0, 0);
+    background-color: rgba(255, 136, 136, 0.445);
+
 }

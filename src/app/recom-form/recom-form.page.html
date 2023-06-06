@@ -21,7 +21,7 @@
       class="form-control"
       [formGroup]="form"
       id="formRecom"
-      (ngSubmit)="submitForm()"
+      (ngSubmit)="submitForm($event)"
       novalidate
     >
       <ion-radio-group value="share" id="radioChoice">
@@ -39,49 +39,45 @@
         />Partager l'application
       </ion-radio-group>
 
-      <ion-item id="shareMail" color="primary">
+      <ion-item id="mailPartage" color="primary">
         <ion-input
-          class="shareMail"
+          class="mailPartage"
           type="mail"
-          formControlName="shareMail"
+          formControlName="mailPartage"
           placeholder="xxx@xxx.xx"
-          helperText="Enter a valid email"
           labelPlacement="stacked"
           label="* Son mail : "
           fill="outline"
           [clearInput]="true"
-          required
         ></ion-input>
       </ion-item>
 
       <div id="invite">
-        <ion-item id="mailEnt" color="primary">
+        <ion-item id="mailEntrep" color="primary">
           <ion-input
-            class="mailEnt"
+            class="mailEntrep"
             type="mail"
-            formControlName="mailEnt"
+            formControlName="mailEntrep"
             placeholder="xxx@xxx.xx"
-            helperText="Enter a valid email"
             labelPlacement="stacked"
             label="* Votre mail : "
             fill="outline"
             [clearInput]="true"
-            checked
-            required
+            [ngClass]="{'form-submitted': formSubmitted}"
           ></ion-input>
         </ion-item>
 
-        <ion-item id="idUtil" color="primary">
+        <ion-item id="nomUtili" color="primary">
           <ion-input
-            class="idUtil"
+            class="nomUtili"
             type="text"
-            formControlName="idUtil"
+            formControlName="nomUtili"
             placeholder="François Cadeau"
             labelPlacement="stacked"
             label="* Mon prénom : "
             fill="outline"
             [clearInput]="true"
-            required
+            [ngClass]="{'form-submitted': formSubmitted}"
           ></ion-input>
         </ion-item>
 
@@ -112,16 +108,17 @@
           </ion-item>
         </ion-list>
 
-        <ion-item id="comEnt" color="primary">
+        <ion-item id="commentaire" color="primary">
           <ion-textarea
-            class="comEnt"
-            formControleName="comEnt"
+            class="commentaire"
+            formControleName="commentaire"
             labelPlacement="stacked"
             label="Commentaire :"
             placeholder="Votre commentaire ..."
             fill="outline"
             maxlength="20"
             [counter]="true"
+            [ngClass]="{'form-submitted': formSubmitted}"
           >
           </ion-textarea>
         </ion-item>
@@ -131,7 +128,7 @@
         type="submit"
         color="primary"
         expand="block"
-        (click)="submitForm()"
+        (click)="submitForm($event)"
         [disabled]="!form.valid"
         >Valider</ion-button
       >
@@ -139,7 +136,6 @@
         trigger="btnVal"
         header="Formulaire envoyé avec succès"
         subHeader="Merci !"
-        message="salut"
         [buttons]="alertButtons"
       ></ion-alert>
     </form>

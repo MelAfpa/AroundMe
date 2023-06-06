@@ -14,72 +14,133 @@ form: FormGroup;
 inputMailEnt = '';
 regMail = "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
 regText = "^[A-Za-z0-9_]$";
-
+formSubmitted = false;
 @ViewChild('ionInputMail', {static:true}) ionInputMail: IonInput;
 @ViewChild('ionInputMailEnt', {static:true}) ionInputMailEnt: IonInput;
 
-public alertButtons = ['OK'];
+public alertButtons = [ {
+  text: 'Ok',
+  cssClass: 'alert-button-ok',
+},
+{
+  text: 'Yes',
+  cssClass: 'alert-button-confirm',
+},];
 onInput(ev){
   const value = ev.target!.value;
   const filteredValue = value.replace(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, '');
 
-//   this.ionInputMail.value = this.inputMail = filteredValue;
+  this.ionInputMail.value = this.inputMail = filteredValue;
 }
 
   constructor(private formBuilder: FormBuilder) { 
+  }
+
+  buildForm(){
     this.form = this.formBuilder.group({
 
-      btnRadio: [''],
+      radioChoice: [''],
+
       
-      mailEnt: ['', [Validators.required, Validators.email]],
+      mailEntrep: ['', [
+        Validators.required, 
+        Validators.email, 
+        Validators.minLength(5),
+        Validators.pattern(/.+@.+\..+/)]],
 
-      // shareMail: ['', [Validators.required, Validators.email]],
+      mailPartage: ['', [Validators.required, 
+        Validators.email, 
+        Validators.minLength(5),
+        Validators.pattern(/.+@.+\..+/)]],
   
-      idUtil: ['', [Validators.required]],
+      nomUtili: ['', [
+        Validators.required,
+        Validators.minLength(3)]],
 
-      comEnt: ['', [Validators.maxLength(20)]]
+      commentaire: ['', [
+        Validators.maxLength(20)]]
+    },
 
-  });
-  
+    );
   }
+
+  // setMailValidators() {
+  //   const mailPartage = this.form.get('mailPartage');
+  //   const mailEntrep = this.form.get('mailEntrep');
+  //   const nomUtili = this.form.get('nomUtili');
+
+  //   this.form.get('radioChoice').value
+  //     .subscribe(radioChoice => {
+
+
+  //       if (radioChoice === "invite" ) {
+  //         mailEntrep.setValidators([Validators.required]);
+  //         nomUtili.setValidators([Validators.required]);
+  //         mailPartage.setValidators(null);
+  //       }
+
+  //       if (radioChoice.value === "share" ) {
+  //         mailEntrep.setValidators(null);
+  //         nomUtili.setValidators(null);
+  //         mailPartage.setValidators([Validators.required]);
+  //       }
+
+  //       mailEntrep.updateValueAndValidity();
+  //       nomUtili.updateValueAndValidity();
+  //       mailPartage.updateValueAndValidity();
+
+  //     });
+  // }
 
   ngOnInit() {
-
+    this.buildForm();
+    // this.setMailValidators();
   }
 
-  submitForm() {
+  submitForm(event) {
     if (this.form.valid) {
-      console.log(this.form.value);
-      
-      return console.log('Le formulaire est validé !');
-      
+      event.preventDefault();
+      this.formSubmitted = true;
   
-  } else {
-  
-      return console.error('Le formulaire n\'est pas valide !');
-  
+      if (this.form.valid) {
+        console.log(this.form.value); // Process your form
+      }
   }
-    // console.log(this.form.value);
-  }
+}
 
   formType(){
   const invite = document.getElementById("invite") as HTMLHeadingElement;
-  const shareMail = document.getElementById("shareMail") as HTMLHeadingElement;
+  const shareMail = document.getElementById("mailPartage") as HTMLHeadingElement;
   const mail = document.getElementById("mail") as HTMLHeadingElement;
   const radioChoice = document.getElementById("radioChoice") as HTMLInputElement;
 
 
-  if(radioChoice.value === "share" ){
+  if(radioChoice.value === "share" )
+  {
     invite.style.display = "none";
     shareMail.style.display = "block";
     mail.style.display = "none";
-    console.log("shareMail");
+    this.form.controls["mailPartage"].setValidators(Validators.required);
+    this.form.controls["mailEntrep"].setValidators(null);
+    this.form.controls["nomUtili"].setValidators(null);
   }
-  if(radioChoice.value === "invite" ){
+
+  if(radioChoice.value === "invite" )
+  {
     shareMail.style.display = "none";
     invite.style.display = 'block';
     mail.style.display = "block";
-    console.log("inviter");
-  }}
+
+    this.form.controls["mailPartage"].setValidators(null);
+    this.form.controls["mailEntrep"].setValidators(Validators.required);
+    this.form.controls["nomUtili"].setValidators(Validators.required);
+
+  }
+  
+  this.form.get("mailPartage").updateValueAndValidity();
+  this.form.get("mailEntrep").updateValueAndValidity();
+  this.form.get("nomUtili").updateValueAndValidity();
+
+}
 
 }

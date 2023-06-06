@@ -24,4 +24,13 @@ export class WordpressService {
       
   //     )
   //   }
+
+  getPosts() {
+    // if we want to query posts by category
+    
+    return this.http.get(
+      environment.wordpress.api_url
+      + "posts"
+      )
+    }
 }
