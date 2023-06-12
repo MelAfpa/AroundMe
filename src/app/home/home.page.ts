@@ -6,11 +6,11 @@ import { HttpClient } from '@angular/common/http';
 
 import { Geolocation } from '@capacitor/geolocation';
 import { DbService, Ent } from '../services/db.service';
-import { Observable } from 'rxjs';
+import { Observable, TimeoutError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WordpressService } from '../services/wordpress.service';
-
 import { FormControl } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   templateUrl: 'home.page.html',
@@ -20,8 +20,11 @@ import { FormControl } from '@angular/forms';
 export class HomePage implements OnInit {
 
   ngOnInit() {
+    this.loadEntreprises();
+
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
+<<<<<<< HEAD
         this.db.getEnt().subscribe(ent => {
           this.entreprise = ent;
 
@@ -40,20 +43,27 @@ export class HomePage implements OnInit {
                         
               L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
           }
+=======
+        // this.db.getEnt().subscribe(ent => {
+        //   this.entreprise = ent;
+>>>>>>> 4340311 (synchronisation DONE)
           
-        })
+          
+        // })
       }
     });
-  
+      console.log("HomePage ngOnInit function");
+
   }
 
   constructor(
     private nativeGeocoder: NativeGeocoder,
     private db: DbService,
     private http: HttpClient,
-    private wordpressservice: WordpressService,
+    private wordpressService: WordpressService,
     private router: Router,
-    private route: ActivatedRoute,) {
+    private route: ActivatedRoute,
+    public loadingController: LoadingController,) {
     
 // console.log('HomePage constructor');
   }
@@ -73,18 +83,39 @@ selectedView = 'ent';
 
 filterTerm: string;
 
+entreprisesWP: Array<any> = new Array<any>();
+  id: number;
+  results;
+  entDb: any;
+  page:number;
+  arrayIdEntreprise:any = [];
 
-searchEnt(word:string){
-  this.db.searchEnt(word).then(async(res) => {
-console.log('in function');
-console.log(word);
+  id_entreprise: number;
+  nom_entreprise: string;
+  telephone_entreprise: string;
+  adresse_entreprise: string;
+  infos_entreprise: string;
+  description_entreprise: string;
+  site_internet_entreprise: string;
+  reseaux_sociaux_entreprise: string;
+  monnaie_locale_entreprise: boolean;
+  livraison_entreprise: boolean;
+  latitude_entreprise: number;
+  longitude_entreprise: number;
+  id_departement: number
 
-    this.db.getEnt().subscribe(data => {
-      this.entreprise = data;
-      console.log(data);
-  })
-})
-}
+
+// async searchEnt(word:string){
+//   await this.db.searchEnt(word).then(async(res) => {
+// console.log('in function');
+// console.log(word);
+
+//     this.db.getEnt().subscribe(data => {
+//       this.entreprise = data;
+//       console.log(data);
+//   })
+// })
+// }
 
 userPosition = L.icon({
   iconUrl: 'assets/uploads/markers/userMarker.png',
@@ -143,11 +174,11 @@ ionViewDidEnter() {
 }
 
 
-ionViewWillEnter() {
-  console.log('ionViewWillEnter');
+// ionViewWillEnter() {
+//   console.log('ionViewWillEnter');
 
   
-}
+// }
   
 
 // Geocoding
@@ -201,39 +232,81 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
 }
 
 
+
+private async  loadEntreprises()
+{
+
+  await this.wordpressService.getEntreprisesByPages().then(async resultsO => { // Récupère les données wordpress
+    // console.log("results getEntreprises");
+    // console.log("resultsO : ",resultsO);
+    var resultsS = JSON.stringify(resultsO);
+    // console.log("resultsS : ",resultsS);
+    var results = JSON.parse(resultsS).reverse();
+    console.log("results : ",results);
+    
+    if(results)
+    {
+      var content = [];
+      console.log(results.length);
+
+        for(var i=0; i < results.length ;i++){
+          this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
+        
+
+          await this.db.getEntreprise(results[i]['id']).then(async data =>{
+
+            if(data['id_entreprise'] === undefined){ // id Sqlite undefined => ajout
+              console.log("SQLite : ",data['id_entreprise']);
+              console.log("WP : ",results[i]['id']);
+
+              console.log("addEnt");
+              this.db.addEntreprise(this.nom_entreprise, this.id_entreprise, this.telephone_entreprise, this.adresse_entreprise, this.infos_entreprise, this.description_entreprise, 
+              this.site_internet_entreprise, this.reseaux_sociaux_entreprise, this.monnaie_locale_entreprise, this.livraison_entreprise, this.latitude_entreprise, 
+              this.longitude_entreprise, this.id_departement).then(addEnt => {
+                this.entreprisesWP.push(addEnt);
+
+                console.log("Entreprise ajoutée : ");
+              })
+            }
+
+            else if (data['id_entreprise'] === results[i]['id']){ // id sqlite = id wp => afficher
+              this.arrayIdEntreprise.push(data['id_entreprise']);
+
+              console.log("results === entDb : "); 
+              console.log("SQLite : ",data['id_entreprise']);
+              console.log("WP : ",results[i]['id']);
+
+              return results[i];
+            } 
+          }) 
+
+          var nom = (results[i].title.rendered).toLowerCase();
+          nom = nom.charAt(0).toUpperCase()+nom.slice(1);
+
+          var infos=results[i].meta['sous-titre'];
+          var site = results[i].meta.site_internet;
+          var coords =  results[i].meta.sur_la_carte;
+          var lat = coords[0]['lat'];
+          var long = coords[0]['lng']
+          var img = results[i].meta.link_media;
+
+          var popup = L.popup()
+            .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+            +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
+            +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site[0]+"' >Site internet</a><div></div>");
+
+            L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+
+          await this.db.deleteEntNotIn(this.arrayIdEntreprise);
+          console.log("delete");
+          
+        } 
+
+    } 
+
+  }) 
+
+  } 
+
+
 }
-
-
-// search(){
-//   let marker = null;
-//   let lat = parseFloat(document.getElementById("lat").textContent);
-//   let long =  parseFloat(document.getElementById("long").textContent);
-//   let id = document.getElementById("id").textContent;
-//   let nom = document.getElementById("nom").textContent;
-//   let infos = document.getElementById("infos").textContent;
-//   let site = document.getElementById("site").textContent;
-
-//   // let img = document.getElementById("lat").textContent;
-
-  
-//   var img = "assets/uploads/logos/recherche/"+id+".png";
-
-//   var popup = L.popup()
-//                 .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-//                 +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-//                 +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-                  
-//   if(marker !== null){
-//     console.log('if loop');
-//     this.map.removeLayer(marker);
-//   } 
-  
-//   marker = L.marker([ lat, long], {icon: this.searchMarker}).bindPopup(popup).addTo(this.map);
-
-  
-
-
-
-  
-// }
-

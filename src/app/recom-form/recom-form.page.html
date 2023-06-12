@@ -24,6 +24,7 @@
       (ngSubmit)="submitForm($event)"
       novalidate
     >
+<<<<<<< HEAD
       <ion-radio-group value="share" id="radioChoice">
         <ion-radio
           id="btnShare"
@@ -40,18 +41,50 @@
       </ion-radio-group>
 
       <ion-item id="mailPartage" color="primary">
+=======
+      <ion-list>
+        <ion-item class="formChoix" color="primary">
+          <ion-select
+            interface="popover"
+            aria-label="formChoix"
+            formControlName="formChoix"
+            labelPlacement="floating"
+            label="* Faire découvrir autour de moi ..."
+            [multiple]="false"
+            (ionChange)="selectValue($event)"
+            [(ngModel)]="choice.select"
+          >
+            <ion-select-option
+              value="telechargement"
+              (click)="selectValue($event)"
+            >
+              En envoyant le lien de téléchargement vers
+              l'application</ion-select-option
+            >
+
+            <ion-select-option value="entreprise" (click)="selectValue($event)">
+              En invitant une entreprise à s'inscrire</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-item id="mailDest" color="primary">
+        <ion-label position="floating" class="labelForm"
+          >* Son mail :
+        </ion-label>
+
+>>>>>>> 4340311 (synchronisation DONE)
         <ion-input
           class="mailPartage"
           type="mail"
           formControlName="mailPartage"
           placeholder="xxx@xxx.xx"
-          labelPlacement="stacked"
-          label="* Son mail : "
-          fill="outline"
           [clearInput]="true"
         ></ion-input>
       </ion-item>
 
+<<<<<<< HEAD
       <div id="invite">
         <ion-item id="mailEntrep" color="primary">
           <ion-input
@@ -123,6 +156,29 @@
           </ion-textarea>
         </ion-item>
       </div>
+=======
+      <ion-item id="nomUtili" color="primary">
+        <ion-label position="floating" class="labelForm"
+          >* Mon nom/prénom :
+        </ion-label>
+        <ion-input
+          class="nomUtili"
+          type="text"
+          formControlName="nomUtili"
+          placeholder="François Cadeau"
+          [clearInput]="true"
+          [ngClass]="{'form-submitted': formSubmitted}"
+          (keyup)="affichNom()"
+        ></ion-input>
+      </ion-item>
+      <div
+        class="inputError"
+        *ngIf="form.get('nomUtili').invalid && (form.get('nomUtili').dirty || form.get('nomUtili').touched)"
+      >
+        Merci de renseigner votre nom et/ou prénom (min 3 car)
+      </div>
+
+>>>>>>> 4340311 (synchronisation DONE)
       <ion-button
         id="btnVal"
         type="submit"

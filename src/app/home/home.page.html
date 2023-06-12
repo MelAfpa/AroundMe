@@ -9,7 +9,6 @@
   </ion-header>
 
   <ion-content [fullscreen]="true" id="mapContent">
-    <ion-button href="/posts">resolver</ion-button>
     <div id="map">
       <ion-fab
         slot="fixed"
@@ -23,7 +22,7 @@
         </ion-fab-button>
       </ion-fab>
     </div>
-    <div>
+    <!-- <div>
       <ion-searchbar
         id="search"
         show-clear-button="always"
@@ -37,19 +36,19 @@
       <ion-list id="list">
         <ion-item
           button
-          *ngFor="let ent of entreprise | filter:filterTerm"
+          *ngFor="let ent of entreprisesWP | filter:filterTerm"
           [routerLink]="['/', 'developers', entreprise.id_entreprise]"
         >
           <ion-label id="searchResults">
-            <p id="id">{{ ent.id_entreprise }}</p>
-            <p id="nom">{{ ent.nom_entreprise }}</p>
-            <p id="infos">{{ ent.infos_entreprise }}</p>
-            <p id="site">{{ ent.site_internet_entreprise }}</p>
-            <p id="lat">{{ ent.latitude_entreprise }}</p>
-            <p id="long">{{ ent.longitude_entreprise }}</p>
+            <p id="id" [innerHTML]="ent.id"></p>
+            <p id="nom" [innerHTML]="ent.title.rendered"></p>
+            <p id="infos" [innerHTML]="ent.meta.sous-titre"></p>
+            <p id="site" [innerHTML]="ent.meta.site_internet"></p>
+            <p id="lat" [innerHTML]="ent.meta.__adresseGeoLat"></p>
+            <p id="long" [innerHTML]="ent.meta.__adresseGeoLng"></p>
           </ion-label>
         </ion-item>
       </ion-list>
-    </div>
+    </div> -->
   </ion-content>
 </div>

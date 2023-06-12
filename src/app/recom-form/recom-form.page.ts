@@ -18,6 +18,7 @@ formSubmitted = false;
 @ViewChild('ionInputMail', {static:true}) ionInputMail: IonInput;
 @ViewChild('ionInputMailEnt', {static:true}) ionInputMailEnt: IonInput;
 
+<<<<<<< HEAD
 public alertButtons = [ {
   text: 'Ok',
   cssClass: 'alert-button-ok',
@@ -34,6 +35,18 @@ onInput(ev){
 }
 
   constructor(private formBuilder: FormBuilder) { 
+=======
+  form: FormGroup;
+  formSubmitted = false;
+  nom:string;
+  choice = {
+    select:null
+  };
+
+  constructor(private formBuilder: FormBuilder,
+    private alert: AlertController) { 
+      this.choice.select = "telechargement";
+>>>>>>> 4340311 (synchronisation DONE)
   }
 
   buildForm(){

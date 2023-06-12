@@ -25,6 +25,7 @@ export class WordpressService {
   //     )
   //   }
 
+<<<<<<< HEAD
   getPosts() {
     // if we want to query posts by category
     
@@ -33,4 +34,34 @@ export class WordpressService {
       + "posts"
       )
     }
+=======
+	async getEntreprisesByPages(page:number = 1, perPage:number = 100){
+		
+			console.log("wordpressService getEntreprisesByPages");
+				return await this.http.get(
+			'https://autourdemoi.colentre.com/wp-json/wp/v2/entreprises_locales?'
+			+ 'page='
+			+ page
+			+'&per_page='
+			+ perPage
+				// + "posts"
+				).toPromise();
+			
+	}
+
+
+
+
+
+
+	async getPosts() {
+		// if we want to query posts by category
+		console.log("wordpressService getPosts");
+
+		return await this.http.get(
+    'https://autourdemoi.colentre.com/wp-json/wp/v2/posts'
+		  // + "posts"
+		).toPromise();
+	}
+>>>>>>> 4340311 (synchronisation DONE)
 }

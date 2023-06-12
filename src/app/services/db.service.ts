@@ -23,9 +23,9 @@ export interface Ent {
   livraison_entreprise: boolean,
   latitude_entreprise: number,
   longitude_entreprise: number,
-  id_departement: number
-
+  id_departement: number,
 }
+
 
 
 @Injectable({
@@ -157,9 +157,10 @@ console.log('dbService',entreprise);
   async searchEnt(word: string){
 console.log("searchEnt start");
 
-    return await this.database.executeSql("SELECT nom_entreprise from entreprise where nom_entreprise LIKE '%?%'").then(async data=> {
+    return await this.database.executeSql("SELECT nom_entreprise from entreprise where nom_entreprise LIKE '%?%'", [word]).then(async data=> {
       this.getEnt();
 console.log("before loop");
+console.log(JSON.stringify(data)); 
 
       if(data.rows.length > 0){
         console.log('if loop');
@@ -204,11 +205,32 @@ console.log("end db function");
   // }
 
 
+<<<<<<< HEAD
   // deleteEntreprise(id_entreprise) {
   //   return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
   //     alert('Entreprise supprimée');
   //     this.loadEntreprise();
   //   });
   // }
+=======
+  deleteEntreprise(id_entreprise) {
+    return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
+      // alert('Entreprise supprimée');
+      this.loadEntreprise();
+    });
+  }
+>>>>>>> 4340311 (synchronisation DONE)
+
+  async deleteEntNotIn(arrayIdEntreprise: Array<any>)
+  {
+    let array = '(' + arrayIdEntreprise.join(',') + ')';
+    console.log(array);
+    return await this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise not IN ?', [array])
+    .then(data=>{
+      console.log(JSON.stringify(data)); 
+    }).catch((err)=>{
+      console.log("error deleteEnttNotIn");
+    });
+  }
 
 }
