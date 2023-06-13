@@ -1,12 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:text="Contact Form"
+    android:textSize="30sp"
+    android:textStyle="bold|italic" />
+
+<EditText
+    android:id="@+id/etTo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"    
+    android:hint="Email"
+    android:inputType="textEmailAddress" />
+
+<EditText
+    android:id="@+id/etSubject"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="Subject"
+    android:inputType="textEmailSubject" />
+
+<EditText
+    android:id="@+id/etBody"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="Body"
+    android:inputType="text" />
+
+<Button
+    android:id="@+id/btnSend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Send" />
+
+</LinearLayout>
