@@ -35,20 +35,20 @@ protected void onCreate(Bundle savedInstanceState) {
         if (!email.getText().toString().isEmpty() && !subject.getText().toString().isEmpty()
             && !body.getText().toString().isEmpty()) {
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email.getText().toString()});
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject.getText().toString());
-        intent.putExtra(Intent.EXTRA_TEXT, body.getText().toString());
-        intent.setData(Uri.parse("mailto:"));
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email.getText().toString()});
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject.getText().toString());
+            intent.putExtra(Intent.EXTRA_TEXT, body.getText().toString());
+            intent.setData(Uri.parse("mailto:"));
 
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(MainActivity.this, "There is no application that support this action",
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(MainActivity.this, "There is no application that support this action",
                 Toast.LENGTH_SHORT).show();
-        }
+            }
         } else {
-        Toast.makeText(MainActivity.this, "Please fill all the fields",
+            Toast.makeText(MainActivity.this, "Please fill all the fields",
             Toast.LENGTH_SHORT).show();
         }
     }
