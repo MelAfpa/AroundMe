@@ -24,7 +24,6 @@ export class HomePage implements OnInit {
 
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-<<<<<<< HEAD
         this.db.getEnt().subscribe(ent => {
           this.entreprise = ent;
 
@@ -43,15 +42,10 @@ export class HomePage implements OnInit {
                         
               L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
           }
-=======
-        // this.db.getEnt().subscribe(ent => {
-        //   this.entreprise = ent;
->>>>>>> 4340311 (synchronisation DONE)
           
-          
-        // })
-      }
-    });
+      })
+    }
+  });
       console.log("HomePage ngOnInit function");
 
   }

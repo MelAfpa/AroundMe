@@ -25,17 +25,17 @@ export class WordpressService {
   //     )
   //   }
 
-<<<<<<< HEAD
-  getPosts() {
-    // if we want to query posts by category
-    
-    return this.http.get(
-      environment.wordpress.api_url
-      + "posts"
-      )
-    }
-=======
-	async getEntreprisesByPages(page:number = 1, perPage:number = 100){
+  async getPosts() {
+		// if we want to query posts by category
+		console.log("wordpressService getPosts");
+
+		return await this.http.get(
+    'https://autourdemoi.colentre.com/wp-json/wp/v2/posts'
+		  // + "posts"
+		).toPromise();
+	}
+
+    async getEntreprisesByPages(page:number = 1, perPage:number = 100){
 		
 			console.log("wordpressService getEntreprisesByPages");
 				return await this.http.get(
@@ -49,19 +49,4 @@ export class WordpressService {
 			
 	}
 
-
-
-
-
-
-	async getPosts() {
-		// if we want to query posts by category
-		console.log("wordpressService getPosts");
-
-		return await this.http.get(
-    'https://autourdemoi.colentre.com/wp-json/wp/v2/posts'
-		  // + "posts"
-		).toPromise();
-	}
->>>>>>> 4340311 (synchronisation DONE)
 }

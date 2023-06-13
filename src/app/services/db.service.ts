@@ -187,20 +187,20 @@ console.log("end db function");
   }
 
 
-  // addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
-//   site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-//   longitude_entreprise, id_departement) {
+  addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
+  site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
+  longitude_entreprise, id_departement) {
 
-//     let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
-//   site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-//   longitude_entreprise, id_departement];
+    let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
+  site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
+  longitude_entreprise, id_departement];
 
-//   return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
+  return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
     
-//     alert('Entreprise ajoutée');
-//     this.loadEntreprise();
-//   });
-// }
+    alert('Entreprise ajoutée');
+    this.loadEntreprise();
+  });
+}
 
 
   // updateEntreprise(ent: Ent) {
@@ -216,21 +216,12 @@ console.log("end db function");
   // }
 
 
-<<<<<<< HEAD
   // deleteEntreprise(id_entreprise) {
   //   return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
   //     alert('Entreprise supprimée');
   //     this.loadEntreprise();
   //   });
   // }
-=======
-  deleteEntreprise(id_entreprise) {
-    return this.database.executeSql('DELETE FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(_ => {
-      // alert('Entreprise supprimée');
-      this.loadEntreprise();
-    });
-  }
->>>>>>> 4340311 (synchronisation DONE)
 
   async deleteEntNotIn(arrayIdEntreprise: Array<any>)
   {
