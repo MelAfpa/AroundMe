@@ -16,21 +16,10 @@ const routes: Routes = [
     redirectTo: 'home/:id',
     pathMatch: 'full'
   },
-  {
-    path: 'developers-page/:id',
-    loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
-  },
-  {
-    path: 'developers-page',
-    loadChildren: () => import('./developers-page/developers-page.module').then( m => m.DevelopersPagePageModule)
-  },
+  
   {
     path: 'recom-form',
     loadChildren: () => import('./recom-form/recom-form.module').then( m => m.RecomFormPageModule)
-  },
-  {
-    path: 'posts',
-    loadChildren: () => import('./posts/posts.module').then( m => m.PostsPageModule)
   },
 
 ];

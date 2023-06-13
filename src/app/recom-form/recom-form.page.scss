@@ -13,24 +13,6 @@
 }
 
 
-<<<<<<< HEAD
-.p1, .p2{
-    text-align: center;
-    margin: 30px 10px 30px 10px;
-}
-.p1{
-font-weight: bold;
-font-size: 1.4em;
-// --ion-font-family: "SF";
-}
-
-.p2{
-    font-size: 1.2em;
-text-decoration: wavy;
-}
-
-.mailEntrep, .nomUtili, .listServ, .commentaire, .mailPartage{
-=======
 .p1{
 font-size: 1.2em;
 text-align: center;
@@ -47,18 +29,13 @@ text-align: center;
 
 
 .nomUtili, .mailDest{
->>>>>>> 4340311 (synchronisation DONE)
     margin: 10px;
     font-size: 1em;
 background-color: rgba(198, 198, 255, 0.29);
 }
 
 
-<<<<<<< HEAD
-#nomUtili, #mailEntrep, .listServ, #commentaire, #mailPartage{
-=======
 #nomUtili, #mailDest{
->>>>>>> 4340311 (synchronisation DONE)
     margin: 10px;
     border-radius: 10px;
     height: 70px;
@@ -69,16 +46,8 @@ background-color: rgba(198, 198, 255, 0.29);
     border-radius: 10px;
 }
 
-<<<<<<< HEAD
-#radioChoice{
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    margin: 30px 10px 20px 10px;
-=======
 .labelForm {
     font-size: 0.9em;
->>>>>>> 4340311 (synchronisation DONE)
 }
 
 #mail{
@@ -87,11 +56,7 @@ background-color: rgba(198, 198, 255, 0.29);
     font-size: 0.8em;
 }
 
-<<<<<<< HEAD
-#mailPartage{
-=======
 #mailEntrep{
->>>>>>> 4340311 (synchronisation DONE)
     display: none;
 }
 
@@ -101,10 +66,8 @@ background-color: rgba(198, 198, 255, 0.29);
 
 .ng-invalid.ng-dirty:not(form), .ng-invalid:not(form).form-submitted {
     border: solid 1px rgb(190, 0, 0);
-    background-color: rgba(255, 136, 136, 0.445);
+    // background-color: rgba(255, 136, 136, 0.445);
 
-<<<<<<< HEAD
-=======
 }
 
 .inputError{
@@ -122,5 +85,4 @@ background-color: rgba(198, 198, 255, 0.29);
 .yesBtn{
     color: green;
     font-weight: bold;
->>>>>>> 4340311 (synchronisation DONE)
 }

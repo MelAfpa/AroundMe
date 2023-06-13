@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-=======
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, NO_ERRORS_SCHEMA } from '@angular/core';
->>>>>>> 4340311 (synchronisation DONE)
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
