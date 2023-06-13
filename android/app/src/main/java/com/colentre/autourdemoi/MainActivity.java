@@ -1,4 +1,4 @@
-package colentre.aroundme.app;
+package com.colentre.autourdemoi;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.community.database.sqlite.CapacitorSQLite;

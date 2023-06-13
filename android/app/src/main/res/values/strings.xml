@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Around-me</string>
-    <string name="title_activity_main">Around-me</string>
-    <string name="package_name">colentre.aroundme.app</string>
-    <string name="custom_url_scheme">colentre.aroundme.app</string>
+    <string name="app_name">AutourDeMoi</string>
+    <string name="title_activity_main">AutourDeMoi</string>
+    <string name="package_name">com.colentre.autourdemoi</string>
+    <string name="custom_url_scheme">com.colentre.autourdemoi</string>
 </resources>

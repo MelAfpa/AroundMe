@@ -118,23 +118,34 @@ console.log('dbService',entreprise);
   getEntreprise(id_entreprise): Promise<Ent> {
     return this.database.executeSql('SELECT * FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(data => {
 
-      return {
-        id_entreprise: data.rows.item(0).id_entreprise,
-        nom_entreprise: data.rows.item(0).nom_entreprise,
-        telephone_entreprise: data.rows.item(0).telephone_entreprise,
-        adresse_entreprise: data.rows.item(0).adresse_entreprise,
-        infos_entreprise: data.rows.item(0).infos_entreprise,
-        description_entreprise: data.rows.item(0).description_entreprise,
-        site_internet_entreprise: data.rows.item(0).site_internet_entreprise,
-        reseaux_sociaux_entreprise: data.rows.item(0).reseaux_sociaux_entreprise,
-        monnaie_locale_entreprise: data.rows.item(0).monnaie_locale_entreprise,
-        livraison_entreprise: data.rows.item(0).livraison_entreprise,
-        latitude_entreprise: data.rows.item(0).latitude_entreprise,
-        longitude_entreprise: data.rows.item(0).longitude_entreprise,
-        id_departement: data.rows.item(0).id_departement
-      }
+      if(data && data.rows && data.rows.length >0)
 
-    });
+      { 
+        return {
+          id_entreprise: data.rows.item(0).id_entreprise,
+          nom_entreprise: data.rows.item(0).nom_entreprise,
+          telephone_entreprise: data.rows.item(0).telephone_entreprise,
+          adresse_entreprise: data.rows.item(0).adresse_entreprise,
+          infos_entreprise: data.rows.item(0).infos_entreprise,
+          description_entreprise: data.rows.item(0).description_entreprise,
+          site_internet_entreprise: data.rows.item(0).site_internet_entreprise,
+          reseaux_sociaux_entreprise: data.rows.item(0).reseaux_sociaux_entreprise,
+          monnaie_locale_entreprise: data.rows.item(0).monnaie_locale_entreprise,
+          livraison_entreprise: data.rows.item(0).livraison_entreprise,
+          latitude_entreprise: data.rows.item(0).latitude_entreprise,
+          longitude_entreprise: data.rows.item(0).longitude_entreprise,
+          id_departement: data.rows.item(0).id_departement
+        }
+      }
+      else
+      {
+        return undefined;
+      } 
+      }).catch((err)=>{
+        console.log("getEntreprise err");
+        console.log(JSON.stringify(err));
+        return undefined;
+      });
 
   }
 

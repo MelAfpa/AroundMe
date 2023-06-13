@@ -254,9 +254,8 @@ private async  loadEntreprises()
         
 
           await this.db.getEntreprise(results[i]['id']).then(async data =>{
-
-            if(data['id_entreprise'] === undefined){ // id Sqlite undefined => ajout
-              console.log("SQLite : ",data['id_entreprise']);
+console.log(data);
+            if(data === undefined){ // id Sqlite undefined => ajout
               console.log("WP : ",results[i]['id']);
 
               console.log("addEnt");
@@ -297,11 +296,11 @@ private async  loadEntreprises()
 
             L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
 
-          await this.db.deleteEntNotIn(this.arrayIdEntreprise);
-          console.log("delete");
+          
           
         } 
-
+        await this.db.deleteEntNotIn(this.arrayIdEntreprise);
+        console.log("delete");
     } 
 
   }) 

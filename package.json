@@ -1,8 +1,8 @@
 {
-  "name": "Around-me",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "name": "AutourDeMoi",
+  "version": "1.0.0.0",
+  "author": "Colentre",
+  "homepage": "https://www.colentre.com",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

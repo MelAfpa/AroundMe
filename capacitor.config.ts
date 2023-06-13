@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'colentre.aroundMe.app',
-  appName: 'Around-me',
+  appId: 'com.colentre.autourdemoi',
+  appName: 'AutourDeMoi',
   webDir: 'www',
   "plugins": {
     "CapacitorSQLite": {
