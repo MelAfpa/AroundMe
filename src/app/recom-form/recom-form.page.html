@@ -10,11 +10,8 @@
 
   <ion-content [fullscreen]="true">
     <p class="p1">
-      Envie de faire découvrir <i>Autour de moi</i> autour de vous ?
-    </p>
-    <p class="p2">
-      Il suffit de remplir le questionnaire ci-dessous pour partager toutes les
-      informations du projet :
+      Ce formulaire vous permet de faire découvrir <i>Autour de moi</i> autour
+      de vous :
     </p>
 
     <form
@@ -24,24 +21,6 @@
       (ngSubmit)="submitForm($event)"
       novalidate
     >
-<<<<<<< HEAD
-      <ion-radio-group value="share" id="radioChoice">
-        <ion-radio
-          id="btnShare"
-          value="share"
-          aria-label="Dark"
-          (click)=" formType();"
-        />Inviter un entrepreneur
-        <ion-radio
-          id="btnInvite"
-          value="invite"
-          aria-label="Dark"
-          (click)=" formType();"
-        />Partager l'application
-      </ion-radio-group>
-
-      <ion-item id="mailPartage" color="primary">
-=======
       <ion-list>
         <ion-item class="formChoix" color="primary">
           <ion-select
@@ -74,89 +53,21 @@
           >* Son mail :
         </ion-label>
 
->>>>>>> 4340311 (synchronisation DONE)
         <ion-input
-          class="mailPartage"
+          class="mailDest"
           type="mail"
-          formControlName="mailPartage"
+          formControlName="mailDest"
           placeholder="xxx@xxx.xx"
           [clearInput]="true"
         ></ion-input>
       </ion-item>
-
-<<<<<<< HEAD
-      <div id="invite">
-        <ion-item id="mailEntrep" color="primary">
-          <ion-input
-            class="mailEntrep"
-            type="mail"
-            formControlName="mailEntrep"
-            placeholder="xxx@xxx.xx"
-            labelPlacement="stacked"
-            label="* Votre mail : "
-            fill="outline"
-            [clearInput]="true"
-            [ngClass]="{'form-submitted': formSubmitted}"
-          ></ion-input>
-        </ion-item>
-
-        <ion-item id="nomUtili" color="primary">
-          <ion-input
-            class="nomUtili"
-            type="text"
-            formControlName="nomUtili"
-            placeholder="François Cadeau"
-            labelPlacement="stacked"
-            label="* Mon prénom : "
-            fill="outline"
-            [clearInput]="true"
-            [ngClass]="{'form-submitted': formSubmitted}"
-          ></ion-input>
-        </ion-item>
-
-        <ion-list>
-          <ion-item class="listServ" color="primary">
-            <ion-select
-              aria-label="service"
-              labelPlacement="stacked"
-              label="Service(s) proposé(s) :"
-              [multiple]="true"
-            >
-              <ion-select-option value="producteur">
-                Producteur/fabricant</ion-select-option
-              >
-
-              <ion-select-option value="commerçant">
-                Commerçant/restaurant</ion-select-option
-              >
-
-              <ion-select-option value="personne">
-                Service à la personne</ion-select-option
-              >
-
-              <ion-select-option value="entreprises">
-                Service aux entreprises</ion-select-option
-              >
-            </ion-select>
-          </ion-item>
-        </ion-list>
-
-        <ion-item id="commentaire" color="primary">
-          <ion-textarea
-            class="commentaire"
-            formControleName="commentaire"
-            labelPlacement="stacked"
-            label="Commentaire :"
-            placeholder="Votre commentaire ..."
-            fill="outline"
-            maxlength="20"
-            [counter]="true"
-            [ngClass]="{'form-submitted': formSubmitted}"
-          >
-          </ion-textarea>
-        </ion-item>
+      <div
+        class="inputError"
+        *ngIf="form.get('mailDest').invalid && (form.get('mailDest').dirty || form.get('mailDest').touched)"
+      >
+        Merci de renseigner une adresse mail correcte
       </div>
-=======
+
       <ion-item id="nomUtili" color="primary">
         <ion-label position="floating" class="labelForm"
           >* Mon nom/prénom :
@@ -178,33 +89,68 @@
         Merci de renseigner votre nom et/ou prénom (min 3 car)
       </div>
 
->>>>>>> 4340311 (synchronisation DONE)
       <ion-button
         id="btnVal"
         type="submit"
         color="primary"
         expand="block"
-        (click)="submitForm($event)"
+        (click)="submitForm($event); confirmSubmit(); echo()"
         [disabled]="!form.valid"
-        >Valider</ion-button
+        >Envoyer maintenant</ion-button
       >
-      <ion-alert
-        trigger="btnVal"
-        header="Formulaire envoyé avec succès"
-        subHeader="Merci !"
-        [buttons]="alertButtons"
-      ></ion-alert>
     </form>
     <div id="mail">
-      <p>Voici le mail que vous allez recevoir :</p>
-      <p>
+      <p id="mailDl">
+        Voici le mail que votre destinataire recevra :
+        <br /><br />
+
         <i>
-          PRENOM a découvert Autour de moi et souhaite à son tour le partager,
-          permettant à l'application de grandir et aux entrepreneurs de
-          s'épanouir. <br />
-          Ce message a été envoyé par le collectif Colentre. <br />
+          Bonjour,
+          <br />
+          J'ai découvert l'application Autour de moi et je pense que son partage
+          est intéressant.<br />
+          Elle permet de trouver des commerces respectant une charte définie
+          (éthique, partage, intégrité ...) autour de soi.
+          <br /><br />
+          <a href="#">Voici le lien de téléchargement</a>
+          <br /><br />
+
+          Cordialement,
+          <br />
+          {{this.nom}}
+          <br /><br />
+          Ce message a été envoyé par le collectif Colentre.
+          <br />
           Aucun mail n'est enregistré en base de données.</i
         >
+      </p>
+      <p id="mailEntrep">
+        Voici le mail que votre destinataire recevra :
+        <br /><br />
+        <i>
+          Bonjour,
+          <br />
+          J'ai découvert l'application Autour de moi, elle permet de dénicher
+          les entreprises et commerces autour de moi, répertoriés selon une
+          charte définie (éthique, partage, intégrité ...).
+          <br />
+          Votre commerce n'est pas présent sur le site, que penseriez-vous d'y
+          figurer ?
+          <br /><br />
+          <a href="https://autourdemoi.colentre.com/#"
+            >Voici le lien vers le site internet</a
+          >
+          <br />
+          <a href="#">Et celui de l'application sur Google play</a>
+          <br /><br />
+          Cordialement,
+          <br />
+          {{this.nom}}
+          <br /><br />
+          Ce message a été envoyé par le collectif Colentre.
+          <br />
+          Aucun mail n'est enregistré en base de données.
+        </i>
       </p>
     </div>
   </ion-content>

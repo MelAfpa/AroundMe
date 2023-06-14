@@ -2,7 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInput } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-AlertController
+
+import { registerPlugin } from '@capacitor/core';
+// import Echo from '../../android/app/src/main/java/com/colentre/autourdemoi/EchoPlugin.java/echo-plugin';
+
+export interface EchoPlugin {
+    echo(options: { value: string }): Promise<{ value: string }>;
+  }
+  
+  const Echo = registerPlugin<EchoPlugin>('Echo');
+
+export default Echo;
+
 
 @Component({
   selector: 'app-recom-form',
@@ -17,6 +28,13 @@ export class RecomFormPage implements OnInit {
   choice = {
     select:null
   };
+
+  async echo(){
+    const { value } = await Echo.echo({ value: 'Hello World!' });
+console.log('Response from native:', value);
+  }
+
+  
 
   constructor(private formBuilder: FormBuilder,
     private alert: AlertController) { 

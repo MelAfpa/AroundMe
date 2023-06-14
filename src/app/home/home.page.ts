@@ -24,28 +24,13 @@ export class HomePage implements OnInit {
 
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-        this.db.getEnt().subscribe(ent => {
-          this.entreprise = ent;
-
-          for(let i=0; i<ent.length; i++){
-              var nom = ent[i]['nom_entreprise'];
-              var infos = ent[i]['infos_entreprise'];
-              var site = ent[i]['site_internet_entreprise'];
-              var lat =  ent[i]['latitude_entreprise'];
-              var long =  ent[i]['longitude_entreprise'];
-              var img = "assets/uploads/logos/"+[i]+".png";
-
-              var popup = L.popup()
-                .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 150px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-                +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-                +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-                        
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-          }
+        // this.db.getEnt().subscribe(ent => {
+        //   this.entreprise = ent;
           
-      })
-    }
-  });
+          
+        // })
+      }
+    });
       console.log("HomePage ngOnInit function");
 
   }
@@ -248,7 +233,6 @@ private async  loadEntreprises()
         
 
           await this.db.getEntreprise(results[i]['id']).then(async data =>{
-console.log(data);
             if(data === undefined){ // id Sqlite undefined => ajout
               console.log("WP : ",results[i]['id']);
 
@@ -258,7 +242,6 @@ console.log(data);
               this.longitude_entreprise, this.id_departement).then(addEnt => {
                 this.entreprisesWP.push(addEnt);
 
-                console.log("Entreprise ajoutée : ");
               })
             }
 
@@ -271,6 +254,7 @@ console.log(data);
 
               return results[i];
             } 
+            console.log("WP.length : ",this.entreprisesWP.length);
           }) 
 
           var nom = (results[i].title.rendered).toLowerCase();
@@ -300,6 +284,7 @@ console.log(data);
   }) 
 
   } 
+
 
 
 }
