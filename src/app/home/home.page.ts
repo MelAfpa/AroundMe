@@ -266,15 +266,49 @@ private async  loadEntreprises()
           var lat = coords[0]['lat'];
           var long = coords[0]['lng']
           var img = results[i].meta.link_media;
+          console.log(img);
+          if(site[0] ===''){
+            if(img === ''){
+              img = "assets/uploads/logo_mini2.png"
 
-          var popup = L.popup()
-            .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-            +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'> <h3 id='titlePopup' >"+nom +"</h3><p id='textPopup' >"+infos
-            +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site[0]+"' >Site internet</a><div></div>");
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><div></div>");
+  
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
 
-            L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+            } else {
 
-          
+              img = "assets/uploads/logo_mini2.png"
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><div></div>");
+
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+            }
+          } else {
+            if(img === ''){
+              img = "assets/uploads/logo_mini2.png"
+
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+  
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+
+            } else {
+              
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
+
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+            }
+          }
           
         } 
         await this.db.deleteEntNotIn(this.arrayIdEntreprise);

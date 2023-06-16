@@ -197,7 +197,6 @@ console.log("end db function");
 
   return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
     
-    alert('Entreprise ajoutée');
     this.loadEntreprise();
   });
 }

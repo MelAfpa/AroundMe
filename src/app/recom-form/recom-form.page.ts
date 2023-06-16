@@ -2,18 +2,32 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInput } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { registerPlugin } from '@capacitor/core';
-// import Echo from '../../android/app/src/main/java/com/colentre/autourdemoi/EchoPlugin.java/echo-plugin';
 
-export interface EchoPlugin {
-    echo(options: { value: string }): Promise<{ value: string }>;
-  }
+
+const Intent = registerPlugin<IntentMailPlugin>('Intent');
+const entityMap = new Map<string, string>(Object.entries({
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': '&quot;',
+  "'": '&#39;',
+  "/": '&#x2F;'
+  }))
+
+export default Intent;
+
+export interface IntentMailPlugin {
+    intent(options: { 
+      email: string, 
+      action: number, 
+
+    }): Promise<{ message: string }>;
+}
   
-  const Echo = registerPlugin<EchoPlugin>('Echo');
-
-export default Echo;
-
+export function escape_html(source: string) {
+  return String(source).replace(/[&<>"'\/]/g, (s: string) => entityMap.get(s)!);
+}
 
 @Component({
   selector: 'app-recom-form',
@@ -25,13 +39,44 @@ export class RecomFormPage implements OnInit {
   form: FormGroup;
   formSubmitted = false;
   nom:string;
+
   choice = {
     select:null
   };
 
-  async echo(){
-    const { value } = await Echo.echo({ value: 'Hello World!' });
-console.log('Response from native:', value);
+  email:string;
+  subject: string;
+  text: string;
+  action: number =1;
+  subject1: string;
+  subject2: string;
+  mail1: string;
+  mail2: string;
+
+  async intent(){
+   
+    this.email = this.form.value['mailDest'];
+
+    // if(this.action === 1){
+    //   this.subject = this.subject1;
+    //   this.text = this.mail1
+    //   console.log(this.subject);
+    //   console.log(this.text);
+
+    // } else {
+    //   this.subject = this.subject2;
+    //   this.text =  this.mail2;
+    //   console.log(this.subject);
+    //   console.log(this.text);
+
+    // }
+
+const { message } = await Intent.intent({ email: this.email, action: this.action});
+
+console.log('Response from native:', this.email,this.action);
+console.log(message);
+
+
   }
 
   
@@ -65,72 +110,64 @@ console.log('Response from native:', value);
     );
   }
 
-  // get name(): any {
-  //   return this.form.get('nomUtili');
-
-  // }
-
-
   ngOnInit() {
     this.buildForm();
   }
 
   submitForm(event) {
     if (this.form.valid) {
+      this.intent();        
+
       event.preventDefault();
       this.formSubmitted = true;
-      if (this.form.valid) {
-        console.log(this.form.value); // Process your form
-
-      }
+      console.log(this.form.value); // Process your form
 
   }
-  
 }
+
+  
+
 
 affichNom(){
   this.nom = this.form.value['nomUtili'];
 }
 
 
-  selectValue($event) {
-    const mailEntrep = document.getElementById("mailEntrep") as HTMLHeadingElement;
-    const mailDl = document.getElementById("mailDl") as HTMLHeadingElement;
-    const value = $event.target.value;
+selectValue($event) {
+  const mailEntrep = document.getElementById("mailEntrep") as HTMLHeadingElement;
+  const mailDl = document.getElementById("mailDl") as HTMLHeadingElement;
+  const value = $event.target.value;
     
   console.log(value);
 
-    if(value === 'telechargement'){
-      mailDl.style.display = "block";
-      mailEntrep.style.display = "none";
+  if(value === 'telechargement'){
+    mailDl.style.display = "block";
+    mailEntrep.style.display = "none";
+    this.action = 1;
 
-console.log('telechargement');
-
-    } else {
-      mailEntrep.style.display = "block";
-      mailDl.style.display = "none";
-
-console.log('entreprise');
-
+  } else {
+    mailEntrep.style.display = "block";
+    mailDl.style.display = "none";
+    this.action = 2;
     }
   }
 
-  async confirmSubmit() {
-    const alert = await this.alert.create({
-      cssClass: 'headAlert',
-      header: 'Formulaire envoyé avec succès !',
-      buttons: [
-        {
-          text: 'Ok',
-          cssClass: 'yesBtn',
-          handler: () => {
-            console.log('Confirm Okay');
-          }
-        }
-      ]
-    });
+// async confirmSubmit() {
+//   const alert = await this.alert.create({
+//     cssClass: 'headAlert',
+//     header: 'Formulaire envoyé avec succès !',
+//     buttons: [
+//       {
+//         text: 'Ok',
+//         cssClass: 'yesBtn',
+//         handler: () => {
+//           console.log('Confirm Okay');
+//         }
+//       }
+//     ]
+//   });
 
-    await alert.present();
-  }
+//   await alert.present();
+// }
 
 }

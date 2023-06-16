@@ -94,7 +94,7 @@
         type="submit"
         color="primary"
         expand="block"
-        (click)="submitForm($event); confirmSubmit(); echo()"
+        (click)="submitForm($event);"
         [disabled]="!form.valid"
         >Envoyer maintenant</ion-button
       >
@@ -105,10 +105,8 @@
         <br /><br />
 
         <i>
-          Bonjour,
-          <br />
-          J'ai découvert l'application Autour de moi et je pense que son partage
-          est intéressant.<br />
+          Bonjour, \n J'ai découvert l'application Autour de moi et je pense que
+          son partage est intéressant.<br />
           Elle permet de trouver des commerces respectant une charte définie
           (éthique, partage, intégrité ...) autour de soi.
           <br /><br />
