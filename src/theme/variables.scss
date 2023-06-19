@@ -3,9 +3,14 @@
 
 /** Ionic CSS Variables **/
 
+@media (prefers-color-scheme: light) {
+:root.light {
+  ion-content{
+    --ion-background-color: white;
+    --ion-text-color: black;
+    --ion-list-color: white;
+  }
 
-// @media (prefers-color-scheme: light) {
-:root {
   /** primary **/
   --ion-color-primary: #004569;
   --ion-color-primary-rgb: 0,69,105;
@@ -54,6 +59,7 @@
   --ion-color-danger-tint: #ed576b;
 
   /** dark **/
+
   --ion-color-dark: #222428;
   --ion-color-dark-rgb: 34, 36, 40;
   --ion-color-dark-contrast: #ffffff;
@@ -62,6 +68,7 @@
   --ion-color-dark-tint: #383a3e;
 
   /** medium **/
+
   --ion-color-medium: #92949c;
   --ion-color-medium-rgb: 146, 148, 156;
   --ion-color-medium-contrast: #ffffff;
@@ -70,22 +77,31 @@
   --ion-color-medium-tint: #9d9fa6;
 
   /** light **/
+
   --ion-color-light: #f4f5f8;
   --ion-color-light-rgb: 244, 245, 248;
   --ion-color-light-contrast: #000000;
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
-}
-// }
 
-@media (prefers-color-scheme: light) {
-  /*
-   * Dark Colors
-   * -------------------------------------------
-   */
+  --ion-background: white;
+
+  --ion-menu-text: black;
+}
+
+}
+
+ @media (prefers-color-scheme: dark) {
+   
 
   body {
+    ion-content{
+      --ion-background-color: #121212;
+      --ion-text-color: white;
+      --ion-tab-bar-background: #121212;
+    }
+      
     --ion-color-primary: #004569;
     --ion-color-primary-rgb: 0,69,105;
     --ion-color-primary-contrast: #ffffff;
@@ -148,7 +164,10 @@
     --ion-color-light-contrast-rgb: 255,255,255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+    
+    --ion-menu-text: white;
   }
+
 
   /*
    * iOS Dark Theme
@@ -198,7 +217,6 @@
    * Material Design Dark Theme
    * -------------------------------------------
    */
-
   .md body {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
@@ -236,4 +254,5 @@
 
     --ion-card-background: #1e1e1e;
   }
+  
 }

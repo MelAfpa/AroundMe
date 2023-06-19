@@ -8,24 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 
-
-
-export interface Ent {
-  id_entreprise: number,
-  nom_entreprise: string,
-  telephone_entreprise: string,
-  adresse_entreprise: string,
-  infos_entreprise: string,
-  description_entreprise: string,
-  site_internet_entreprise: string,
-  reseaux_sociaux_entreprise: string,
-  monnaie_locale_entreprise: boolean,
-  livraison_entreprise: boolean,
-  latitude_entreprise: number,
-  longitude_entreprise: number,
-  id_departement: number,
-}
-
+import {Entreprise} from '../models/entreprise';
 
 
 @Injectable({
@@ -37,7 +20,7 @@ export interface Ent {
     private database: SQLiteObject;
     private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    entreprise = new BehaviorSubject([]);
+    entreprises = new BehaviorSubject([]);
 
 
   constructor(private plt: Platform, 
@@ -63,7 +46,7 @@ export interface Ent {
  * @returns {any}
  */
   createDatabase() {
-    this.http.get('assets/dbV4.sql', { responseType: 'text'})
+    this.http.get('assets/dbV5.sql', { responseType: 'text'})
     .subscribe(sql => {
       this.sqlitePorter.importSqlToDb(this.database, sql)
         .then(_ => {
@@ -78,35 +61,25 @@ export interface Ent {
  * Charge et retourne les entreprises de la base de données
  * @returns {any}
  */
-  loadEntreprise() {
-    return this.database.executeSql('SELECT * FROM entreprise', []).then(data => {
-      let entreprise: Ent[] = [];
-      
+  async loadEntreprise() {
+    let entreprises: Entreprise[] = [];
+    await this.database.executeSql('SELECT * FROM entreprise', []).then(data => {
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
-        
 
-          entreprise.push({
-            id_entreprise: data.rows.item(i).id_entreprise,
-            nom_entreprise: data.rows.item(i).nom_entreprise,
-            telephone_entreprise: data.rows.item(i).telephone_entreprise,
-            adresse_entreprise: data.rows.item(i).adresse_entreprise,
-            infos_entreprise: data.rows.item(i).infos_entreprise,
-            description_entreprise: data.rows.item(i).description_entreprise,
-            site_internet_entreprise: data.rows.item(i).site_internet_entreprise,
-            reseaux_sociaux_entreprise: data.rows.item(i).reseaux_sociaux_entreprise,
-            monnaie_locale_entreprise: data.rows.item(i).monnaie_locale_entreprise,
-            livraison_entreprise: data.rows.item(i).livraison_entreprise,
-            latitude_entreprise: data.rows.item(i).latitude_entreprise,
-            longitude_entreprise: data.rows.item(i).longitude_entreprise,
-            id_departement: data.rows.item(i).id_departement
+	  var currentEntreprise = new Entreprise();
+	  currentEntreprise.fill(data.rows.item(i));        
 
-          });
+	   entreprises.push(currentEntreprise);
         }
       }
-console.log('dbService',entreprise);
-      this.entreprise.next(entreprise);
+	console.log('dbService', entreprises);
+      this.entreprises.next(entreprises);
+      //return entreprises;
+    }).catch((err) => {
+    	return undefined;
     });
+    return entreprises;
   }
 
 
@@ -115,27 +88,15 @@ console.log('dbService',entreprise);
  * @param {any} id_entreprise
  * @returns {any}
  */
-  getEntreprise(id_entreprise): Promise<Ent> {
+  getEntreprise(id_entreprise): Promise<Entreprise> {
     return this.database.executeSql('SELECT * FROM entreprise WHERE id_entreprise = ?', [id_entreprise]).then(data => {
 
       if(data && data.rows && data.rows.length >0)
 
       { 
-        return {
-          id_entreprise: data.rows.item(0).id_entreprise,
-          nom_entreprise: data.rows.item(0).nom_entreprise,
-          telephone_entreprise: data.rows.item(0).telephone_entreprise,
-          adresse_entreprise: data.rows.item(0).adresse_entreprise,
-          infos_entreprise: data.rows.item(0).infos_entreprise,
-          description_entreprise: data.rows.item(0).description_entreprise,
-          site_internet_entreprise: data.rows.item(0).site_internet_entreprise,
-          reseaux_sociaux_entreprise: data.rows.item(0).reseaux_sociaux_entreprise,
-          monnaie_locale_entreprise: data.rows.item(0).monnaie_locale_entreprise,
-          livraison_entreprise: data.rows.item(0).livraison_entreprise,
-          latitude_entreprise: data.rows.item(0).latitude_entreprise,
-          longitude_entreprise: data.rows.item(0).longitude_entreprise,
-          id_departement: data.rows.item(0).id_departement
-        }
+        var currentEntreprise = new Entreprise();      
+        currentEntreprise.fill(data.rows.item(0));        
+        return currentEntreprise;
       }
       else
       {
@@ -161,8 +122,8 @@ console.log('dbService',entreprise);
  * Affiche les entreprises
  * @returns {any}
  */
-  getEnt(): Observable<Ent[]>{
-    return this.entreprise.asObservable();
+  getEnt(): Observable<Entreprise[]>{
+    return this.entreprises.asObservable();
   }
 
   async searchEnt(word: string){
@@ -176,7 +137,7 @@ console.log(JSON.stringify(data));
       if(data.rows.length > 0){
         console.log('if loop');
         console.log(data.rows);
-        this.loadEntreprise();
+        //this.loadEntreprise();
         return data.rows;
       } else {
         console.log("Aucun résultat");
@@ -186,33 +147,23 @@ console.log("end db function");
     })
   }
 
+  addEntreprise(entreprise: Entreprise){
 
-  addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
-  site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-  longitude_entreprise, id_departement) {
-
-    let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
-  site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-  longitude_entreprise, id_departement];
-
-  return this.database.executeSql('INSERT INTO entreprise (nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)', data).then(data => {
-    
-    this.loadEntreprise();
+  return this.database.executeSql('INSERT INTO entreprise (id_entreprise, nom_entreprise, telephone_entreprise, adresse_entreprise, sous_titre_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement, lien_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)', entreprise.toInsert()).then(data => {
   });
 }
 
 
-  // updateEntreprise(ent: Ent) {
+   updateEntreprise(entreprise: Entreprise) {
   //   let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
-  //   return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
-  //                                   adresse_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
-  //                                   reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
-  //                                   longitude_entreprise = ?, id_departement = ? WHERE id = ${ent.id_entreprise}`, data).then(data => {
+     return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
+                                    adresse_entreprise = ?, sous_titre_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
+                                    reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
+                                    longitude_entreprise = ?, id_departement = ?, lien_image = ? WHERE id_entreprise = ${entreprise.id_entreprise}`, entreprise.toUpdate()).then(data => {
                                       
-  //                                     alert('Entreprise modifiée');
-  //                                     this.loadEntreprise();
-  //                                   })
-  // }
+       alert('Entreprise modifiée');
+     })
+   }
 
 
   // deleteEntreprise(id_entreprise) {

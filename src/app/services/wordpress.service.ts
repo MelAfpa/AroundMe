@@ -14,16 +14,14 @@ export class WordpressService {
   constructor(private http: HttpClient) {}
 
 
-  // getEntreprises(id:number) {
-  //   let entUrl = 'entreprises_locales/';
+  async getEntreprisesById(id:number) {
     
-  //   return this.http.get(
-  //     environment.wordpress.api_url
-  //     + entUrl
-  //     +id
+    return await this.http.get(
+		'https://autourdemoi.colentre.com/wp-json/wp/v2/entreprises_locales'
+      +id
       
-  //     )
-  //   }
+      ).toPromise();
+    }
 
   async getPosts() {
 		// if we want to query posts by category

@@ -20,6 +20,7 @@ export default Intent;
 export interface IntentMailPlugin {
     intent(options: { 
       email: string, 
+      nomUtil: string,
       action: number, 
 
     }): Promise<{ message: string }>;
@@ -45,8 +46,7 @@ export class RecomFormPage implements OnInit {
   };
 
   email:string;
-  subject: string;
-  text: string;
+  nomUtil:string;
   action: number =1;
   subject1: string;
   subject2: string;
@@ -54,26 +54,13 @@ export class RecomFormPage implements OnInit {
   mail2: string;
 
   async intent(){
-   
+
     this.email = this.form.value['mailDest'];
+    this.nomUtil = this.form.value['nomUtili'];
 
-    // if(this.action === 1){
-    //   this.subject = this.subject1;
-    //   this.text = this.mail1
-    //   console.log(this.subject);
-    //   console.log(this.text);
+const { message } = await Intent.intent({ email: this.email, nomUtil:this.nomUtil, action: this.action});
 
-    // } else {
-    //   this.subject = this.subject2;
-    //   this.text =  this.mail2;
-    //   console.log(this.subject);
-    //   console.log(this.text);
-
-    // }
-
-const { message } = await Intent.intent({ email: this.email, action: this.action});
-
-console.log('Response from native:', this.email,this.action);
+console.log('Response from native:', this.email,this.nomUtil,this.action);
 console.log(message);
 
 
@@ -121,11 +108,8 @@ console.log(message);
       event.preventDefault();
       this.formSubmitted = true;
       console.log(this.form.value); // Process your form
-
   }
 }
-
-  
 
 
 affichNom(){

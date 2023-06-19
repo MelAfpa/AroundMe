@@ -5,13 +5,15 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@io
 import { HttpClient } from '@angular/common/http';
 
 import { Geolocation } from '@capacitor/geolocation';
-import { DbService, Ent } from '../services/db.service';
+import { DbService } from '../services/db.service';
 import { Observable, TimeoutError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WordpressService } from '../services/wordpress.service';
 import { FormControl } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
+import { Network } from '@capacitor/network';
 
+import { Entreprise } from '../models/entreprise';
 @Component({
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
@@ -20,10 +22,12 @@ import { LoadingController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   ngOnInit() {
-    this.loadEntreprises();
+    
 
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
+      	this.loadEntreprises();
+      
         // this.db.getEnt().subscribe(ent => {
         //   this.entreprise = ent;
           
@@ -42,7 +46,7 @@ export class HomePage implements OnInit {
     private wordpressService: WordpressService,
     private router: Router,
     private route: ActivatedRoute,
-    public loadingController: LoadingController,) {
+    public loadingController: LoadingController) {
     
 // console.log('HomePage constructor');
   }
@@ -55,7 +59,7 @@ longitude: number;
 adresse:any;
 ville:string;
 
-entrep: Ent[] = [];
+entrep: Entreprise[] = [];
 entreprise:any = [];
 ent: any;
 selectedView = 'ent';
@@ -68,21 +72,6 @@ entreprisesWP: Array<any> = new Array<any>();
   entDb: any;
   page:number;
   arrayIdEntreprise:any = [];
-
-  id_entreprise: number;
-  nom_entreprise: string;
-  telephone_entreprise: string;
-  adresse_entreprise: string;
-  infos_entreprise: string;
-  description_entreprise: string;
-  site_internet_entreprise: string;
-  reseaux_sociaux_entreprise: string;
-  monnaie_locale_entreprise: boolean;
-  livraison_entreprise: boolean;
-  latitude_entreprise: number;
-  longitude_entreprise: number;
-  id_departement: number
-
 
 // async searchEnt(word:string){
 //   await this.db.searchEnt(word).then(async(res) => {
@@ -210,11 +199,54 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
+// entrepriseById:[] = [];
+// async loadId(id_entreprise){
+//   await this.wordpressService.getEntreprisesById(id_entreprise).then(async data => {
+//     console.log("getEntrepriseById");
+//     console.log("data:", data);
+//     var res = JSON.stringify(data);
+//     console.log("res:",res);
+//     var resultats = JSON.parse(res);
 
+//     if(resultats){
+//       console.log(resultats.length);
+//       for(var i=0; i<resultats.length;i++){
+//         this.entrepriseById.push(resultats[i]);
+//         console.log("ID:", resultats[i]);
+//       }
+//   }
+//   })
+// }
+
+
+private addMarkerEntreprise(entreprise: Entreprise)
+{
+          if(entreprise.lien_image === ''){
+          	entreprise.lien_image = "assets/uploads/logo_mini2.png"
+	  }
+      	  var displaySite = '';
+          if(entreprise.site_internet_entreprise ===''){
+	          displaySite = 'display:none;';
+          }
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;'>"+entreprise.nom_entreprise +"</p><p id='textPopup' style='padding 7px;' >"+entreprise.sous_titre_entreprise
+              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;" + displaySite + ";' href='"+entreprise.site_internet_entreprise+"' >Site internet</a><div></div>");
+  
+              L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+
+          
+}
 
 private async  loadEntreprises()
 {
+  const status = await Network.getStatus();
 
+  console.log(status);
+  if(status && status.connected == true)// && status.connectionType != ConnectionType.unknow && status.connectionType != ConnectionType.none)
+  {
+  	console.log("load from web");
+  
   await this.wordpressService.getEntreprisesByPages().then(async resultsO => { // Récupère les données wordpress
     // console.log("results getEntreprises");
     // console.log("resultsO : ",resultsO);
@@ -226,22 +258,25 @@ private async  loadEntreprises()
     if(results)
     {
       var content = [];
+      var currentEntreprise;
       console.log(results.length);
 
         for(var i=0; i < results.length ;i++){
           this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
         
+          currentEntreprise = new Entreprise();
+          currentEntreprise.fillFromWeb(results[i]);
 
           await this.db.getEntreprise(results[i]['id']).then(async data =>{
             if(data === undefined){ // id Sqlite undefined => ajout
               console.log("WP : ",results[i]['id']);
 
               console.log("addEnt");
-              this.db.addEntreprise(this.nom_entreprise, this.id_entreprise, this.telephone_entreprise, this.adresse_entreprise, this.infos_entreprise, this.description_entreprise, 
-              this.site_internet_entreprise, this.reseaux_sociaux_entreprise, this.monnaie_locale_entreprise, this.livraison_entreprise, this.latitude_entreprise, 
-              this.longitude_entreprise, this.id_departement).then(addEnt => {
+              this.db.addEntreprise(
+              	currentEntreprise
+              ).then(addEnt => {
                 this.entreprisesWP.push(addEnt);
-
+		//télécharger l'image en local
               })
             }
 
@@ -251,71 +286,37 @@ private async  loadEntreprises()
               console.log("results === entDb : "); 
               console.log("SQLite : ",data['id_entreprise']);
               console.log("WP : ",results[i]['id']);
+              this.db.updateEntreprise(
+              	currentEntreprise
+              ).then(updateEnt => {
+                this.entreprisesWP.push(updateEnt);
 
+              })
               return results[i];
             } 
             console.log("WP.length : ",this.entreprisesWP.length);
           }) 
-
-          var nom = (results[i].title.rendered).toLowerCase();
-          nom = nom.charAt(0).toUpperCase()+nom.slice(1);
-
-          var infos=results[i].meta['sous-titre'];
-          var site = results[i].meta.site_internet;
-          var coords =  results[i].meta.sur_la_carte;
-          var lat = coords[0]['lat'];
-          var long = coords[0]['lng']
-          var img = results[i].meta.link_media;
-          console.log(img);
-          if(site[0] ===''){
-            if(img === ''){
-              img = "assets/uploads/logo_mini2.png"
-
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><div></div>");
-  
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-
-            } else {
-
-              img = "assets/uploads/logo_mini2.png"
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><div></div>");
-
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-            }
-          } else {
-            if(img === ''){
-              img = "assets/uploads/logo_mini2.png"
-
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-  
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-
-            } else {
-              
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-            }
-          }
-          
-        } 
+	
+	  this.addMarkerEntreprise(currentEntreprise);
+        }
         await this.db.deleteEntNotIn(this.arrayIdEntreprise);
         console.log("delete");
-    } 
+    }
 
-  }) 
+  })
+  }
+  else
+  {
+    	console.log("load from bdd");
+    // pas de connexion donc chargement depuis BDD
+  	await this.db.loadEntreprise().then(async entreprises =>{
+  		console.log(entreprises);
+  		
+  		for(var i=0; i < entreprises.length ;i++){
+  			this.addMarkerEntreprise(entreprises[i]);
+  		}
+  	});
+   }
 
   } 
 

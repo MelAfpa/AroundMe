@@ -21,7 +21,7 @@
       (ngSubmit)="submitForm($event)"
       novalidate
     >
-      <ion-list>
+      <ion-list id="listeChoix">
         <ion-item class="formChoix" color="primary">
           <ion-select
             interface="popover"
@@ -55,9 +55,9 @@
 
         <ion-input
           class="mailDest"
-          type="mail"
+          type="email"
           formControlName="mailDest"
-          placeholder="xxx@xxx.xx"
+          placeholder="abc@def.fr"
           [clearInput]="true"
         ></ion-input>
       </ion-item>
@@ -76,7 +76,7 @@
           class="nomUtili"
           type="text"
           formControlName="nomUtili"
-          placeholder="François Cadeau"
+          placeholder="Mon prénom"
           [clearInput]="true"
           [ngClass]="{'form-submitted': formSubmitted}"
           (keyup)="affichNom()"
@@ -105,8 +105,9 @@
         <br /><br />
 
         <i>
-          Bonjour, \n J'ai découvert l'application Autour de moi et je pense que
-          son partage est intéressant.<br />
+          Bonjour, <br />
+          J'ai découvert l'application Autour de moi et je pense que son partage
+          est intéressant.<br />
           Elle permet de trouver des commerces respectant une charte définie
           (éthique, partage, intégrité ...) autour de soi.
           <br /><br />
