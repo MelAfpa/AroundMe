@@ -175,8 +175,7 @@ console.log(JSON.stringify(data));
 
       if(data.rows.length > 0){
         console.log('if loop');
-        console.log(data.rows);
-        this.loadEntreprise();
+      // this.pushEntreprise(data);
         return data.rows;
       } else {
         console.log("Aucun résultat");
@@ -186,10 +185,31 @@ console.log("end db function");
     })
   }
 
+  // async pushEntreprise(data){
+  //   var entreprise: Ent[] = [];
+
+  //   for(let i = 0; i < data.rows.length; i++){
+  //     return {
+  //       id_entreprise: data.rows.item(0).id_entreprise,
+  //       nom_entreprise: data.rows.item(0).nom_entreprise,
+  //       telephone_entreprise: data.rows.item(0).telephone_entreprise,
+  //       adresse_entreprise: data.rows.item(0).adresse_entreprise,
+  //       infos_entreprise: data.rows.item(0).infos_entreprise,
+  //       description_entreprise: data.rows.item(0).description_entreprise,
+  //       site_internet_entreprise: data.rows.item(0).site_internet_entreprise,
+  //       reseaux_sociaux_entreprise: data.rows.item(0).reseaux_sociaux_entreprise,
+  //       monnaie_locale_entreprise: data.rows.item(0).monnaie_locale_entreprise,
+  //       livraison_entreprise: data.rows.item(0).livraison_entreprise,
+  //       latitude_entreprise: data.rows.item(0).latitude_entreprise,
+  //       longitude_entreprise: data.rows.item(0).longitude_entreprise,
+  //       id_departement: data.rows.item(0).id_departement
+  //     }
+  //   }
+  // }
 
   addEntreprise(nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
-  site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
-  longitude_entreprise, id_departement) {
+                site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
+                longitude_entreprise, id_departement) {
 
     let data = [nom_entreprise, id_entreprise, telephone_entreprise, adresse_entreprise, infos_entreprise, description_entreprise, 
   site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, 
@@ -202,17 +222,17 @@ console.log("end db function");
 }
 
 
-  // updateEntreprise(ent: Ent) {
-  //   let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
-  //   return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
-  //                                   adresse_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
-  //                                   reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
-  //                                   longitude_entreprise = ?, id_departement = ? WHERE id = ${ent.id_entreprise}`, data).then(data => {
+  updateEntreprise(ent: Ent) {
+    let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
+    return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
+                                    adresse_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
+                                    reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
+                                    longitude_entreprise = ?, id_departement = ? WHERE id = ${ent.id_entreprise}`, data).then(data => {
                                       
-  //                                     alert('Entreprise modifiée');
-  //                                     this.loadEntreprise();
-  //                                   })
-  // }
+                                      alert('Entreprise modifiée');
+                                      this.loadEntreprise();
+                                    })
+  }
 
 
   // deleteEntreprise(id_entreprise) {
