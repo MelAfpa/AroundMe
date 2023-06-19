@@ -40,7 +40,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
     implementation 'org.apache.commons:commons-text:1.9'
-
 }
 
 apply from: 'capacitor.build.gradle'

@@ -21,6 +21,11 @@ const routes: Routes = [
     path: 'recom-form',
     loadChildren: () => import('./recom-form/recom-form.module').then( m => m.RecomFormPageModule)
   },
+  {
+    path: 'view-details/:id',
+    loadChildren: () => import('./view-details/view-details.module').then( m => m.ViewDetailsPageModule)
+  },
+
 
 ];
 

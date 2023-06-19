@@ -1,6 +1,12 @@
 
 .menu, a{
     text-decoration: none;
-    color: black;
+   /* color: black;*/
+   color: var(--ion-menu-text);
 }
+
+#contentMenu{
+   background-color: var(--ion-background-color);
+}
+
 

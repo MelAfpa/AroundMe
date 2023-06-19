@@ -5,6 +5,10 @@ const config: CapacitorConfig = {
   appName: 'AutourDeMoi',
   webDir: 'www',
   "plugins": {
+    "SplashScreen":{
+      "launchShowDuration": 0,
+      "launchAutoHide": true
+    },
     "CapacitorSQLite": {
       "iosDatabaseLocation": "Library/CapacitorDatabase",
       "iosIsEncryption": false,

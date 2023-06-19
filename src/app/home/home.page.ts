@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WordpressService } from '../services/wordpress.service';
 import { FormControl } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
+// import { PopupService } from '../services/popup.service';
 
 @Component({
   templateUrl: 'home.page.html',
@@ -42,7 +43,9 @@ export class HomePage implements OnInit {
     private wordpressService: WordpressService,
     private router: Router,
     private route: ActivatedRoute,
-    public loadingController: LoadingController,) {
+    public loadingController: LoadingController,
+    // private popupService: PopupService
+    ) {
     
 // console.log('HomePage constructor');
   }
@@ -84,17 +87,17 @@ entreprisesWP: Array<any> = new Array<any>();
   id_departement: number
 
 
-// async searchEnt(word:string){
-//   await this.db.searchEnt(word).then(async(res) => {
-// console.log('in function');
-// console.log(word);
+async searchEnt(word:string){
+  await this.db.searchEnt(word).then(async(res) => {
+console.log('in function');
+console.log(word);
 
-//     this.db.getEnt().subscribe(data => {
-//       this.entreprise = data;
-//       console.log(data);
-//   })
-// })
-// }
+    this.db.getEnt().subscribe(data => {
+      this.entreprise = data;
+      console.log(data);
+  })
+})
+}
 
 userPosition = L.icon({
   iconUrl: 'assets/uploads/markers/userMarker.png',
@@ -151,13 +154,6 @@ ionViewDidEnter() {
   L.control.layers(baseMaps).addTo(this.map);
   this.locate();
 }
-
-
-// ionViewWillEnter() {
-//   console.log('ionViewWillEnter');
-
-  
-// }
   
 
 // Geocoding
@@ -210,6 +206,27 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
   });
 }
 
+// entrepriseById:[] = [];
+// async loadId(id){
+//   id = ['id'];
+//   await this.wordpressService.getEntreprisesById(id).then(async data => {
+//   const id2 = data['id'];
+//     console.log("id2 : ",id2);
+//     console.log("id : ",id);
+
+//     console.log("getEntrepriseById");
+//     console.log("data : ", data);
+//     var res = JSON.stringify(data);
+//     console.log("res : ",res);
+//     var resultats = JSON.parse(res);
+//     console.log("resultats : ", resultats);
+//   //   if(resultats){
+//   //     console.log("resultats.length:",resultats.length);
+      
+//   // }
+//   })
+
+// }
 
 
 private async  loadEntreprises()
@@ -251,7 +268,6 @@ private async  loadEntreprises()
               console.log("results === entDb : "); 
               console.log("SQLite : ",data['id_entreprise']);
               console.log("WP : ",results[i]['id']);
-
               return results[i];
             } 
             console.log("WP.length : ",this.entreprisesWP.length);
@@ -259,66 +275,59 @@ private async  loadEntreprises()
 
           var nom = (results[i].title.rendered).toLowerCase();
           nom = nom.charAt(0).toUpperCase()+nom.slice(1);
-
-          var infos=results[i].meta['sous-titre'];
+          var id = results[i].id;
+          var infos = results[i].meta['sous-titre'];
           var site = results[i].meta.site_internet;
-          var coords =  results[i].meta.sur_la_carte;
+          var coords = results[i].meta.sur_la_carte;
           var lat = coords[0]['lat'];
-          var long = coords[0]['lng']
-          var img = results[i].meta.link_media;
-          console.log(img);
-          if(site[0] ===''){
-            if(img === ''){
-              img = "assets/uploads/logo_mini2.png"
+          var long = coords[0]['lng'];
+          var img;
 
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><div></div>");
-  
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-
-            } else {
-
-              img = "assets/uploads/logo_mini2.png"
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><div></div>");
-
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-            }
-          } else {
-            if(img === ''){
-              img = "assets/uploads/logo_mini2.png"
-
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-  
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-
-            } else {
-              
-              var popup = L.popup()
-              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
-              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -5px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
-              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>");
-
-              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
-            }
+          if (img === ''){ 
+            img = "assets/uploads/logo_mini2.png";
           }
-          
+          else {
+            img = results[i].meta.link_media;
+          }
+      
+          if(site[0] ===''){
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain;padding-bottom:10px;'/><div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:0px 0px -7px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><div></div>");
+
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);
+
+          } else {
+                        
+              var popup = L.popup()
+              .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img id='imgPopup' src='"+img+"' alt='logo "+nom
+              +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;'>"+nom +"</p><p id='textPopup' style='padding 7px;' >"+infos
+              +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;' href='"+site+"' >Site internet</a><div></div>" );
+
+
+
+             img.on('click', function getId(){
+                console.log('popUp');
+                var id = results[i].id;
+
+                console.log(id);
+              })
+
+              
+              L.marker([ lat, long], {icon: this.orIcon}).bindPopup(popup).addTo(this.map);            
+
+            }
+            
+            
         } 
         await this.db.deleteEntNotIn(this.arrayIdEntreprise);
         console.log("delete");
+
+
+
     } 
-
   }) 
-
   } 
-
-
 
 }

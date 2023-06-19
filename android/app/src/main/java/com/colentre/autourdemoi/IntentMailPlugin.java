@@ -33,15 +33,29 @@ public class IntentMailPlugin extends Plugin {
 
         String message = "";
 
-Log.d("DEBUG", "IntentMailPlugin");
-
         final String email = data.has("email") ? data.getString("email") : null;
+        final String nomUtil = data.has("nomUtil") ? data.getString("nomUtil") : null;
         Integer action = data.has("action") ? data.getInteger("action") : null;
         String subject1 = "Découvrez AutourDeMoi";
         String subject2 = "Intégrez AutourDeMoi";
-        String mail1 = " Bonjour, \n J'ai découvert l'application Autour de moi et je pense que son partage est intéressant.\n Elle permet de trouver des commerces respectant une charte défini (éthique, partage, intégrité ...) autour de soi.\n\n<a href='#'>Voici le lien de téléchargement</a>\n\n Cordialement,\n {{this.nom}}\n\nCe message a été envoyé par le collectif Colentre.\nAucun mail n'est enregistré en base de données.";
+        String mail1 = " Bonjour,<br><br>" +
+                "J'ai découvert l'application Autour de moi et je pense que son partage est intéressant.<br/>" +
+                "Elle permet de trouver des commerces respectant une charte défini (éthique, partage, intégrité ...) autour de soi. <br><br>" +
+                "Voici le lien vers le site internet : https://autourdemoi.colentre.com/" +
+                "<br/><br>Cordialement,<br/>" +
+                nomUtil + "br/><br/>" +
+                "Ce message a été envoyé par le collectif Colentre.<br/><br/>" +
+                "Aucun mail n'est enregistré en base de données.";
         
-        String mail2 = "Bonjour, \nJ'ai découvert l'application Autour de moi, elle permet de dénicher les entreprises et commerces autour de moi, répertoriés selon une charte définie (éthique, partage, intégrité ...).\nVotre commerce n'est pas présent sur le site, que penseriez-vous d'yfigurer ?\n\n<a href='https://autourdemoi.colentre.com/#'        >Voici le lien vers le site internet</a>\n <a href='#'>Et celui de l'application sur Google play</a> \n\n Cordialement,\n{{this.nom}}\n\nCe message a été envoyé par le collectif Colentre.\nAucun mail n'est enregistré en base de données.";
+        String mail2 = "Bonjour,<br/><br>" +
+                "J'ai découvert l'application Autour de moi, elle permet de dénicher les entreprises et commerces autour de moi, " +
+                "répertoriés selon une charte définie (éthique, partage, intégrité ...).<br/><br/>" +
+                "Votre commerce n'est pas présent sur le site, que penseriez-vous d'y figurer ?<br><br>" +
+                "Voici le lien vers le site internet : https://autourdemoi.colentre.com/<br>" +
+                "Cordialement,<br>"+
+                nomUtil+"<br><br>" +
+                "Ce message a été envoyé par le collectif Colentre.<br>" +
+                "Aucun mail n'est enregistré en base de données.";
 
         if(email != null && !email.trim().isEmpty() && action != null){
             
@@ -50,9 +64,8 @@ Log.d("DEBUG", "IntentMailPlugin");
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
 
-Log.d("Variable", email);
-Log.d("Variable", String.valueOf(action));
-
+// Log.d("Variable", email);
+// Log.d("Variable", String.valueOf(action));
 
             if(action == 1){
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject1);
@@ -81,7 +94,6 @@ Log.d("Variable", String.valueOf(action));
         JSObject ret = new JSObject();
             ret.put("message", message);
             call.resolve(ret);
-
     }
 }
 

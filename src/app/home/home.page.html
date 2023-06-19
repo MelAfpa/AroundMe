@@ -15,14 +15,14 @@
         vertical="center"
         horizontal="top"
         id="keepPosition"
-        (click)="locate()"
+        (click)="locate();"
       >
         <ion-fab-button>
           <ion-icon name="navigate-outline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
     </div>
-    <!-- <div>
+    <div>
       <ion-searchbar
         id="search"
         show-clear-button="always"
@@ -42,13 +42,13 @@
           <ion-label id="searchResults">
             <p id="id" [innerHTML]="ent.id"></p>
             <p id="nom" [innerHTML]="ent.title.rendered"></p>
-            <p id="infos" [innerHTML]="ent.meta.sous-titre"></p>
+            <p id="infos" [innerHTML]="ent.meta['sous-titre']"></p>
             <p id="site" [innerHTML]="ent.meta.site_internet"></p>
             <p id="lat" [innerHTML]="ent.meta.__adresseGeoLat"></p>
             <p id="long" [innerHTML]="ent.meta.__adresseGeoLng"></p>
           </ion-label>
         </ion-item>
       </ion-list>
-    </div> -->
+    </div>
   </ion-content>
 </div>

@@ -8,7 +8,7 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import android.os.Bundle; 
+import android.os.Bundle;
 // import android.content.Intent;
 // import android.net.Uri;
 // import android.os.Bundle;
