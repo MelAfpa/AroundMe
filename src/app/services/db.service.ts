@@ -133,7 +133,7 @@ import {Entreprise} from '../models/entreprise';
     var query = "SELECT * from entreprise where nom_entreprise LIKE '%"+word+"%'";
     var params = [];
     await this.database.executeSql(query, params).then(async data => {
-      console.log(data); 
+      // console.log("data : ",data); 
 
       if(data && data.rows && data.rows.length >0){
         for (var i = 0; i < data.rows.length; i++) {
@@ -141,9 +141,9 @@ import {Entreprise} from '../models/entreprise';
           currentEntreprise.fill(data.rows.item(i));        
           entreprises.push(currentEntreprise);
         }
-        console.log(entreprises);
+        console.log("entreprises : ",entreprises);
       } else{
-        console.log("Error");
+        console.log("No results db.service");
       }
     
     }).catch((err)=>{
@@ -152,7 +152,7 @@ import {Entreprise} from '../models/entreprise';
       //return undefined;
     });
       
-    console.log("end search function");
+    console.log("-------------- end search function --------------");
     return entreprises;
   }
 

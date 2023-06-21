@@ -84,18 +84,23 @@ export class Entreprise {
   
   public fill(datas)
   {
-    //TODO ajouter les autres champs
   	console.log('fill');
-  	//console.log(datas);
-    this.id_entreprise = datas.id_entreprise;
-    this.nom_entreprise = datas.nom_entreprise;
-    
-    this.sous_titre_entreprise = datas.sous_titre_entreprise;
-    this.site_internet_entreprise = datas.site_internet_entreprise;
-    
-    this.latitude_entreprise = datas.latitude_entreprise;
-    this.longitude_entreprise = datas.longitude_entreprise;
-    this.lien_image = datas.lien_image;
+
+    this.id_entreprise = datas.id_entreprise,
+	  this.nom_entreprise = datas.nom_entreprise,
+		this.telephone_entreprise = datas.telephone_entreprise,
+		this.adresse_entreprise = datas.adresse_entreprise,
+		this.infos_entreprise = datas.infos_entreprise,
+		this.description_entreprise = datas.description_entreprise,
+		this.sous_titre_entreprise = datas.sous_titre_entreprise,
+    this.site_internet_entreprise = datas.site_internet_entreprise,
+		this.reseaux_sociaux_entreprise = datas.reseaux_sociaux_entreprise,
+		this.monnaie_locale_entreprise = datas.monnaie_locale_entreprise,
+		this.livraison_entreprise = datas.livraison_entreprise,
+		this.latitude_entreprise = datas.latitude_entreprise,
+    this.longitude_entreprise = datas.longitude_entreprise,
+    this.lien_image = datas.lien_image,
+		this.id_departement = datas.id_departement;
   
   }
   

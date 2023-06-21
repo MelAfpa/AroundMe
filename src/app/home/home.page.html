@@ -33,6 +33,13 @@
         animated
         (keyup.enter)="searchEnt(filterTerm)"
       ></ion-searchbar>
+      <ion-toast
+        [isOpen]="isToastOpen"
+        message="Aucun résultat ne correspond à votre recherche"
+        [duration]="5000"
+        (didDismiss)="setOpen(false)"
+      ></ion-toast>
+
       <ion-list id="list">
         <ion-item
           button
