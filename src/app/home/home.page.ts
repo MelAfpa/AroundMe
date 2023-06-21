@@ -79,35 +79,15 @@ entreprisesWP: Array<any> = new Array<any>();
   page:number;
   arrayIdEntreprise:any = [];
 
+  isToastOpen = false;
 
-  async searchEnt(word: string){
-    console.log("searchEnt start ts");
-    await this.db.searchEnt(word).then(async resultsO => { 
-      if(resultsO)
-      {
-        // Récupère les données wordpress
-        // console.log("results getEntreprises");
-        // console.log("resultsO : ",resultsO);
-        var resultsS = JSON.stringify(resultsO);
-        // console.log("resultsS : ",resultsS);
-        var results = JSON.parse(resultsS).reverse();
-        console.log("results : ",results);
-        
-        if(results)
-        {
-          this.entreprisesWP = new Array<any>();
-          //TODO : supprimer les markers présents sur la carte
-          
+  startMarkers:L.LayerGroup = L.layerGroup();
+  // searchEntMarker:L.LayerGroup = L.layerGroup();
+  // searchRemoveMarker:L.LayerGroup = L.layerGroup();
+  // content: L.LayerGroup;
+  m:L.Marker;
 
-          for(var i=0; i < results.length ;i++){
-            this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
-            this.addMarkerEntreprise(results[i]);
-          }        
-        }
-      }
-  
-    })
-  }
+
 
 userPosition = L.icon({
   iconUrl: 'assets/uploads/markers/userMarker.png',
@@ -163,15 +143,19 @@ ionViewDidEnter() {
   }
   L.control.layers(baseMaps).addTo(this.map);
   this.locate();
+
+  this.map.addLayer(this.startMarkers);
+  // this.map.addLayer(this.searchEntMarker);
+
+
+  this.startMarkers.addTo(this.map);
+  // this.searchEntMarker.addTo(this.map);
+  // this.searchRemoveMarker.addTo(this.map);
+
+  // this.content = L.layerGroup().addTo(this.map);
+
 }
 
-
-// ionViewWillEnter() {
-//   console.log('ionViewWillEnter');
-
-  
-// }
-  
 
 // Geocoding
 
@@ -252,6 +236,7 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     if(entreprise.site_internet_entreprise ===''){
             displaySite = 'display:none;';
     }
+        
         var popup = L.popup()
         .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 140px'>"
         +"<img class='detailClickImg' id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
@@ -266,7 +251,7 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
         //https://stackoverflow.com/questions/54352169/why-my-button-in-leaflet-popup-not-working
         //https://codesandbox.io/s/l3l468y5w7?file=/src/app/app.component.ts
 
-        L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.map)
+        L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.startMarkers).addTo(this.map)
         .on("popupopen", () => {
           console.log("popupopen on");
           this.elementRef.nativeElement
@@ -295,9 +280,70 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
           .addEventListener("click", e => {
             this.openDetail(entreprise);
           });
-        })
-        ;  
+        }) ; 
+        
   }
+
+
+async searchEnt(word: string){
+  console.log("---------------------------  searchEnt start ts");
+  await this.db.searchEnt(word).then(async resultsO => { 
+    if(resultsO.length > 0) // Le mot cherché correspond à 1 ou plusieurs entreprises
+    {
+      // console.log("results getEntreprises");
+      // console.log("resultsO : ",resultsO);
+      var resultsS = JSON.stringify(resultsO);
+      // console.log("resultsS :" ,resultsS);
+      var results = JSON.parse(resultsS);
+      console.log("results : ",results);
+
+      if(results.length > 0 || !word)
+      {
+        console.log("-- results > 0");
+        this.entreprisesWP = new Array<any>();
+        console.log("wp : ",this.entreprisesWP);
+
+         //TODO : supprimer les markers présents sur la carte
+         
+         console.log("supprimer couche marker");
+        //  this.map.removeLayer(this.startMarkers);
+         this.startMarkers.remove();
+        //  this.content.clearLayers(); 
+    
+        // if(this.map.hasLayer(this.m)){
+          // console.log(this.startMarkers.hasLayer(this.m) );
+          // this.map.removeLayer(this.startMarkers);
+        // }
+
+        for(var i=0; i < results.length ;i++){
+
+          console.log("-- for loop --");
+          this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
+          console.log("Ajouter le marker de l'entreprise");
+          this.addMarkerEntreprise(results[i]);
+        }  
+        console.log("wp : ",this.entreprisesWP);
+
+      }
+    
+    } else if(resultsO.length === 0) {
+      console.log("------------------------------------- No results ts -----------------------------------------");
+
+      //TODO : afficher un message si la recherche ne renvoie aucun resultat
+      
+      this.setOpen(true);
+
+      this.loadEntreprises();
+
+    }
+  })
+}
+
+setOpen(isOpen: boolean) {
+  this.isToastOpen = isOpen;
+}
+
+
 
   openDetail(entreprise: Entreprise)
   {
@@ -404,6 +450,8 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
         });
     }
   } 
+
+
 
 
 
