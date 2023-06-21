@@ -5,10 +5,10 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@io
 import { HttpClient } from '@angular/common/http';
 
 import { Geolocation } from '@capacitor/geolocation';
-import { DbService } from '../services/db.service';
+import { DbService } from '../../services/db.service';
 import { Observable, TimeoutError } from 'rxjs';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { WordpressService } from '../services/wordpress.service';
+import { WordpressService } from '../../services/wordpress.service';
 import { FormControl } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
@@ -16,13 +16,13 @@ import { Network } from '@capacitor/network';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
-import { Entreprise } from '../models/entreprise';
+import { Entreprise } from '../../models/entreprise';
 @Component({
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: 'carte.page.html',
+  styleUrls: ['carte.page.scss'],
 })
 
-export class HomePage implements OnInit {
+export class CartePage implements OnInit {
 
   ngOnInit() {
     
@@ -51,11 +51,10 @@ export class HomePage implements OnInit {
     private route: ActivatedRoute,
     public loadingController: LoadingController, private elementRef: ElementRef) {
     
- console.log('HomePage constructor');
+// console.log('CartePage constructor');
   }
 
 // ----------------------------------------------------------- DECLARATION DE VARIABLES -----------------------------------------------------------
-
 map:Map;
 coords: any;
 latitude: number;
@@ -79,35 +78,17 @@ entreprisesWP: Array<any> = new Array<any>();
   page:number;
   arrayIdEntreprise:any = [];
 
+// async searchEnt(word:string){
+//   await this.db.searchEnt(word).then(async(res) => {
+// console.log('in function');
+// console.log(word);
 
-  async searchEnt(word: string){
-    console.log("searchEnt start ts");
-    await this.db.searchEnt(word).then(async resultsO => { 
-      if(resultsO)
-      {
-        // Récupère les données wordpress
-        // console.log("results getEntreprises");
-        // console.log("resultsO : ",resultsO);
-        var resultsS = JSON.stringify(resultsO);
-        // console.log("resultsS : ",resultsS);
-        var results = JSON.parse(resultsS).reverse();
-        console.log("results : ",results);
-        
-        if(results)
-        {
-          this.entreprisesWP = new Array<any>();
-          //TODO : supprimer les markers présents sur la carte
-          
-
-          for(var i=0; i < results.length ;i++){
-            this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
-            this.addMarkerEntreprise(results[i]);
-          }        
-        }
-      }
-  
-    })
-  }
+//     this.db.getEnt().subscribe(data => {
+//       this.entreprise = data;
+//       console.log(data);
+//   })
+// })
+// }
 
 userPosition = L.icon({
   iconUrl: 'assets/uploads/markers/userMarker.png',
@@ -252,16 +233,10 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     if(entreprise.site_internet_entreprise ===''){
             displaySite = 'display:none;';
     }
-        var popup = L.popup()
-        .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 140px'>"
-        +"<img class='detailClickImg' id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
-        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/>"
-        +"<div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>"
-        +"<p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;' class='detailClick1'>"+entreprise.nom_entreprise +"</p>"
-        +"<p id='textPopup' style='padding 7px;' class='detailClick2' >"+entreprise.sous_titre_entreprise
-        +"</p><a id='sitePopup' class='popupButton' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;" + displaySite + ";' href='"+entreprise.site_internet_entreprise+"' ><ion-icon name='cloud-outline'></ion-icon></a><br/>"
-        +"<ion-button class='detailClick3' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;'><ion-icon name='eye-outline'></ion-icon></ion-button><br/>"
-        +"<div></div>");
+        /*var popup = L.popup()
+        .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 120px'><img class='detail' id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
+        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/><div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>  <p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;' class='detail'>"+entreprise.nom_entreprise +"</p><p id='textPopup' style='padding 7px;' class='detail' >"+entreprise.sous_titre_entreprise
+        +"</p><a id='sitePopup' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;" + displaySite + ";' href='"+entreprise.site_internet_entreprise+"' >Site</a><br/><button class='detail' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;'>Détails</button><div></div>");
 
         //https://stackoverflow.com/questions/54352169/why-my-button-in-leaflet-popup-not-working
         //https://codesandbox.io/s/l3l468y5w7?file=/src/app/app.component.ts
@@ -270,33 +245,12 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
         .on("popupopen", () => {
           console.log("popupopen on");
           this.elementRef.nativeElement
-          .querySelector(".detailClickImg")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick1")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick2")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick3")
+          .querySelector(".detail")
           .addEventListener("click", e => {
             this.openDetail(entreprise);
           });
         })
-        ;  
+        ;  */
   }
 
   openDetail(entreprise: Entreprise)
@@ -304,13 +258,12 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
     console.log("openDetail");
     console.log(entreprise);
     let navigationExtras: NavigationExtras = {
-      state: {
-          entreprise: entreprise//JSON.stringify(entreprise)
+      queryParams: {
+          entreprise: JSON.stringify(entreprise)
       }
   };
 
-  //this.router.navigate(['/home/entreprise-detail'], navigationExtras);
-  this.router.navigate(['entreprise-detail'], navigationExtras);
+  this.router.navigate(['/entreprise-detail'], navigationExtras);
 
   }
 

@@ -1,15 +1,3 @@
-/*import { Injectable } from '@angular/core';
-import '@capacitor-community/sqlite';
-
-import { Platform } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
-import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
-*/
-
-
 export class Entreprise {
   id_entreprise: number;
   nom_entreprise: string;
@@ -28,106 +16,111 @@ export class Entreprise {
   lien_image: string = '';
   
   public toInsert(){
-	console.log("toInsert");
-
-  	return [
-		this.id_entreprise, 
-		this.nom_entreprise, 
-		this.telephone_entreprise,
-		this.adresse_entreprise,
-		this.sous_titre_entreprise,
-		this.infos_entreprise,
-		this.description_entreprise,
-		this.site_internet_entreprise,
-		this.reseaux_sociaux_entreprise,
-		this.monnaie_locale_entreprise,
-		this.livraison_entreprise,
-		this.latitude_entreprise,
-		this.longitude_entreprise,
-		this.id_departement,
-		this.lien_image,
-	];
+  	return [this.id_entreprise, 
+      this.nom_entreprise, 
+      this.telephone_entreprise,
+      this.adresse_entreprise,
+      this.sous_titre_entreprise,
+      this.infos_entreprise,
+      this.description_entreprise,
+      this.site_internet_entreprise,
+      this.reseaux_sociaux_entreprise,
+      this.monnaie_locale_entreprise,
+      this.livraison_entreprise,
+      this.latitude_entreprise,
+      this.longitude_entreprise,
+      this.id_departement,
+      this.lien_image,
+	  ];
   }
   
   public toUpdate()
   {
-	console.log("toUpdate");
+  
+  //nom_entreprise = ?, telephone_entreprise = ?, 
+  //                                  adresse_entreprise = ?, sous_titre_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
+  //                                  reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
+   //                                 longitude_entreprise = ?, id_departement = ?, lien_image = ?
     return [
-		this.nom_entreprise, 
-		this.telephone_entreprise,
-		this.adresse_entreprise,
-		this.sous_titre_entreprise,
-		this.infos_entreprise,
-		this.description_entreprise,
-		this.site_internet_entreprise,
-		this.reseaux_sociaux_entreprise,
-		this.monnaie_locale_entreprise,
-		this.livraison_entreprise,
-		this.latitude_entreprise,
-		this.longitude_entreprise,
-		this.id_departement,
-		this.lien_image,
-	];
+      this.nom_entreprise, 
+  	  this.telephone_entreprise,
+      this.adresse_entreprise,
+      this.sous_titre_entreprise,
+      this.infos_entreprise,
+      this.description_entreprise,
+      this.site_internet_entreprise,
+      this.reseaux_sociaux_entreprise,
+      this.monnaie_locale_entreprise,
+      this.livraison_entreprise,
+      this.latitude_entreprise,
+      this.longitude_entreprise,
+      this.id_departement,
+      this.lien_image,
+    ];
+  }
+  
+  public checkNeedUpdate(dataFromWeb)
+  {
+  	//TODO ajouter les autres champs
+	  var coords =  dataFromWeb['meta']['sur_la_carte'];
+    var sousTitre : string  = dataFromWeb['meta']['sous-titre'].toString();
+    
+  	if(this.nom_entreprise != dataFromWeb['title']['rendered'].trim()
+  	  ||  this.sous_titre_entreprise != sousTitre.trim()
+      ||  this.site_internet_entreprise != dataFromWeb['meta']['site_internet'][0].trim()
+      || this.latitude_entreprise != coords[0]['lat']
+      || this.longitude_entreprise != coords[0]['lng']
+      || this.lien_image != dataFromWeb['meta']['link_media'].trim())
+    {
+      console.log('modif entreprise');
+      return true;
+    }
+    else
+    {
+      console.log('not modif entreprise');
+      return false;
+    }
   }
   
   public fill(datas)
   {
+    //TODO ajouter les autres champs
   	console.log('fill');
   	//console.log(datas);
-	this.id_entreprise = datas.id_entreprise;
-	this.nom_entreprise = datas.nom_entreprise;
-	
-	this.sous_titre_entreprise = datas.sous_titre_entreprise;
-        this.site_internet_entreprise = datas.site_internet_entreprise;
-        
-        this.latitude_entreprise = datas.latitude_entreprise;
-        this.longitude_entreprise = datas.longitude_entreprise;
-        this.lien_image = datas.lien_image;
+    this.id_entreprise = datas.id_entreprise;
+    this.nom_entreprise = datas.nom_entreprise;
+    
+    this.sous_titre_entreprise = datas.sous_titre_entreprise;
+    this.site_internet_entreprise = datas.site_internet_entreprise;
+    
+    this.latitude_entreprise = datas.latitude_entreprise;
+    this.longitude_entreprise = datas.longitude_entreprise;
+    this.lien_image = datas.lien_image;
   
   }
   
   public fillFromWeb(datas)
   {
+    //TODO ajouter les autres champs
   	console.log('fillFromWeb');
   	/*console.log(datas);
   	console.log(datas.id);
   	console.log(datas['id']);*/
-	this.id_entreprise = datas['id'];
-	this.nom_entreprise = datas['title']['rendered'];
+	  this.id_entreprise = datas['id'];
+	  this.nom_entreprise = datas['title']['rendered'].trim();
 	
-	this.sous_titre_entreprise = datas['meta']['sous-titre'];
-	this.site_internet_entreprise = datas['meta']['site_internet'][0];
-	
-	var coords =  datas['meta']['sur_la_carte'];
-	this.latitude_entreprise = coords[0]['lat'];
-	this.longitude_entreprise = coords[0]['lng']
-	this.lien_image = datas['meta']['link_media'];
-	console.log('end fillFromWeb');
+    console.log("The data type is", typeof datas['meta']['sous-titre'])
+
+    var sousTitre:string  = datas['meta']['sous-titre'].toString();// != '' ? datas['meta']['sous-titre'] : '');
+	  this.sous_titre_entreprise = sousTitre.trim();
+    this.site_internet_entreprise = datas['meta']['site_internet'][0].trim();
+        
+    var coords =  datas['meta']['sur_la_carte'];
+    this.latitude_entreprise = coords[0]['lat'];
+    this.longitude_entreprise = coords[0]['lng']
+    this.lien_image = datas['meta']['link_media'].trim();
+
   }
-
-  public search(data)
-  {
-	console.log("entreprise.ts search()");
-    return [
-		this.id_entreprise = data.id_entreprise,
-	this.nom_entreprise = data.nom_entreprise,
-		this.telephone_entreprise = data.telephone_entreprise,
-		this.adresse_entreprise = data.adresse_entreprise,
-		this.infos_entreprise = data.infos_entreprise,
-		this.description_entreprise = data.description_entreprise,
-		this.sous_titre_entreprise = data.sous_titre_entreprise,
-        this.site_internet_entreprise = data.site_internet_entreprise,
-		this.reseaux_sociaux_entreprise = data.reseaux_sociaux_entreprise,
-		this.monnaie_locale_entreprise = data.monnaie_locale_entreprise,
-		this.livraison_entreprise = data.livraison_entreprise,
-		this.latitude_entreprise = data.latitude_entreprise,
-        this.longitude_entreprise = data.longitude_entreprise,
-        this.lien_image = data.lien_image,
-		this.id_departement = data.id_departement,
-
-	];
-  }
-
 }
 
 

@@ -7,7 +7,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 // import { NativeGeocoder } from '@awesome-cordova-plugins/native-geocoder';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { HomePageRoutingModule } from './home-routing.module';
-import { Network } from '@capacitor/network';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { Network } from '@capacitor/network';
     LeafletModule,
     HomePageRoutingModule,
     Ng2SearchPipeModule,
-
+    FontAwesomeModule,
   ],
   declarations: [HomePage],
   providers: [

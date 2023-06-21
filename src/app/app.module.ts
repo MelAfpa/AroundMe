@@ -12,10 +12,13 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, Ng2SearchPipeModule, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, Ng2SearchPipeModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy } , NativeGeocoder, SQLite,
     SQLitePorter,],
   bootstrap: [AppComponent],
@@ -24,4 +27,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NO_ERRORS_SCHEMA
   ]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(library: FaIconLibrary) { 
+		library.addIconPacks(fas, far);
+	}
+
+
+}

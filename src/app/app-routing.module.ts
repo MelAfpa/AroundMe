@@ -3,10 +3,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
-  {
+/*  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
@@ -16,12 +16,23 @@ const routes: Routes = [
     redirectTo: 'home/:id',
     pathMatch: 'full'
   },
-  
+*/
   {
     path: 'recom-form',
     loadChildren: () => import('./recom-form/recom-form.module').then( m => m.RecomFormPageModule)
   },
-
+  /*{
+    path: 'carte',
+    loadChildren: () => import('./pages/carte/carte.module').then( m => m.CartePageModule),
+  },*/
+  {
+    path: 'entreprise-detail',
+    loadChildren: () => import('./pages/entreprise-detail/entreprise-detail.module').then(m => m.EntrepriseDetailPageModule),
+  },
+  /*{
+    path: 'entreprise-detail/:id',
+    loadChildren: () => import('./pages/entreprise-detail/entreprise-detail.module').then(m => m.EntrepriseDetailPageModule),
+  },*/
 ];
 
 @NgModule({

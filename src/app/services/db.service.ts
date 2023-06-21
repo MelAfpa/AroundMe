@@ -15,12 +15,12 @@ import {Entreprise} from '../models/entreprise';
   providedIn: 'root'
 })
 
-export class DbService {
+  export class DbService {
 
-  private database: SQLiteObject;
-  private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private database: SQLiteObject;
+    private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  entreprises = new BehaviorSubject([]);
+    entreprises = new BehaviorSubject([]);
 
 
   constructor(private plt: Platform, 
@@ -28,18 +28,18 @@ export class DbService {
               private sqlite: SQLite, 
               private http: HttpClient
               ) {         
-                this.plt.ready().then(() => {
-                  this.sqlite.create({
-                    name: 'entreprise.db',
-                    location: 'default'
-                  })
-                  .then((db: SQLiteObject) => {
-                      this.database = db;
-                      this.createDatabase();
-                  });
-                });
+    this.plt.ready().then(() => {
+      this.sqlite.create({
+        name: 'entreprise.db',
+        location: 'default'
+      })
+      .then((db: SQLiteObject) => {
+          this.database = db;
+          this.createDatabase();
+      });
+    });
 
-                }
+  }
 
 /**
  * Crée  la base de données à partir du fichier SQL mentionné
@@ -50,7 +50,7 @@ export class DbService {
     .subscribe(sql => {
       this.sqlitePorter.importSqlToDb(this.database, sql)
         .then(_ => {
-          this.loadEntreprise();
+          //this.loadEntreprise();
           this.dbReady.next(true);
         })
         .catch(e => console.error(e));
@@ -67,17 +67,17 @@ export class DbService {
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
 
-	  var currentEntreprise = new Entreprise();
-	  currentEntreprise.fill(data.rows.item(i));        
+          var currentEntreprise = new Entreprise();
+          currentEntreprise.fill(data.rows.item(i));        
 
-	   entreprises.push(currentEntreprise);
+          entreprises.push(currentEntreprise);
         }
       }
-	console.log('dbService', entreprises);
+	    console.log('dbService', entreprises);
       this.entreprises.next(entreprises);
       //return entreprises;
     }).catch((err) => {
-    	return undefined;
+    	//return undefined;
     });
     return entreprises;
   }
@@ -126,56 +126,57 @@ export class DbService {
     return this.entreprises.asObservable();
   }
 
-
-
-  async searchEntreprise(word:string){
+  async searchEnt(word: string){
     console.log("searchEnt start");
     let entreprises: Entreprise[] = [];
 
-    await this.database.executeSql("SELECT * from entreprise where nom_entreprise LIKE '%?%' ",[word])
-    .then(async data => {
-      console.log("before loop");
+    var query = "SELECT * from entreprise where nom_entreprise LIKE '%"+word+"%'";
+    var params = [];
+    await this.database.executeSql(query, params).then(async data => {
       console.log(data); 
 
-    if(data && data.rows && data.rows.length >0){
-      console.log('if loop');
-
+      if(data && data.rows && data.rows.length >0){
         for (var i = 0; i < data.rows.length; i++) {
-          console.log("for");
           var currentEntreprise = new Entreprise();
-          currentEntreprise.search(data.rows.item(i));        
+          currentEntreprise.fill(data.rows.item(i));        
           entreprises.push(currentEntreprise);
         }
         console.log(entreprises);
-        return entreprises;
-
-    } else{
-      console.log("Error");
-      return undefined;
-    }
+      } else{
+        console.log("Error");
+      }
     
-  })
+    }).catch((err)=>{
+      console.log("searchEnt err");
+      console.log(JSON.stringify(err));
+      //return undefined;
+    });
       
     console.log("end search function");
+    return entreprises;
   }
-
-
 
   addEntreprise(entreprise: Entreprise){
 
   return this.database.executeSql('INSERT INTO entreprise (id_entreprise, nom_entreprise, telephone_entreprise, adresse_entreprise, sous_titre_entreprise, infos_entreprise, description_entreprise, site_internet_entreprise, reseaux_sociaux_entreprise, monnaie_locale_entreprise, livraison_entreprise, latitude_entreprise, longitude_entreprise, id_departement, lien_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)', entreprise.toInsert()).then(data => {
+                console.log('db.Service addEntreprise data');
+      console.log(data);
+  
+        //entreprise.id_entreprise = data.id_entreprise;
+	//return entreprise;
+  
   });
 }
 
 
    updateEntreprise(entreprise: Entreprise) {
   //   let data = [ent.nom_entreprise, ent.id_entreprise, ent.telephone_entreprise];
-     return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, id_entreprise = ?, telephone_entreprise = ?, 
+     return this.database.executeSql(`UPDATE entreprise SET nom_entreprise = ?, telephone_entreprise = ?, 
                                     adresse_entreprise = ?, sous_titre_entreprise = ?, infos_entreprise = ?, description_entreprise = ?, site_internet_entreprise = ?, 
                                     reseaux_sociaux_entreprise = ?, monnaie_locale_entreprise = ?, livraison_entreprise = ?, latitude_entreprise = ?, 
                                     longitude_entreprise = ?, id_departement = ?, lien_image = ? WHERE id_entreprise = ${entreprise.id_entreprise}`, entreprise.toUpdate()).then(data => {
                                       
-       alert('Entreprise modifiée');
+       //alert('Entreprise modifiée');
      })
    }
 
