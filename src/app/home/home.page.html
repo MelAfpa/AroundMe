@@ -22,7 +22,7 @@
         </ion-fab-button>
       </ion-fab>
     </div>
-    <!-- <div>
+    <div>
       <ion-searchbar
         id="search"
         show-clear-button="always"
@@ -34,21 +34,13 @@
         (keyup.enter)="searchEnt(filterTerm)"
       ></ion-searchbar>
       <ion-list id="list">
-        <ion-item
-          button
-          *ngFor="let ent of entreprisesWP | filter:filterTerm"
-          [routerLink]="['/', 'developers', entreprise.id_entreprise]"
-        >
+        <ion-item button *ngFor="let ent of entreprisesWP | filter:filterTerm">
           <ion-label id="searchResults">
             <p id="id" [innerHTML]="ent.id"></p>
             <p id="nom" [innerHTML]="ent.title.rendered"></p>
-            <p id="infos" [innerHTML]="ent.meta.sous-titre"></p>
-            <p id="site" [innerHTML]="ent.meta.site_internet"></p>
-            <p id="lat" [innerHTML]="ent.meta.__adresseGeoLat"></p>
-            <p id="long" [innerHTML]="ent.meta.__adresseGeoLng"></p>
           </ion-label>
         </ion-item>
       </ion-list>
-    </div> -->
+    </div>
   </ion-content>
 </div>

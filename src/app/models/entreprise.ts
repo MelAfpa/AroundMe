@@ -28,41 +28,45 @@ export class Entreprise {
   lien_image: string = '';
   
   public toInsert(){
-  	return [this.id_entreprise, 
-  	  this.nom_entreprise, 
-  	  this.telephone_entreprise,
-	  this.adresse_entreprise,
-	  this.sous_titre_entreprise,
-	  this.infos_entreprise,
-	  this.description_entreprise,
-	  this.site_internet_entreprise,
-	  this.reseaux_sociaux_entreprise,
-	  this.monnaie_locale_entreprise,
-	  this.livraison_entreprise,
-	  this.latitude_entreprise,
-	  this.longitude_entreprise,
-	  this.id_departement,
-	  this.lien_image,
+	console.log("toInsert");
+
+  	return [
+		this.id_entreprise, 
+		this.nom_entreprise, 
+		this.telephone_entreprise,
+		this.adresse_entreprise,
+		this.sous_titre_entreprise,
+		this.infos_entreprise,
+		this.description_entreprise,
+		this.site_internet_entreprise,
+		this.reseaux_sociaux_entreprise,
+		this.monnaie_locale_entreprise,
+		this.livraison_entreprise,
+		this.latitude_entreprise,
+		this.longitude_entreprise,
+		this.id_departement,
+		this.lien_image,
 	];
   }
   
   public toUpdate()
   {
+	console.log("toUpdate");
     return [
-      	  this.nom_entreprise, 
-  	  this.telephone_entreprise,
-	  this.adresse_entreprise,
-	  this.sous_titre_entreprise,
-	  this.infos_entreprise,
-	  this.description_entreprise,
-	  this.site_internet_entreprise,
-	  this.reseaux_sociaux_entreprise,
-	  this.monnaie_locale_entreprise,
-	  this.livraison_entreprise,
-	  this.latitude_entreprise,
-	  this.longitude_entreprise,
-	  this.id_departement,
-	  this.lien_image,
+		this.nom_entreprise, 
+		this.telephone_entreprise,
+		this.adresse_entreprise,
+		this.sous_titre_entreprise,
+		this.infos_entreprise,
+		this.description_entreprise,
+		this.site_internet_entreprise,
+		this.reseaux_sociaux_entreprise,
+		this.monnaie_locale_entreprise,
+		this.livraison_entreprise,
+		this.latitude_entreprise,
+		this.longitude_entreprise,
+		this.id_departement,
+		this.lien_image,
 	];
   }
   
@@ -92,14 +96,38 @@ export class Entreprise {
 	this.nom_entreprise = datas['title']['rendered'];
 	
 	this.sous_titre_entreprise = datas['meta']['sous-titre'];
-        this.site_internet_entreprise = datas['meta']['site_internet'][0];
-        
-        var coords =  datas['meta']['sur_la_carte'];
-        this.latitude_entreprise = coords[0]['lat'];
-        this.longitude_entreprise = coords[0]['lng']
-        this.lien_image = datas['meta']['link_media'];
-  
+	this.site_internet_entreprise = datas['meta']['site_internet'][0];
+	
+	var coords =  datas['meta']['sur_la_carte'];
+	this.latitude_entreprise = coords[0]['lat'];
+	this.longitude_entreprise = coords[0]['lng']
+	this.lien_image = datas['meta']['link_media'];
+	console.log('end fillFromWeb');
   }
+
+  public search(data)
+  {
+	console.log("entreprise.ts search()");
+    return [
+		this.id_entreprise = data.id_entreprise,
+	this.nom_entreprise = data.nom_entreprise,
+		this.telephone_entreprise = data.telephone_entreprise,
+		this.adresse_entreprise = data.adresse_entreprise,
+		this.infos_entreprise = data.infos_entreprise,
+		this.description_entreprise = data.description_entreprise,
+		this.sous_titre_entreprise = data.sous_titre_entreprise,
+        this.site_internet_entreprise = data.site_internet_entreprise,
+		this.reseaux_sociaux_entreprise = data.reseaux_sociaux_entreprise,
+		this.monnaie_locale_entreprise = data.monnaie_locale_entreprise,
+		this.livraison_entreprise = data.livraison_entreprise,
+		this.latitude_entreprise = data.latitude_entreprise,
+        this.longitude_entreprise = data.longitude_entreprise,
+        this.lien_image = data.lien_image,
+		this.id_departement = data.id_departement,
+
+	];
+  }
+
 }
 
 

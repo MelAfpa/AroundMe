@@ -64,7 +64,7 @@ entreprise:any = [];
 ent: any;
 selectedView = 'ent';
 
-filterTerm: string;
+filterTerm: string = "";
 
 entreprisesWP: Array<any> = new Array<any>();
   id: number;
@@ -73,17 +73,17 @@ entreprisesWP: Array<any> = new Array<any>();
   page:number;
   arrayIdEntreprise:any = [];
 
-// async searchEnt(word:string){
-//   await this.db.searchEnt(word).then(async(res) => {
-// console.log('in function');
-// console.log(word);
 
-//     this.db.getEnt().subscribe(data => {
-//       this.entreprise = data;
-//       console.log(data);
-//   })
-// })
-// }
+async searchEnt(filterTerm){
+  console.log("searchEnt start ts");
+  console.log(filterTerm);
+  await this.db.searchEntreprise(filterTerm).then(res => {
+    console.log('in function');
+    console.log(res);
+
+  })
+}
+
 
 userPosition = L.icon({
   iconUrl: 'assets/uploads/markers/userMarker.png',

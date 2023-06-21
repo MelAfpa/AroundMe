@@ -15,12 +15,12 @@ import {Entreprise} from '../models/entreprise';
   providedIn: 'root'
 })
 
-  export class DbService {
+export class DbService {
 
-    private database: SQLiteObject;
-    private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private database: SQLiteObject;
+  private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-    entreprises = new BehaviorSubject([]);
+  entreprises = new BehaviorSubject([]);
 
 
   constructor(private plt: Platform, 
@@ -126,26 +126,40 @@ import {Entreprise} from '../models/entreprise';
     return this.entreprises.asObservable();
   }
 
-  async searchEnt(word: string){
-console.log("searchEnt start");
 
-    return await this.database.executeSql("SELECT nom_entreprise from entreprise where nom_entreprise LIKE '%?%'", [word]).then(async data=> {
-      this.getEnt();
-console.log("before loop");
-console.log(JSON.stringify(data)); 
 
-      if(data.rows.length > 0){
-        console.log('if loop');
-        console.log(data.rows);
-        //this.loadEntreprise();
-        return data.rows;
-      } else {
-        console.log("Aucun résultat");
-      }
-console.log("end db function");
+  async searchEntreprise(word:string){
+    console.log("searchEnt start");
+    let entreprises: Entreprise[] = [];
+
+    await this.database.executeSql("SELECT * from entreprise where nom_entreprise LIKE '%?%' ",[word])
+    .then(async data => {
+      console.log("before loop");
+      console.log(data); 
+
+    if(data && data.rows && data.rows.length >0){
+      console.log('if loop');
+
+        for (var i = 0; i < data.rows.length; i++) {
+          console.log("for");
+          var currentEntreprise = new Entreprise();
+          currentEntreprise.search(data.rows.item(i));        
+          entreprises.push(currentEntreprise);
+        }
+        console.log(entreprises);
+        return entreprises;
+
+    } else{
+      console.log("Error");
+      return undefined;
+    }
+    
+  })
       
-    })
+    console.log("end search function");
   }
+
+
 
   addEntreprise(entreprise: Entreprise){
 
