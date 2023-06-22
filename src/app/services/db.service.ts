@@ -152,7 +152,7 @@ import {Entreprise} from '../models/entreprise';
       //return undefined;
     });
       
-    console.log("-------------- end search function --------------");
+    console.log("-- end search function ");
     return entreprises;
   }
 
@@ -199,5 +199,7 @@ import {Entreprise} from '../models/entreprise';
       console.log("error deleteEnttNotIn");
     });
   }
+
+
 
 }
