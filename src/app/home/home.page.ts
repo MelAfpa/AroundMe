@@ -12,7 +12,7 @@ import { WordpressService } from '../services/wordpress.service';
 import { FormControl } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
-
+// import { FileTransfer, FileTransferObject  } from '@ionic-native/file-transfer/ngx';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
@@ -49,7 +49,11 @@ export class HomePage implements OnInit {
     private wordpressService: WordpressService,
     private router: Router,
     private route: ActivatedRoute,
-    public loadingController: LoadingController, private elementRef: ElementRef) {
+    public loadingController: LoadingController, 
+    private elementRef: ElementRef,
+    // private transfer: FileTransfer,
+    
+    ) {
     
  console.log('HomePage constructor');
   }
@@ -82,9 +86,6 @@ entreprisesWP: Array<any> = new Array<any>();
   isToastOpen = false;
 
   startMarkers:L.LayerGroup = L.layerGroup();
-  // searchEntMarker:L.LayerGroup = L.layerGroup();
-  // searchRemoveMarker:L.LayerGroup = L.layerGroup();
-  // content: L.LayerGroup;
   m:L.Marker;
 
 
@@ -145,14 +146,9 @@ ionViewDidEnter() {
   this.locate();
 
   this.map.addLayer(this.startMarkers);
-  // this.map.addLayer(this.searchEntMarker);
-
 
   this.startMarkers.addTo(this.map);
-  // this.searchEntMarker.addTo(this.map);
-  // this.searchRemoveMarker.addTo(this.map);
 
-  // this.content = L.layerGroup().addTo(this.map);
 
 }
 
@@ -251,7 +247,7 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
         //https://stackoverflow.com/questions/54352169/why-my-button-in-leaflet-popup-not-working
         //https://codesandbox.io/s/l3l468y5w7?file=/src/app/app.component.ts
 
-        L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.startMarkers).addTo(this.map)
+        this.m = L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.startMarkers).addTo(this.map)
         .on("popupopen", () => {
           console.log("popupopen on");
           this.elementRef.nativeElement
@@ -281,13 +277,16 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
             this.openDetail(entreprise);
           });
         }) ; 
-        
+        // let fileName="";
+        // let path="";
+        // this.downloaddImg(fileName, path);
   }
 
 
 async searchEnt(word: string){
-  console.log("---------------------------  searchEnt start ts");
+  console.log("--  searchEnt start ts -- ");
   await this.db.searchEnt(word).then(async resultsO => { 
+
     if(resultsO.length > 0) // Le mot cherché correspond à 1 ou plusieurs entreprises
     {
       // console.log("results getEntreprises");
@@ -297,46 +296,63 @@ async searchEnt(word: string){
       var results = JSON.parse(resultsS);
       console.log("results : ",results);
 
-      if(results.length > 0 || !word)
+      if(results.length > 0)
       {
-        console.log("-- results > 0");
+        console.log("-- results > 0 -- ");
         this.entreprisesWP = new Array<any>();
-        console.log("wp : ",this.entreprisesWP);
 
          //TODO : supprimer les markers présents sur la carte
-         
-         console.log("supprimer couche marker");
-        //  this.map.removeLayer(this.startMarkers);
-         this.startMarkers.remove();
-        //  this.content.clearLayers(); 
     
-        // if(this.map.hasLayer(this.m)){
-          // console.log(this.startMarkers.hasLayer(this.m) );
-          // this.map.removeLayer(this.startMarkers);
-        // }
+        if(this.map.hasLayer(this.m)){
+          this.startMarkers.remove(); // Supprime toute la couche 
+          this.map.removeLayer(this.m);// Supprime le marker posé précedemment
+          this.map.removeLayer(this.startMarkers);
+
+            // do {
+            //   console.log("do loop");
+            //   this.map.removeLayer(this.m);
+
+            // } while(results.length >= 1);
+          }
 
         for(var i=0; i < results.length ;i++){
-
           console.log("-- for loop --");
-          this.entreprisesWP.push(results[i]); // Ajout des entreprisesWP de la bdd wordpress dans un tableau Entreprises
-          console.log("Ajouter le marker de l'entreprise");
+          this.entreprisesWP.push(results[i]);
           this.addMarkerEntreprise(results[i]);
         }  
-        console.log("wp : ",this.entreprisesWP);
+      
+      } 
+    // else if(word === " "){
+    //     console.log("-- 1 word === '' -- ");
+    //     this.startMarkers.remove();
 
-      }
-    
-    } else if(resultsO.length === 0) {
-      console.log("------------------------------------- No results ts -----------------------------------------");
+    //     this.loadEntreprises();
+    //   }
+    // } else if(word === " "){
+    // console.log("-- 2 word === '' -- ");
+    // // this.startMarkers.remove();
+    // this.map.removeLayer(this.startMarkers);
+    // this.map.removeLayer(this.m);
+
+    // this.loadEntreprises();
+
+    } else {
+      console.log("-- No results ts -- ");
 
       //TODO : afficher un message si la recherche ne renvoie aucun resultat
-      
+      this.map.removeLayer(this.startMarkers);
+      this.map.removeLayer(this.m);
+
+      this.startMarkers.remove(); 
+
       this.setOpen(true);
 
-      this.loadEntreprises();
+    // this.loadEntreprises();
 
     }
+
   })
+
 }
 
 setOpen(isOpen: boolean) {
@@ -451,7 +467,24 @@ setOpen(isOpen: boolean) {
     }
   } 
 
+  // downloaddImg(fileName:string ,url:string){
+  //   console.log("DownloadImg");
+  //   const fileTransfer: FileTransferObject = this.transfer.create();    
+    
+  //   this.db.loadEntreprise().then(entreprises => {
+  //     for(let i = 0; i < 0; i++){
+  //       fileName = entreprises[i]['name_media'];
+  //       console.log("fileName : ",fileName);
+  //       url = entreprises[i]['link_media'];
+  //       console.log("url : ",url);
 
+  //       return fileTransfer.download(url).then((results)=>{
+  //         console.log(results);
+  //       })
+  //     }
+  //   })
+    
+  // }
 
 
 
