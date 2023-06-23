@@ -1,0 +1,90 @@
+#logo{
+    height: 65px;
+    float: left;
+    margin: 10px;
+}
+
+#detContent{
+    min-height: 100%;
+}
+
+
+
+#top{
+    
+    // min-height: 10%;
+}
+
+#subtitle{
+    // margin-top: -15px;
+font-size: 1em;
+}
+
+#monnaie, #livraison{
+    background-color: #004569;
+    margin: 10px;
+    color: white;
+    width: 75%;
+    font-size: 0.8em;
+}
+
+
+.title{
+    font-weight: bold;
+}
+
+#imgLogo{
+     width: 40%;
+    float: right;
+}
+img{
+    width: 100%;
+    object-fit: contain;
+}
+
+// ---------------------------------
+#text{
+    width: 100%;
+    height: 70%;
+}
+
+ #left{
+width: 25%;
+font-size: 1.4em;
+
+}
+#infos, #tel, #time{
+    padding-top: 40px;
+}
+
+#time, #infos{
+    color: #ff5500;
+
+}
+
+// #adresse{
+//     width: ;
+// }
+
+ #middle{
+
+    width: 50%;
+    font-size: 0.8em;
+}
+
+.descr{
+    overflow: scroll;
+
+}
+
+ #right{
+
+    width: 25%;
+    font-size: 0.8em;
+
+}
+
+.reseaux a{
+    // text-decoration: none;
+    color: white;
+}

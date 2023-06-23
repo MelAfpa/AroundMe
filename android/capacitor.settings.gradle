@@ -43,3 +43,6 @@ project(':capgo-nativegeocoder').projectDir = new File('../node_modules/@capgo/n
 
 include ':capacitor-intent'
 project(':capacitor-intent').projectDir = new File('../node_modules/capacitor-intent/android')
+
+include ':capacitor-plugin-filedownload'
+project(':capacitor-plugin-filedownload').projectDir = new File('../node_modules/capacitor-plugin-filedownload/android')

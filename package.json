@@ -48,6 +48,7 @@
     "@ionic/angular": "^7.0.0",
     "@types/googlemaps": "^3.43.2",
     "capacitor-intent": "^0.0.2",
+    "capacitor-plugin-filedownload": "^2.0.0",
     "cordova-plugin-nativegeocoder": "^3.5.1",
     "cordova-sqlite-storage": "^6.1.0",
     "ionicons": "^7.0.0",

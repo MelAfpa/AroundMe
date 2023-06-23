@@ -14,6 +14,13 @@ export class Entreprise {
   id_departement: number;
   sous_titre_entreprise: string = '';
   lien_image: string = '';
+  cp_entreprise: string = '';
+  ville_entreprise: string = '';
+  horaires_entreprise: string = '';
+  fb_entreprise: string = '';
+  insta_entreprise: string = '';
+  link_entreprise: string = '';
+
   
   public toInsert(){
   	return [this.id_entreprise, 
@@ -113,17 +120,35 @@ export class Entreprise {
   	console.log(datas['id']);*/
 	  this.id_entreprise = datas['id'];
 	  this.nom_entreprise = datas['title']['rendered'].trim();
-	
+    this.telephone_entreprise = datas['meta']['telephone'][0];
+		this.adresse_entreprise = datas['meta']['adresse_txt'][0];
+    this.cp_entreprise = datas['meta']['code_postal_txt'][0];
+    this.ville_entreprise = datas['meta']['villetitle'][0];
+    this.infos_entreprise = datas['meta']['description_infos_supp'][0];
+    this.horaires_entreprise = datas['meta']['sur_la_carte'][0];
+    this.monnaie_locale_entreprise = datas['meta']['accepte_la_monnaie_locale_'][0];
+		this.livraison_entreprise = datas['meta']['livraison_possible_'][0];
+    this.site_internet_entreprise = datas['meta']['site_internet'][0].trim();
+    this.fb_entreprise = datas['meta']['facebook'][0]; 
+    this.insta_entreprise = datas['meta']['instagram'][0]; 
+    this.link_entreprise = datas['meta']['linkedin'][0];
+    
     console.log("The data type is", typeof datas['meta']['sous-titre'])
 
     var sousTitre:string  = datas['meta']['sous-titre'].toString();// != '' ? datas['meta']['sous-titre'] : '');
 	  this.sous_titre_entreprise = sousTitre.trim();
-    this.site_internet_entreprise = datas['meta']['site_internet'][0].trim();
-        
+    
+ 
+
     var coords =  datas['meta']['sur_la_carte'];
     this.latitude_entreprise = coords[0]['lat'];
     this.longitude_entreprise = coords[0]['lng']
     this.lien_image = datas['meta']['link_media'].trim();
+		
+   
+
+		// this.description_entreprise = datas['meta']['sur_la_carte'];
+
 
   }
 }

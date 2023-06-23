@@ -29,10 +29,8 @@ const routes: Routes = [
     path: 'entreprise-detail',
     loadChildren: () => import('./pages/entreprise-detail/entreprise-detail.module').then(m => m.EntrepriseDetailPageModule),
   },
-  /*{
-    path: 'entreprise-detail/:id',
-    loadChildren: () => import('./pages/entreprise-detail/entreprise-detail.module').then(m => m.EntrepriseDetailPageModule),
-  },*/
+
+
 ];
 
 @NgModule({
