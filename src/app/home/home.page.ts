@@ -12,11 +12,14 @@ import { WordpressService } from '../services/wordpress.service';
 import { FormControl } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
-// import { FileTransfer, FileTransferObject  } from '@ionic-native/file-transfer/ngx';
+import { FileDownload } from "capacitor-plugin-filedownload";
+import { Enums } from '../models/enums';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { Entreprise } from '../models/entreprise';
+// import { File } from "@ionic-native/file/ngx";
+
 @Component({
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
@@ -51,7 +54,7 @@ export class HomePage implements OnInit {
     private route: ActivatedRoute,
     public loadingController: LoadingController, 
     private elementRef: ElementRef,
-    // private transfer: FileTransfer,
+    // private FileDownload: FileDownload,
     
     ) {
     
@@ -223,64 +226,76 @@ this.nativeGeocoder.reverseGeocode(this.latitude, this.longitude, options)
 // }
 
 
-  private addMarkerEntreprise(entreprise: Entreprise)
-  {
-    if(entreprise.lien_image === ''){
-      entreprise.lien_image = "assets/uploads/logo_mini2.png"
-    }
-    var displaySite = '';
-    if(entreprise.site_internet_entreprise ===''){
-            displaySite = 'display:none;';
-    }
-        
-        var popup = L.popup()
-        .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 140px'>"
-        +"<img class='detailClickImg' id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
-        +"' style='max-width:30%;margin-right:10px;object-fit:contain'/>"
-        +"<div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>"
-        +"<p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;' class='detailClick1'>"+entreprise.nom_entreprise +"</p>"
-        +"<p id='textPopup' style='padding 7px;' class='detailClick2' >"+entreprise.sous_titre_entreprise
-        +"</p><a id='sitePopup' class='popupButton' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;" + displaySite + ";' href='"+entreprise.site_internet_entreprise+"' ><ion-icon name='cloud-outline'></ion-icon></a><br/>"
-        +"<ion-button class='detailClick3' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;'><ion-icon name='eye-outline'></ion-icon></ion-button><br/>"
-        +"<div></div>");
-
-        //https://stackoverflow.com/questions/54352169/why-my-button-in-leaflet-popup-not-working
-        //https://codesandbox.io/s/l3l468y5w7?file=/src/app/app.component.ts
-
-        this.m = L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: this.orIcon}).bindPopup(popup).addTo(this.startMarkers).addTo(this.map)
-        .on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClickImg")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick1")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick2")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }).on("popupopen", () => {
-          console.log("popupopen on");
-          this.elementRef.nativeElement
-          .querySelector(".detailClick3")
-          .addEventListener("click", e => {
-            this.openDetail(entreprise);
-          });
-        }) ; 
-        // let fileName="";
-        // let path="";
-        // this.downloaddImg(fileName, path);
+private addMarkerEntreprise(entreprise: Entreprise)
+{
+  if(entreprise.lien_image === ''){
+    entreprise.lien_image = "assets/uploads/logo_mini2.png"
   }
+  var displaySite = '';
+  if(entreprise.site_internet_entreprise ===''){
+          displaySite = 'display:none;';
+  }
+      var popup = L.popup()
+      .setContent("<div id='popupContent' style='display:flex;justify-content:space-between;width: 300px;height: 140px'>"
+      +"<img class='detailClickImg' id='imgPopup' src='"+entreprise.lien_image+"' alt='logo "+entreprise.nom_entreprise
+      +"' style='max-width:30%;margin-right:10px;object-fit:contain'/>"
+      +"<div style='width:65%;text-align:center;overflow:scroll;display:flex;flex-direction: column;'>"
+      +"<p id='titlePopup' style='font-size:1.4em;font-weight:bold;margin:-4px 0px -7px 0px;' class='detailClick1'>"+entreprise.nom_entreprise +"</p>"
+      +"<p id='textPopup' style='padding 7px;' class='detailClick2' >"+entreprise.sous_titre_entreprise
+      +"</p><a id='sitePopup' class='popupButton' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;" + displaySite + ";' href='"+entreprise.site_internet_entreprise+"' ><ion-icon name='cloud-outline'></ion-icon></a><br/>"
+      +"<ion-button class='detailClick3' style='background-color: #004569; color: white;padding: 10px;border-radius: 10px;text-decoration:none;'><ion-icon name='eye-outline'></ion-icon></ion-button><br/>"
+      +"<div></div>");
+
+      //https://stackoverflow.com/questions/54352169/why-my-button-in-leaflet-popup-not-working
+      //https://codesandbox.io/s/l3l468y5w7?file=/src/app/app.component.ts
+
+      L.marker([ entreprise.latitude_entreprise, entreprise.longitude_entreprise], {icon: Enums.orIcon()}).bindPopup(popup).addTo(this.map)
+      .on("popupopen", () => {
+        console.log("popupopen on");
+        this.elementRef.nativeElement
+        .querySelector(".detailClickImg")
+        .addEventListener("click", e => {
+          this.openDetail(entreprise);
+        });
+      }).on("popupopen", () => {
+        console.log("popupopen on");
+        this.elementRef.nativeElement
+        .querySelector(".detailClick1")
+        .addEventListener("click", e => {
+          this.openDetail(entreprise);
+        });
+      }).on("popupopen", () => {
+        console.log("popupopen on");
+        this.elementRef.nativeElement
+        .querySelector(".detailClick2")
+        .addEventListener("click", e => {
+          this.openDetail(entreprise);
+        });
+      }).on("popupopen", () => {
+        console.log("popupopen on");
+        this.elementRef.nativeElement
+        .querySelector(".detailClick3")
+        .addEventListener("click", e => {
+          this.openDetail(entreprise);
+        });
+      })
+      ;  
+}
+
+openDetail(entreprise: Entreprise)
+{
+  console.log("openDetail");
+  console.log(entreprise);
+  let navigationExtras: NavigationExtras = {
+    state: {
+        entreprise: entreprise//JSON.stringify(entreprise)
+    }
+};
+
+//this.router.navigate(['/home/entreprise-detail'], navigationExtras);
+this.router.navigate(['entreprise-detail'], navigationExtras);
+
+}
 
 
 async searchEnt(word: string){
@@ -361,22 +376,9 @@ setOpen(isOpen: boolean) {
 
 
 
-  openDetail(entreprise: Entreprise)
-  {
-    console.log("openDetail");
-    console.log(entreprise);
-    let navigationExtras: NavigationExtras = {
-      state: {
-          entreprise: entreprise//JSON.stringify(entreprise)
-      }
-  };
 
-  //this.router.navigate(['/home/entreprise-detail'], navigationExtras);
-  this.router.navigate(['entreprise-detail'], navigationExtras);
 
-  }
-
-  private async  loadEntreprises()
+  async  loadEntreprises()
   {
     const status = await Network.getStatus();
 
@@ -440,6 +442,63 @@ setOpen(isOpen: boolean) {
                   {
                     this.entreprisesWP.push(currentEntreprise);
                   }
+  
+                  //   console.log("----- downloadImg -----");
+                  // console.log(results[i].meta.link_media);
+    
+                  // const download = async () => {
+                  //   FileDownload.download({
+                  //     url : results[i].meta.link_media,
+                  //     fileName : results[i].meta.name_media,
+                  //     destination: '',
+                  //     downloadTitle: 'downloading',
+                  //     downloadDescription: 'file is downloading',
+                  //   }).then((res) => {
+                  //     console.log("res.path: ",res.path);
+                  //     console.log("res: ",res);
+              
+                  //   }).catch(err => {
+                  //     console.log("ERR",err);
+                  //   })
+                  // }
+                  // console.log("download : ",download);
+              
+                  // const getDownloadStatus = async () => {
+                  //   const {isCanceled} = await FileDownload.isCanceled();
+                  //   console.log(isCanceled);
+                  // }
+                  // console.log(getDownloadStatus);
+
+                  // console.log("----- end download -----");
+                  
+                  // console.log("downloadImg");
+                  // console.log(results[i].meta.link_media);
+
+                  // const download = async () => {
+                  //   FileDownload.download({
+                  //     url : results[i].meta.link_media,
+                  //     fileName : results[i].meta.name_media,
+                  //     downloadTitle: 'downloading',
+                  //     downloadDescription: 'file is downloading',
+                  //   }).then((res) => {
+                  //     console.log("res.path: ",res.path);
+                  //     console.log("res: ",res);
+
+                  //   }).catch(err => {
+                  //     console.log("ERR",err);
+                  //   })
+                  // }
+                  // console.log("download : ",download);
+
+                  // const getDownloadStatus = async () => {
+                  //   const {isCanceled} = await FileDownload.isCanceled();
+                  //   console.log(isCanceled);
+                  // }
+                  // console.log(getDownloadStatus);
+
+                  // console.log("end download ");
+                  
+
                   return results[i];
                 } 
                 console.log("WP.length : ",this.entreprisesWP.length);
@@ -467,25 +526,46 @@ setOpen(isOpen: boolean) {
     }
   } 
 
-  // downloaddImg(fileName:string ,url:string){
-  //   console.log("DownloadImg");
-  //   const fileTransfer: FileTransferObject = this.transfer.create();    
-    
-  //   this.db.loadEntreprise().then(entreprises => {
-  //     for(let i = 0; i < 0; i++){
-  //       fileName = entreprises[i]['name_media'];
-  //       console.log("fileName : ",fileName);
-  //       url = entreprises[i]['link_media'];
-  //       console.log("url : ",url);
 
-  //       return fileTransfer.download(url).then((results)=>{
-  //         console.log(results);
-  //       })
+  // async downloadImg(){
+  //   console.log("downloadImg");
+
+  //   await this.wordpressService.getEntreprisesByPages().then(results => {
+  //     var resultats = JSON.stringify(results);
+  //     var resultat = JSON.parse(resultats);
+
+  //     for(let i=0; i<results.length;i++){
+
+  //       console.log(results[i].meta.link_media);
+    
+  //       const download = async () => {
+  //         FileDownload.download({
+  //           url : results[i].meta.link_media,
+  //           fileName : results[i].meta.name_media,
+  //           downloadTitle: 'downloading',
+  //           downloadDescription: 'file is downloading',
+  //         }).then((res) => {
+  //           console.log("res.path: ",res.path);
+  //           console.log("res: ",res);
+    
+  //         }).catch(err => {
+  //           console.log("ERR",err);
+  //         })
+  //       }
+  //       console.log("download : ",download);
+    
+  //       const getDownloadStatus = async () => {
+  //         const {isCanceled} = await FileDownload.isCanceled();
+  //         console.log(isCanceled);
+  //       }
+  //       console.log(getDownloadStatus);
+    
+
   //     }
   //   })
-    
+  //   console.log("end download ");
+
   // }
-
-
-
+    
+  
 }

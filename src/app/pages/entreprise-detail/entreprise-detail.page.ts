@@ -58,7 +58,8 @@ export class EntrepriseDetailPage implements OnInit {
 
     entreprise: Entreprise;
   constructor(private route: ActivatedRoute, private router: Router,
-    private alert: AlertController) { 
+    private alert: AlertController,
+    ) { 
         this.route.queryParams.subscribe(params => {
             if (this.router.getCurrentNavigation().extras.state) {
               this.entreprise = this.router.getCurrentNavigation().extras.state['entreprise'];
@@ -69,6 +70,16 @@ export class EntrepriseDetailPage implements OnInit {
 
 
   ngOnInit() {
+
+  }
+
+  conv(){
+    var livraison = document.getElementById("liv");
+    var monnaie = document.getElementById("mon");
+
+    if(livraison === '0'){
+
+    }
   }
 
 }
