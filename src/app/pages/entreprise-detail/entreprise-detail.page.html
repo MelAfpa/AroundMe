@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
     <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -7,83 +7,63 @@
   </ion-toolbar>
   </ion-header>
 
-<ion-content id="detContent">
-  <ion-grid>
+<ion-content>
   <div id="top">
-    <ion-row class="ion-align-items-center" >
-      <ion-col id="subtitle" class="ion-text-center " size="7">
-        <!-- <h3 class="title">{{entreprise.nom_entreprise}}</h3> -->
-        <p class="soustitre">{{entreprise.sous_titre_entreprise}}</p>
-        <p class="tel">{{entreprise.telephone_entreprise}}</p>
-        <ion-button id="livraison" href="#" class=" ion-text-lowercase">Livraison</ion-button>
-        <ion-button id="monnaie" href="#" class=" ion-text-lowercase ">Accepte les <br>monnaies locales</ion-button>
-      </ion-col>
-      <ion-col id="imgLogo" size="5">
-        <img src='{{entreprise.lien_image}}' alt="logo">
-      </ion-col>
-    </ion-row>
+    <img id="logo" src='{{entreprise.lien_image}}' alt="logo">
+
+    <div id="subtitle">
+      <h1 class="soustitre">{{entreprise.sous_titre_entreprise}}</h1>
+    </div>
+
+    <div id="btn">
+      <fa-icon icon="fa-solid fa-truck"></fa-icon>
+      <fa-icon icon="fa-sharp fa-solid fa-euro-sign"></fa-icon>     
+      <p id="monnaie" class=" ion-text-lowercase ">Accepte les <br>monnaies locales</p>
+    </div>
   </div>
-</ion-grid>
-
-  <ion-grid>
-    <div id="text">
-      <ion-row class="ion-padding-top">
-        <ion-col id="left" size="2">
-          <div id="adresse" class="ion-padding">
-            <ion-icon name="pin-outline"></ion-icon>
-          </div>
-
-          <div id="time" class="ion-padding">
-            <ion-icon name="time-outline"></ion-icon>
-          </div>
-
-        <div id="tel" class="ion-padding">
-          <ion-icon name="call-outline"></ion-icon>
-          <br>
-        </div>
-
-        <div id="infos" class="ion-padding">
-          <ion-icon name="information-circle-outline"></ion-icon>      
-        </div>
-      </ion-col>
-
-      <ion-col id="middle" size="6">
-        <div  class="ion-text-justify ion-margin">
-          <p>{{entreprise.adresse_entreprise}}</p>
-          <p>{{entreprise.cp_entreprise}}</p>
-          <p>{{entreprise.ville_entreprise}}</p>
-
-        </div>
-
-        <div  class="ion-text-justify ion-margin">
-          <p>{{entreprise.horaires_entreprise}}</p><br>
-        </div>
-
-        <div  class="ion-text-justify ion-margin">
-          <p>{{entreprise.telephone_entreprise}}</p><br>
-        </div>
-
-        <div  class="descr ion-text-justify ion-margin">
-          <p>{{entreprise.infos_entreprise}}<br></p>
-        </div>
-      </ion-col>
-
-      <ion-col id="right" size="4">
-        <div id="leftTop"  class="ion-margin">
-          <h3>A savoir</h3>
-          <p id="liv">{{entreprise.livraison_entreprise}}</p>
-          <p id="mon">{{entreprise.monnaie_locale_entreprise}}</p>
-        </div>
+<ion-item>
+  <div id="adresse">
+    <div id=adr  *ngIf="entreprise.adresse_entreprise || entreprise.cp_entreprise || entreprise.ville_entreprise">
+      <ion-icon class="ion-margin-end" name="pin-outline"></ion-icon>
+      {{entreprise.adresse_entreprise}}, {{entreprise.cp_entreprise}} {{entreprise.ville_entreprise}}
       
-        <div  class="reseaux ion-padding">
-          <h3>Réseaux sociaux</h3>
-          <a href="{{entreprise.site_internet_entreprise}}">Site internet</a><br>
-          <a href="{{entreprise.fb_entreprise}}">Facebook</a><br>
-          <a href="{{entreprise.insta_entreprise}}">Instagram</a><br>
-          <a href="{{entreprise.link_entreprise}}">Linkedin</a><br>
-        </div>
-      </ion-col>
-    </ion-row>
+    </div>
+    <br><br>
+
+    <div id="time" *ngIf="entreprise.horaires_entreprise">
+      <ion-icon class="ion-margin-end" name="time-outline"></ion-icon>
+      {{entreprise.horaires_entreprise}}
+      
+    </div>
+    <br><br>
+
+    <div id="tel" *ngIf="entreprise.telephone_entreprise">
+      <ion-icon class="ion-margin-end" name="call-outline"></ion-icon>
+      {{entreprise.telephone_entreprise}}
+    </div>
+    <br><br>
+
+    <div id="infos">
+      <ion-icon class="ion-margin-end" name="information-circle-outline"></ion-icon>      
+     {{this.infos_entreprise}}
+    </div>
+    <br><br>
   </div>
-</ion-grid>
+</ion-item>
+    <h2 id="h2Title">Réseaux sociaux</h2>
+    <div id="sites" class="ion-justify-content-center">
+      <div *ngIf="entreprise.site_internet_entreprise" >
+        <a class="site" href="{{entreprise.site_internet_entreprise}}"><ion-icon name='cloud-outline' class="ion-margin-end"></ion-icon></a>
+      </div>
+      <div *ngIf="entreprise.fb_entreprise" >
+        <a class="fb" href="{{entreprise.fb_entreprise}}"><ion-icon name="logo-facebook" class="ion-margin-end"></ion-icon></a>
+      </div>
+      <div *ngIf="entreprise.insta_entreprise" >
+        <a class="insta" href="{{entreprise.insta_entreprise}}"><ion-icon name="logo-instagram" class="ion-margin-end"></ion-icon></a>
+      </div>
+      <div *ngIf="entreprise.link_entreprise">
+        <a class="link" href="{{entreprise.link_entreprise}}"><ion-icon name="logo-linkedin" class="ion-margin-end"></ion-icon></a>
+        
+      </div>
+  </div>
 </ion-content>

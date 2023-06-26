@@ -33,6 +33,7 @@ import { IonicModule } from '@ionic/angular';
 import { EntrepriseDetailPageRoutingModule } from './entreprise-detail-routing.module';
 
 import { EntrepriseDetailPage } from './entreprise-detail.page';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { EntrepriseDetailPage } from './entreprise-detail.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    EntrepriseDetailPageRoutingModule
+    EntrepriseDetailPageRoutingModule,
+    FontAwesomeModule
   ],
   declarations: [EntrepriseDetailPage]
 })

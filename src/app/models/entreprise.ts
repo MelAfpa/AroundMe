@@ -125,16 +125,16 @@ export class Entreprise {
     this.cp_entreprise = datas['meta']['code_postal_txt'][0];
     this.ville_entreprise = datas['meta']['villetitle'][0];
     this.infos_entreprise = datas['meta']['description_infos_supp'][0];
-    this.horaires_entreprise = datas['meta']['sur_la_carte'][0];
+    this.horaires_entreprise = datas['meta']['horaires'][0];
     this.monnaie_locale_entreprise = datas['meta']['accepte_la_monnaie_locale_'][0];
 		this.livraison_entreprise = datas['meta']['livraison_possible_'][0];
     this.site_internet_entreprise = datas['meta']['site_internet'][0].trim();
     this.fb_entreprise = datas['meta']['facebook'][0]; 
     this.insta_entreprise = datas['meta']['instagram'][0]; 
     this.link_entreprise = datas['meta']['linkedin'][0];
-    
-    console.log("The data type is", typeof datas['meta']['sous-titre'])
 
+    console.log("The data type is", typeof datas['meta']['sous-titre'])
+console.log("horaires: ",this.horaires_entreprise);
     var sousTitre:string  = datas['meta']['sous-titre'].toString();// != '' ? datas['meta']['sous-titre'] : '');
 	  this.sous_titre_entreprise = sousTitre.trim();
     

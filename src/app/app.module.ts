@@ -13,13 +13,15 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas  } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FileDownload } from "capacitor-plugin-filedownload";
+
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, Ng2SearchPipeModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, Ng2SearchPipeModule, FormsModule, ReactiveFormsModule, FontAwesomeModule,],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy } , NativeGeocoder, SQLite,
     SQLitePorter],
   bootstrap: [AppComponent],
@@ -30,7 +32,7 @@ import { FileDownload } from "capacitor-plugin-filedownload";
 })
 export class AppModule {
   constructor(library: FaIconLibrary) { 
-		library.addIconPacks(fas, far);
+		library.addIconPacks(fas, far, fab);
 	}
 
 
