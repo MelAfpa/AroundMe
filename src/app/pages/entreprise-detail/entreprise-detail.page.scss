@@ -3,59 +3,62 @@ content{
 }
 
 #top{
-    // display: block;
-    // margin: auto
     text-align: center;
-
 }
 
 #logo{
-height: 200px;
+height: 175px;
 margin-top:15px;
-object-fit: contain;
+object-fit: scale-down;
 }
 
-#subtitle{
-    // text-align: center;
-    margin: 15px;
+#subtitle .soustitre{
+    
+    font-size: 1.4em;
+    margin: 5px;
+
 }
 
-#subtitle h2{
+#subtitle h3{
     font-size: 1.3em;
     font-style: italic;
+    margin-bottom: 20px;
 }
 
-#btn{
-    margin: 25px;
-    display: flex;
-    justify-content: space-around;
-}
+// #btn{
+//     margin: 25px;
+//     display: flex;
+//     justify-content: space-around;
+// }
 
-#btn fa-icon{
-    color: white;
-    font-size: 2em;
-}
+// #btn fa-icon{
+//     color: white;
+//     font-size: 2em;
+// }
 
+#infos_ent{
+    margin-bottom: 15px;
+}
 
 
 #adresse, #time, #tel{
-    margin-bottom: 30px;
+    margin: 0px 0px 10px 0px;
 }
 
 
 #adresse ion-icon{
     font-size: 1.4em;
-    // margin: 10px;
     color: rgb(255, 77, 0);
+    float: left;
 }
 
-#adresse .pin-outline{
-    margin-top: 15px;
+
+.adr, .cp, .ville {
+    margin-left: 43px;
 }
 
 .cp, .ville {
-    margin: 2px 0px 2px 43px;
-
+margin-top: -15px;
 }
 
 #tel a {
@@ -63,15 +66,9 @@ object-fit: contain;
 }
 
 #infos{
-    max-height: 240px;
+    max-height: 200px;
     overflow: scroll;
     text-align: justify;
-}
-
-
-#h2Title{
-    margin: 25px;
-    text-align: center;
 }
 
 #sites{
@@ -81,11 +78,7 @@ object-fit: contain;
 
 }
 #sites .site, .fb, .insta, .link{
-    // color: white;
     font-size: 1.4em;
     color: white;
-}
-#site ion-icon{
-    font-size: 2em;
 
 }

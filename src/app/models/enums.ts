@@ -28,12 +28,19 @@ export const orIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-export enum TypeActivite {
+export enum TypeSecteur {
   Commercant = 1,
   Producteur = 2,
   ServicePersonne = 3,
   ServiceEntreprise = 4
 };
+
+export enum TypeSecteurLib{
+  Commercant = "Commerçants  et restaurants",
+  Producteur = "Producteurs et fabricants",
+  ServicePersonne = "Services à la personne",
+  ServiceEntreprise = "Services aux entreprises",
+}
 
 export class Enums{
   public static userPosition(){

@@ -13,26 +13,26 @@
 
     <div id="subtitle">
       <h1 class="soustitre">{{entreprise.sous_titre_entreprise}}</h1>
-      <h2>{{entreprise.secteur_entreprise}}</h2>
+      <h3>{{entreprise.secteur_entreprise}}</h3>
     </div>
 
-    <div id="btn">
+    <!-- <div id="btn">
       <fa-icon icon="truck"  *ngIf="entreprise.livraison_entreprise == true" alt="accepte les monnaies alternatives"></fa-icon>
       <fa-icon icon="euro-sign" *ngIf="entreprise.monnaie_locale_entreprise == true"  alt="accepte les livraisons"></fa-icon>     
-    </div>
+    </div> -->
   </div>
 <ion-item id="infos_ent">
   <div id="adresse">
-    <div id=adr  *ngIf="entreprise.adresse_entreprise || entreprise.cp_entreprise || entreprise.ville_entreprise">
+    <div id="adr"  *ngIf="entreprise.adresse_entreprise || entreprise.cp_entreprise || entreprise.ville_entreprise">
       <ion-icon class="ion-margin-end" name="pin-outline"></ion-icon>
-       {{entreprise.adresse_entreprise}} 
+      <p class="adr">{{entreprise.adresse_entreprise}} </p>
       <p class="cp">{{entreprise.cp_entreprise}} </p>
       <p class="ville">{{entreprise.ville_entreprise}}</p>
     </div>
 
     <div id="time" *ngIf="entreprise.horaires_entreprise">
       <ion-icon class="ion-margin-end" name="time-outline"></ion-icon>
-      {{entreprise.horaires_entreprise}}
+      <p>{{entreprise.horaires_entreprise}}</p>
     </div>
 
     <div id="tel" *ngIf="entreprise.telephone_entreprise">
@@ -42,11 +42,11 @@
 
     <div id="infos">
       <ion-icon class="ion-margin-end" name="information-circle-outline"></ion-icon>      
-     {{this.infos_entreprise}}
+      <p>{{this.infos_entreprise}}</p>
     </div>
   </div>
 </ion-item>
-    <h2 id="h2Title">Réseaux sociaux</h2>
+    <!-- <h2 id="h2Title">Réseaux sociaux</h2> -->
     <div id="sites" class="ion-justify-content-center">
       <div *ngIf="entreprise.site_internet_entreprise" >
         <a class="site" href="{{entreprise.site_internet_entreprise}}"><ion-icon name='cloud-outline' class="ion-margin-end"></ion-icon></a>
