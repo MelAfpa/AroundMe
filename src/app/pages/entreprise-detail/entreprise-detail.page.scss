@@ -20,20 +20,28 @@ object-fit: contain;
     margin: 15px;
 }
 
+#subtitle h2{
+    font-size: 1.3em;
+    font-style: italic;
+}
+
 #btn{
     margin: 25px;
     display: flex;
-    justify-content: space-between;
-
+    justify-content: space-around;
 }
 
-#btn p{
-    background-color: #004569;
+#btn fa-icon{
     color: white;
     font-size: 2em;
-    border-radius: 10px;
-    width: 215px;
 }
+
+
+
+#adresse, #time, #tel{
+    margin-bottom: 30px;
+}
+
 
 #adresse ion-icon{
     font-size: 1.4em;
@@ -45,17 +53,37 @@ object-fit: contain;
     margin-top: 15px;
 }
 
+.cp, .ville {
+    margin: 2px 0px 2px 43px;
+
+}
+
+#tel a {
+    color: white;
+}
+
+#infos{
+    max-height: 240px;
+    overflow: scroll;
+    text-align: justify;
+}
+
+
 #h2Title{
-    margin-bottom: 15px;
+    margin: 25px;
+    text-align: center;
 }
 
 #sites{
     display: flex;
     justify-content: space-between;
+    font-size: 2em;
+
 }
 #sites .site, .fb, .insta, .link{
     // color: white;
     font-size: 1.4em;
+    color: white;
 }
 #site ion-icon{
     font-size: 2em;

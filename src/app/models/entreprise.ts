@@ -20,6 +20,7 @@ export class Entreprise {
   fb_entreprise: string = '';
   insta_entreprise: string = '';
   link_entreprise: string = '';
+  secteur_entreprise:string = '';
 
   
   public toInsert(){
@@ -133,18 +134,15 @@ export class Entreprise {
     this.insta_entreprise = datas['meta']['instagram'][0]; 
     this.link_entreprise = datas['meta']['linkedin'][0];
 
-    console.log("The data type is", typeof datas['meta']['sous-titre'])
-console.log("horaires: ",this.horaires_entreprise);
     var sousTitre:string  = datas['meta']['sous-titre'].toString();// != '' ? datas['meta']['sous-titre'] : '');
 	  this.sous_titre_entreprise = sousTitre.trim();
-    
- 
 
     var coords =  datas['meta']['sur_la_carte'];
     this.latitude_entreprise = coords[0]['lat'];
     this.longitude_entreprise = coords[0]['lng']
     this.lien_image = datas['meta']['link_media'].trim();
 		
+    this.secteur_entreprise = datas['meta']['type_d_entreprise'][0].replaceAll('_', ' ');
    
 
 		// this.description_entreprise = datas['meta']['sur_la_carte'];

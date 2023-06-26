@@ -13,41 +13,37 @@
 
     <div id="subtitle">
       <h1 class="soustitre">{{entreprise.sous_titre_entreprise}}</h1>
+      <h2>{{entreprise.secteur_entreprise}}</h2>
     </div>
 
     <div id="btn">
-      <fa-icon icon="fa-solid fa-truck"></fa-icon>
-      <fa-icon icon="fa-sharp fa-solid fa-euro-sign"></fa-icon>     
-      <p id="monnaie" class=" ion-text-lowercase ">Accepte les <br>monnaies locales</p>
+      <fa-icon icon="truck"  *ngIf="entreprise.livraison_entreprise == true" alt="accepte les monnaies alternatives"></fa-icon>
+      <fa-icon icon="euro-sign" *ngIf="entreprise.monnaie_locale_entreprise == true"  alt="accepte les livraisons"></fa-icon>     
     </div>
   </div>
-<ion-item>
+<ion-item id="infos_ent">
   <div id="adresse">
     <div id=adr  *ngIf="entreprise.adresse_entreprise || entreprise.cp_entreprise || entreprise.ville_entreprise">
       <ion-icon class="ion-margin-end" name="pin-outline"></ion-icon>
-      {{entreprise.adresse_entreprise}}, {{entreprise.cp_entreprise}} {{entreprise.ville_entreprise}}
-      
+       {{entreprise.adresse_entreprise}} 
+      <p class="cp">{{entreprise.cp_entreprise}} </p>
+      <p class="ville">{{entreprise.ville_entreprise}}</p>
     </div>
-    <br><br>
 
     <div id="time" *ngIf="entreprise.horaires_entreprise">
       <ion-icon class="ion-margin-end" name="time-outline"></ion-icon>
       {{entreprise.horaires_entreprise}}
-      
     </div>
-    <br><br>
 
     <div id="tel" *ngIf="entreprise.telephone_entreprise">
       <ion-icon class="ion-margin-end" name="call-outline"></ion-icon>
-      {{entreprise.telephone_entreprise}}
+      <a href="tel:{{entreprise.telephone_entreprise}}">{{entreprise.telephone_entreprise}}</a> 
     </div>
-    <br><br>
 
     <div id="infos">
       <ion-icon class="ion-margin-end" name="information-circle-outline"></ion-icon>      
      {{this.infos_entreprise}}
     </div>
-    <br><br>
   </div>
 </ion-item>
     <h2 id="h2Title">Réseaux sociaux</h2>
